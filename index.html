@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" x-data="{ darkMode: false, lang: 'zh' }" :class="{ 'dark': darkMode }">
+<html lang="en" x-data="{ darkMode: false, lang: 'en' }" :class="{ 'dark': darkMode }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,12 +76,25 @@
 
     <nav class="sticky top-0 z-40 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b dark:border-gray-700">
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="font-bold text-xl tracking-tighter">About Me</div>
+            <div class="font-bold text-xl tracking-tighter">
+                <span x-show="lang === 'zh'">关于我</span>
+                <span x-show="lang === 'en'">About Me</span>
+            </div>
             
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
-                <a href="#projects" class="hover:text-blue-500">Projects</a>
-                <a href="#publications" class="hover:text-blue-500">Publications</a>
-                
+                <a href="./Blogs/" class="hover:text-blue-500">
+                    <span x-show="lang === 'zh'">博客</span>
+                    <span x-show="lang === 'en'">Blogs</span>
+                </a>
+                <a href="#projects" class="hover:text-blue-500">
+                    <span x-show="lang === 'zh'">项目</span>
+                    <span x-show="lang === 'en'">Projects</span>
+                </a>
+                <a href="#publications" class="hover:text-blue-500">
+                    <span x-show="lang === 'zh'">论文</span>
+                    <span x-show="lang === 'en'">Publications</span>
+                </a>
+
                 <div class="flex items-center border-l pl-6 space-x-4 dark:border-gray-600">
                     <button @click="lang = (lang === 'zh' ? 'en' : 'zh')" class="hover:text-blue-500">
                         <span x-show="lang === 'zh'">EN</span>
