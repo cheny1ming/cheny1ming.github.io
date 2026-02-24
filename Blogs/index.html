@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ darkMode: $store.darkMode, lang: $store.lang }" :class="{ 'dark': darkMode }">
+<html lang="en" x-data="{ darkMode: $store.app.darkMode, lang: $store.app.lang }" :class="{ 'dark': darkMode }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +9,11 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.store('lang', 'en');
-            Alpine.store('darkMode', false);
-            Alpine.store('mobileMenuOpen', false);
+            Alpine.store('app', Alpine.reactive({
+                lang: 'en',
+                darkMode: false,
+                mobileMenuOpen: false
+            }));
         });
     </script>
     <script>
@@ -35,14 +37,14 @@
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
             <a href="../" class="font-bold text-xl tracking-tighter hover:text-blue-500 transition">
                 <i class="fa-solid fa-arrow-left mr-2"></i>
-                <span x-show="$store.lang === 'zh'">返回</span>
-                <span x-show="$store.lang === 'en'">Back</span>
+                <span x-show="$store.app.lang === 'zh'">返回</span>
+                <span x-show="$store.app.lang === 'en'">Back</span>
             </a>
 
             <div class="flex items-center space-x-4">
-                <button @click="$store.lang = ($store.lang === 'zh' ? 'en' : 'zh')" class="hover:text-blue-500">
-                    <span x-show="$store.lang === 'zh'">EN</span>
-                    <span x-show="$store.lang === 'en'">中</span>
+                <button @click="$store.app.lang = ($store.app.lang === 'zh' ? 'en' : 'zh')" class="hover:text-blue-500">
+                    <span x-show="$store.app.lang === 'zh'">EN</span>
+                    <span x-show="$store.app.lang === 'en'">中</span>
                 </button>
                 <button @click="darkMode = !darkMode" class="text-lg">
                     <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
@@ -55,8 +57,8 @@
     <main class="max-w-4xl mx-auto px-6 py-12">
         <!-- Page Title -->
         <h1 class="text-4xl font-extrabold mb-12 tracking-tight border-l-4 border-blue-500 pl-4">
-            <span x-show="$store.lang === 'zh'">博客文章</span>
-            <span x-show="$store.lang === 'en'">Blog Posts</span>
+            <span x-show="$store.app.lang === 'zh'">博客文章</span>
+            <span x-show="$store.app.lang === 'en'">Blog Posts</span>
         </h1>
 
         <!-- Blog Posts Grid -->
@@ -74,26 +76,26 @@
                             2025-01-15
                         </time>
                         <span class="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 text-xs rounded-full">
-                            <span x-show="$store.lang === 'zh'">技术</span>
-                            <span x-show="$store.lang === 'en'">Tech</span>
+                            <span x-show="$store.app.lang === 'zh'">技术</span>
+                            <span x-show="$store.app.lang === 'en'">Tech</span>
                         </span>
                     </div>
 
                     <h2 class="text-2xl font-bold mb-3 group-hover:text-blue-500 transition">
                         <a href="./blog-post-1.html">
-                            <span x-show="$store.lang === 'zh'">你的博客标题（中文）</span>
-                            <span x-show="$store.lang === 'en'">Your Blog Title (English)</span>
+                            <span x-show="$store.app.lang === 'zh'">你的博客标题（中文）</span>
+                            <span x-show="$store.app.lang === 'en'">Your Blog Title (English)</span>
                         </a>
                     </h2>
 
                     <p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                        <span x-show="$store.lang === 'zh'">这是博客文章的简短摘要，用于吸引读者点击阅读完整内容...</span>
-                        <span x-show="$store.lang === 'en'">This is a brief summary of your blog post to entice readers to click and read the full content...</span>
+                        <span x-show="$store.app.lang === 'zh'">这是博客文章的简短摘要，用于吸引读者点击阅读完整内容...</span>
+                        <span x-show="$store.app.lang === 'en'">This is a brief summary of your blog post to entice readers to click and read the full content...</span>
                     </p>
 
                     <a href="./blog-post-1.html" class="inline-flex items-center text-blue-500 hover:text-blue-600 font-medium">
-                        <span x-show="$store.lang === 'zh'">阅读更多</span>
-                        <span x-show="$store.lang === 'en'">Read More</span>
+                        <span x-show="$store.app.lang === 'zh'">阅读更多</span>
+                        <span x-show="$store.app.lang === 'en'">Read More</span>
                         <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
@@ -106,12 +108,12 @@
                     <i class="fa-solid fa-pen-nib text-2xl"></i>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                    <span x-show="$store.lang === 'zh'">更多精彩内容即将上线</span>
-                    <span x-show="$store.lang === 'en'">More Content Coming Soon</span>
+                    <span x-show="$store.app.lang === 'zh'">更多精彩内容即将上线</span>
+                    <span x-show="$store.app.lang === 'en'">More Content Coming Soon</span>
                 </h3>
                 <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
-                    <span x-show="$store.lang === 'zh'">我正在努力撰写更多关于多模态大模型、计算机视觉和空间智能的技术文章。</span>
-                    <span x-show="$store.lang === 'en'">I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence.</span>
+                    <span x-show="$store.app.lang === 'zh'">我正在努力撰写更多关于多模态大模型、计算机视觉和空间智能的技术文章。</span>
+                    <span x-show="$store.app.lang === 'en'">I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence.</span>
                 </p>
             </div>
 

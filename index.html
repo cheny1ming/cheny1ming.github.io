@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ darkMode: $store.darkMode, lang: $store.lang }" :class="{ 'dark': darkMode }">
+<html lang="en" x-data="{ darkMode: $store.app.darkMode, lang: $store.app.lang }" :class="{ 'dark': darkMode }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +9,11 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.store('lang', 'en');
-            Alpine.store('darkMode', false);
-            Alpine.store('mobileMenuOpen', false);
+            Alpine.store('app', Alpine.reactive({
+                lang: 'en',
+                darkMode: false,
+                mobileMenuOpen: false
+            }));
         });
     </script>
     <script src="./js/loader.js" defer></script>
@@ -84,29 +86,29 @@
     <nav class="sticky top-0 z-40 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b dark:border-gray-700">
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="font-bold text-xl tracking-tighter">
-                <span x-show="$store.lang === 'zh'">关于我</span>
-                <span x-show="$store.lang === 'en'">About Me</span>
+                <span x-show="$store.app.lang === 'zh'">关于我</span>
+                <span x-show="$store.app.lang === 'en'">About Me</span>
             </div>
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
                 <a href="./Blogs/" class="hover:text-blue-500">
-                    <span x-show="$store.lang === 'zh'">博客</span>
-                    <span x-show="$store.lang === 'en'">Blogs</span>
+                    <span x-show="$store.app.lang === 'zh'">博客</span>
+                    <span x-show="$store.app.lang === 'en'">Blogs</span>
                 </a>
                 <a href="#projects" class="hover:text-blue-500">
-                    <span x-show="$store.lang === 'zh'">项目</span>
-                    <span x-show="$store.lang === 'en'">Projects</span>
+                    <span x-show="$store.app.lang === 'zh'">项目</span>
+                    <span x-show="$store.app.lang === 'en'">Projects</span>
                 </a>
                 <a href="#publications" class="hover:text-blue-500">
-                    <span x-show="$store.lang === 'zh'">论文</span>
-                    <span x-show="$store.lang === 'en'">Publications</span>
+                    <span x-show="$store.app.lang === 'zh'">论文</span>
+                    <span x-show="$store.app.lang === 'en'">Publications</span>
                 </a>
 
                 <div class="flex items-center border-l pl-6 space-x-4 dark:border-gray-600">
-                    <button @click="$store.lang = ($store.lang === 'zh' ? 'en' : 'zh')" class="hover:text-blue-500">
-                        <span x-show="$store.lang === 'zh'">EN</span>
-                        <span x-show="$store.lang === 'en'">中</span>
+                    <button @click="$store.app.lang = ($store.app.lang === 'zh' ? 'en' : 'zh')" class="hover:text-blue-500">
+                        <span x-show="$store.app.lang === 'zh'">EN</span>
+                        <span x-show="$store.app.lang === 'en'">中</span>
                     </button>
                     <button @click="darkMode = !darkMode" class="text-lg">
                         <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
@@ -116,34 +118,34 @@
 
             <!-- Mobile Right Section (Hamburger + Toggles) -->
             <div class="flex md:hidden items-center space-x-4">
-                <button @click="$store.lang = ($store.lang === 'zh' ? 'en' : 'zh')" class="hover:text-blue-500 text-sm font-medium">
-                    <span x-show="$store.lang === 'zh'">EN</span>
-                    <span x-show="$store.lang === 'en'">中</span>
+                <button @click="$store.app.lang = ($store.app.lang === 'zh' ? 'en' : 'zh')" class="hover:text-blue-500 text-sm font-medium">
+                    <span x-show="$store.app.lang === 'zh'">EN</span>
+                    <span x-show="$store.app.lang === 'en'">中</span>
                 </button>
                 <button @click="darkMode = !darkMode" class="text-lg">
                     <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
                 </button>
                 <!-- Hamburger Button -->
-                <button @click="$store.mobileMenuOpen = !$store.mobileMenuOpen" class="text-xl p-1">
-                    <i class="fa-solid" :class="$store.mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+                <button @click="$store.app.mobileMenuOpen = !$store.app.mobileMenuOpen" class="text-xl p-1">
+                    <i class="fa-solid" :class="$store.app.mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Menu -->
-        <div x-show="$store.mobileMenuOpen" x-transition class="md:hidden bg-white dark:bg-darkBg border-t dark:border-gray-700">
+        <div x-show="$store.app.mobileMenuOpen" x-transition class="md:hidden bg-white dark:bg-darkBg border-t dark:border-gray-700">
             <div class="px-6 py-4 space-y-4 text-sm font-medium">
-                <a href="./Blogs/" @click="$store.mobileMenuOpen = false" class="block hover:text-blue-500">
-                    <span x-show="$store.lang === 'zh'">博客</span>
-                    <span x-show="$store.lang === 'en'">Blogs</span>
+                <a href="./Blogs/" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500">
+                    <span x-show="$store.app.lang === 'zh'">博客</span>
+                    <span x-show="$store.app.lang === 'en'">Blogs</span>
                 </a>
-                <a href="#projects" @click="$store.mobileMenuOpen = false" class="block hover:text-blue-500">
-                    <span x-show="$store.lang === 'zh'">项目</span>
-                    <span x-show="$store.lang === 'en'">Projects</span>
+                <a href="#projects" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500">
+                    <span x-show="$store.app.lang === 'zh'">项目</span>
+                    <span x-show="$store.app.lang === 'en'">Projects</span>
                 </a>
-                <a href="#publications" @click="$store.mobileMenuOpen = false" class="block hover:text-blue-500">
-                    <span x-show="$store.lang === 'zh'">论文</span>
-                    <span x-show="$store.lang === 'en'">Publications</span>
+                <a href="#publications" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500">
+                    <span x-show="$store.app.lang === 'zh'">论文</span>
+                    <span x-show="$store.app.lang === 'en'">Publications</span>
                 </a>
             </div>
         </div>
