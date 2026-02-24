@@ -1,0 +1,82 @@
+<section id="projects">
+    <h2 class="text-2xl font-bold mb-10 flex items-center border-l-4 border-purple-500 pl-4">Projects</h2>
+    <div class="space-y-10">
+
+        <div class="group flex flex-col md:flex-row rounded-3xl overflow-hidden border dark:border-gray-800 hover:shadow-2xl transition duration-300">
+            <div class="md:w-1/3 bg-gray-100 dark:bg-gray-800 flex items-center justify-center p-4">
+                <div class="text-center">
+                    <i class="fa-solid fa-map-location-dot text-6xl text-blue-500 mb-4"></i>
+                    <p class="text-xs font-mono text-gray-400">MLLM + Geolocation</p>
+                </div>
+            </div>
+            <div class="p-8 md:w-2/3 bg-white dark:bg-darkCard">
+                <h3 class="text-xl font-bold mb-3 group-hover:text-blue-500 transition">
+                    <span x-show="lang === 'zh'">基于 MLLM 的智能地理位置识别系统</span>
+                    <span x-show="lang === 'en'">Intelligent Geolocation Recognition System Based on MLLM</span>
+                </h3>
+                <p class="text-sm text-gray-500 mb-4 leading-relaxed">
+                    <span x-show="lang === 'zh'">针对即时零售场景下的识别痛点，基于 Qwen2.5-VL 实现地址自动提取与精准检索，显著提升配送效率。</span>
+                    <span x-show="lang === 'en'">Addressed pain points in instant retail scenarios by implementing automated address extraction and precision retrieval via Qwen2.5-VL, enhancing delivery efficiency.</span>
+                </p>
+                <ul class="text-xs space-y-2 text-gray-600 dark:text-gray-400 mb-6">
+                    <li>
+                        <span x-show="lang === 'zh'">• 采用 <strong>LoRA 与全参数微调 (DeepSpeed)</strong>，实现 OCR 准确率 99% 与分类准确率 98%。</span>
+                        <span x-show="lang === 'en'">• Leveraged <strong>LoRA & Full-parameter Fine-tuning (DeepSpeed)</strong> to achieve 99% OCR accuracy and 98% classification accuracy.</span>
+                    </li>
+                    <li>
+                        <span x-show="lang === 'zh'">• 融合 <strong>高德 API 与多语义搜索策略</strong>，将 Top-1 检索准确率从 91% 提升至 96%。</span>
+                        <span x-show="lang === 'en'">• Integrated <strong>Amap API with multi-semantic search</strong>, boosting Top-1 retrieval accuracy from 91% to 96%.</span>
+                    </li>
+                    <li>
+                        <span x-show="lang === 'zh'">• 手动构建 2% 噪声数据集，有效增强模型泛化能力并降低异常场景误判率。</span>
+                        <span x-show="lang === 'en'">• Manually curated a 2% noise dataset, enhancing generalization and reducing misjudgment in edge cases.</span>
+                    </li>
+                </ul>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 text-xs rounded-full">Qwen2.5-VL</span>
+                    <span class="px-3 py-1 bg-purple-50 dark:bg-purple-900/20 text-purple-600 text-xs rounded-full">DeepSpeed</span>
+                    <span class="px-3 py-1 bg-green-50 dark:bg-green-900/20 text-green-600 text-xs rounded-full">A100 * 4</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="group flex flex-col md:flex-row rounded-3xl overflow-hidden border dark:border-gray-800 hover:shadow-2xl transition duration-300">
+            <div class="md:w-1/3 bg-gray-100 dark:bg-gray-800 flex items-center justify-center p-4">
+                <div class="text-center">
+                    <i class="fa-solid fa-shield-halved text-6xl text-red-500 mb-4"></i>
+                    <p class="text-xs font-mono text-gray-400">MLLM + Safety Moderation</p>
+                </div>
+            </div>
+            <div class="p-8 md:w-2/3 bg-white dark:bg-darkCard">
+                <h3 class="text-xl font-bold mb-3 group-hover:text-red-500 transition">
+                    <span x-show="lang === 'zh'">基于 MLLM 的内容安全审核平台</span>
+                    <span x-show="lang === 'en'">Content Safety Moderation Platform Powered by MLLM</span>
+                </h3>
+                <p class="text-sm text-gray-500 mb-4 leading-relaxed">
+                    <span x-show="lang === 'zh'">利用多模态大模型替代传统人工模式，实现跨场景内容的自动化违规识别与归因，助力企业降本增效。</span>
+                    <span x-show="lang === 'en'">Substituted traditional manual audits with MLLMs for automated multi-scenario violation detection and reasoning, reducing operational costs.</span>
+                </p>
+                <ul class="text-xs space-y-2 text-gray-600 dark:text-gray-400 mb-6">
+                    <li>
+                        <span x-show="lang === 'zh'">• <strong>强化学习落地：</strong> 采用 <strong>GRPO 算法</strong> 构建混合奖励模型，将审核召回率从 70% 提升至 85%。</span>
+                        <span x-show="lang === 'en'">• <strong>RL Implementation:</strong> Utilized the <strong>GRPO algorithm</strong> to build a hybrid reward model, increasing recall from 70% to 85%.</span>
+                    </li>
+                    <li>
+                        <span x-show="lang === 'zh'">• <strong>冷启动与数据工程：</strong> 基于 GPT-4o 生成审核原因标签，构建 1.5W+ 均衡数据集，解决样本不平衡问题。</span>
+                        <span x-show="lang === 'en'">• <strong>Cold Start & Data Engineering:</strong> Generated reasoning labels via GPT-4o and built a balanced 15k+ dataset to mitigate sample imbalance.</span>
+                    </li>
+                    <li>
+                        <span x-show="lang === 'zh'">• <strong>性能优化：</strong> 针对业务需求调整 Token 预测概率，实现了 98% 的极高审核精确率。</span>
+                        <span x-show="lang === 'en'">• <strong>Optimization:</strong> Adjusted token prediction probabilities to reach a 98% precision rate for mission-critical automation.</span>
+                    </li>
+                </ul>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-red-50 dark:bg-red-900/20 text-red-600 text-xs rounded-full">GRPO RL</span>
+                    <span class="px-3 py-1 bg-orange-50 dark:bg-orange-900/20 text-orange-600 text-xs rounded-full">InternVL / GLM-4v</span>
+                    <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 text-xs rounded-full">Data Engineering</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
