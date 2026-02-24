@@ -20,12 +20,16 @@
             }
         }
     </script>
+    </script>
     <style>
-        /* 时间轴线条 */
+        .timeline-line {
+            position: relative;
+            padding-left: 24px;
+        }
         .timeline-line::before {
             content: '';
             position: absolute;
-            left: 20px;
+            left: 9px;
             top: 0;
             bottom: 0;
             width: 2px;
@@ -33,7 +37,24 @@
         }
         .dark .timeline-line::before { background: #4b5563; }
         
-        /* 平滑滚动 */
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #3b82f6;
+            z-index: 10;
+        }
+        .timeline-dot-green {
+            border-color: #22c55e;
+        }
+        .dark .timeline-dot {
+            background: #1a1a1a;
+        }
+        
         html { scroll-behavior: smooth; }
         body { transition: background-color 0.3s, color 0.3s; }
     </style>
@@ -102,11 +123,11 @@
 
         <section id="education">
             <h2 class="text-2xl font-bold mb-10 flex items-center"><i class="fa-solid fa-graduation-cap mr-3"></i> Education</h2>
-            <div class="relative space-y-12 timeline-line">
-                <div class="relative pl-12 flex flex-col md:flex-row gap-6">
-                    <div class="absolute left-4 top-2 w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
-                    <div class="w-32 flex-shrink-0 text-sm font-mono text-gray-500 pt-1">2024.09 - Now</div>
-                    <div class="flex flex-1 gap-8 items-center">
+            <div class="relative space-y-16 timeline-line">
+                <div class="relative">
+                    <div class="timeline-dot"></div>
+                    <div class="text-sm font-mono text-gray-500 mb-3">2024.09 - Now</div>
+                    <div class="flex items-center gap-8">
                         <img src="./assets/Polyu.png" class="w-24 h-24 rounded object-contain" alt="School Logo">
                         <div>
                             <h3 class="font-bold text-lg" x-text="lang === 'zh' ? '香港理工大学' : 'The Hong Kong Polytechnic University'"></h3>
@@ -120,11 +141,11 @@
 
         <section id="experience">
             <h2 class="text-2xl font-bold mb-10 flex items-center border-l-4 border-green-500 pl-4">Research & Internship</h2>
-            <div class="relative space-y-12 timeline-line">
-                <div class="relative pl-12 flex flex-col md:flex-row gap-6">
-                    <div class="absolute left-4 top-2 w-3 h-3 bg-green-500 rounded-full ring-4 ring-green-100 dark:ring-green-900/30"></div>
-                    <div class="w-32 flex-shrink-0 text-sm font-mono text-gray-500 pt-1">2025.10 - Now</div>
-                    <div class="flex-1 bg-white dark:bg-darkCard p-6 rounded-2xl border dark:border-gray-800 shadow-sm">
+            <div class="relative space-y-16 timeline-line">
+                <div class="relative">
+                    <div class="timeline-dot timeline-dot-green"></div>
+                    <div class="text-sm font-mono text-gray-500 mb-3">2025.10 - Now</div>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border dark:border-gray-800 shadow-sm">
                         <h3 class="font-bold text-lg">
                             <a href="https://polysmartgroup.github.io/" 
                             target="_blank" 
