@@ -126,28 +126,34 @@
         </section>
 
         <section id="education">
-            <h2 class="text-2xl font-bold mb-10 flex items-center">
-                <i class="fa-solid fa-graduation-cap mr-3 text-blue-500"></i> Education
-            </h2>
+            <h2 class="text-2xl font-bold mb-10 flex items-center border-l-4 border-blue-500 pl-4">Education</h2>
             <div class="timeline-container space-y-16">
                 <div class="relative">
                     <div class="timeline-dot"></div>
                     
                     <div class="text-sm font-mono text-gray-500 mb-4 tracking-wide">2024.09 - 2028.06 (Expected)</div>
                     
-                    <div class="flex flex-col md:flex-row items-start md:items-center gap-10">
-                        <div class="shrink-0">
+                    <div class="flex flex-row items-center gap-8">
+                        <div class="w-48 shrink-0 flex justify-center">
                             <img src="./assets/Polyu.png" 
-                                class="w-32 h-32 object-contain bg-white p-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700" 
-                                alt="School Logo">
+                                class="max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105" 
+                                alt="PolyU Logo">
                         </div>
-                        <div class="space-y-2">
-                            <h3 class="font-bold text-xl" x-text="lang === 'zh' ? '香港理工大学' : 'The Hong Kong Polytechnic University'"></h3>
-                            <p class="text-blue-600 dark:text-blue-400 font-semibold text-base" x-text="lang === 'zh' ? '计算机科学 - 本科' : 'Bachelor in Computer Science'"></p>
-                            <div class="flex items-center gap-2 mt-2">
-                                <i class="fa-solid fa-award text-orange-500 text-sm"></i>
-                                <p class="text-sm text-gray-600 dark:text-gray-400" x-text="lang === 'zh' ? '香港理工大学入学奖学金' : 'PolyU Entry Scholarship'"></p>
-                            </div>
+                        
+                        <div class="flex-1 space-y-1">
+                            <h3 class="font-bold text-xl text-gray-900 dark:text-gray-100">
+                                <span x-show="lang === 'zh'">香港理工大学 (PolyU)</span>
+                                <span x-show="lang === 'en'">The Hong Kong Polytechnic University</span>
+                            </h3>
+                            <p class="text-blue-600 dark:text-blue-400 font-medium">
+                                <span x-show="lang === 'zh'">计算机科学 - 本科</span>
+                                <span x-show="lang === 'en'">Bachelor in Computer Science (Department of Computing)</span>
+                            </p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                <i class="fa-solid fa-medal mr-1 text-orange-400"></i>
+                                <span x-show="lang === 'zh'">香港理工大学入学奖学金</span>
+                                <span x-show="lang === 'en'">PolyU Entry Scholarship (Full Duration)</span>
+                            </p>
                         </div>
                     </div>
                 </div>
