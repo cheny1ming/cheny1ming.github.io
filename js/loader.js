@@ -1,4 +1,3 @@
-// 加载模块的函数
 async function loadComponent(id, file) {
     const element = document.getElementById(id);
     if (element) {
@@ -13,7 +12,6 @@ async function loadComponent(id, file) {
     }
 }
 
-// 页面加载完成后加载所有模块
 document.addEventListener('DOMContentLoaded', async () => {
     await Promise.all([
         loadComponent('about-container', './components/about.html'),
