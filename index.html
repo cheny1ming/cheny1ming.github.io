@@ -24,7 +24,7 @@
     <style>
         .timeline-container {
             position: relative;
-            padding-left: 40px;
+            padding-left: 40px; 
         }
 
         .timeline-container::before {
@@ -41,9 +41,10 @@
         .timeline-dot {
             position: absolute;
             left: -40px;
+            margin-left: -1px;
             top: 4px;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             background: white;
             border: 3px solid #3b82f6;
@@ -125,17 +126,28 @@
         </section>
 
         <section id="education">
-            <h2 class="text-2xl font-bold mb-10 flex items-center"><i class="fa-solid fa-graduation-cap mr-3"></i> Education</h2>
+            <h2 class="text-2xl font-bold mb-10 flex items-center">
+                <i class="fa-solid fa-graduation-cap mr-3 text-blue-500"></i> Education
+            </h2>
             <div class="timeline-container space-y-16">
                 <div class="relative">
                     <div class="timeline-dot"></div>
-                    <div class="text-sm font-mono text-gray-500 mb-3 tracking-wide">2024.09 - 2028.06 (Expected)</div>
-                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-                        <img src="./assets/Polyu.png" class="w-20 h-20 rounded object-contain bg-white p-1 shadow-sm" alt="School Logo">
-                        <div>
-                            <h3 class="font-bold text-lg" x-text="lang === 'zh' ? '香港理工大学' : 'The Hong Kong Polytechnic University'"></h3>
-                            <p class="text-blue-600 dark:text-blue-400 font-medium text-sm" x-text="lang === 'zh' ? '计算机科学 - 本科' : 'Bachelor in Computer Science'"></p>
-                            <p class="mt-1 text-xs text-gray-500 italic" x-text="lang === 'zh' ? '香港理工大学入学奖学金' : 'PolyU Entry Scholarship'"></p>
+                    
+                    <div class="text-sm font-mono text-gray-500 mb-4 tracking-wide">2024.09 - 2028.06 (Expected)</div>
+                    
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-10">
+                        <div class="shrink-0">
+                            <img src="./assets/Polyu.png" 
+                                class="w-32 h-32 object-contain bg-white p-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700" 
+                                alt="School Logo">
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="font-bold text-xl" x-text="lang === 'zh' ? '香港理工大学' : 'The Hong Kong Polytechnic University'"></h3>
+                            <p class="text-blue-600 dark:text-blue-400 font-semibold text-base" x-text="lang === 'zh' ? '计算机科学 - 本科' : 'Bachelor in Computer Science'"></p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <i class="fa-solid fa-award text-orange-500 text-sm"></i>
+                                <p class="text-sm text-gray-600 dark:text-gray-400" x-text="lang === 'zh' ? '香港理工大学入学奖学金' : 'PolyU Entry Scholarship'"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
