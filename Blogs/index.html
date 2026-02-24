@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blogs - Yiming Chen</title>
+    <!-- 外部资源 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- 配置 -->
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('app', Alpine.reactive({
@@ -15,8 +18,7 @@
                 mobileMenuOpen: false
             }));
         });
-    </script>
-    <script>
+
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -31,8 +33,7 @@
     </script>
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-darkBg dark:text-gray-200 antialiased">
-
-    <!-- Navigation -->
+    <!-- 导航 -->
     <nav class="sticky top-0 z-40 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b dark:border-gray-700">
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
             <a href="../" class="font-bold text-xl tracking-tighter hover:text-blue-500 transition">
@@ -42,7 +43,7 @@
             </a>
 
             <div class="flex items-center space-x-4">
-                <button @click="$store.app.lang = ($store.app.lang === 'zh' ? 'en' : 'zh')" class="hover:text-blue-500">
+                <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500">
                     <span x-show="$store.app.lang === 'zh'">EN</span>
                     <span x-show="$store.app.lang === 'en'">中</span>
                 </button>
@@ -53,56 +54,16 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- 主内容 -->
     <main class="max-w-4xl mx-auto px-6 py-12">
-        <!-- Page Title -->
         <h1 class="text-4xl font-extrabold mb-12 tracking-tight border-l-4 border-blue-500 pl-4">
             <span x-show="$store.app.lang === 'zh'">博客文章</span>
             <span x-show="$store.app.lang === 'en'">Blog Posts</span>
         </h1>
 
-        <!-- Blog Posts Grid -->
-        <!-- To add a new blog post, copy the blog-card div and fill in your content -->
+        <!-- 博客列表 -->
         <div class="space-y-8">
-
-            <!-- Example Blog Post Card (Template) -->
-            <!-- Uncomment and modify this template when you have actual blog posts -->
-            <!--
-            <article class="group bg-white dark:bg-darkCard rounded-2xl border dark:border-gray-800 hover:shadow-xl transition duration-300 overflow-hidden">
-                <div class="p-8">
-                    <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
-                        <time datetime="2025-01-15">
-                            <i class="fa-regular fa-calendar mr-1"></i>
-                            2025-01-15
-                        </time>
-                        <span class="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 text-xs rounded-full">
-                            <span x-show="$store.app.lang === 'zh'">技术</span>
-                            <span x-show="$store.app.lang === 'en'">Tech</span>
-                        </span>
-                    </div>
-
-                    <h2 class="text-2xl font-bold mb-3 group-hover:text-blue-500 transition">
-                        <a href="./blog-post-1.html">
-                            <span x-show="$store.app.lang === 'zh'">你的博客标题（中文）</span>
-                            <span x-show="$store.app.lang === 'en'">Your Blog Title (English)</span>
-                        </a>
-                    </h2>
-
-                    <p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                        <span x-show="$store.app.lang === 'zh'">这是博客文章的简短摘要，用于吸引读者点击阅读完整内容...</span>
-                        <span x-show="$store.app.lang === 'en'">This is a brief summary of your blog post to entice readers to click and read the full content...</span>
-                    </p>
-
-                    <a href="./blog-post-1.html" class="inline-flex items-center text-blue-500 hover:text-blue-600 font-medium">
-                        <span x-show="$store.app.lang === 'zh'">阅读更多</span>
-                        <span x-show="$store.app.lang === 'en'">Read More</span>
-                        <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                </div>
-            </article>
-            -->
-
-            <!-- Empty State (Shown when no blogs are available) -->
+            <!-- 空状态 -->
             <div class="bg-gray-50 dark:bg-darkCard/50 p-12 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 mb-4">
                     <i class="fa-solid fa-pen-nib text-2xl"></i>
@@ -116,14 +77,12 @@
                     <span x-show="$store.app.lang === 'en'">I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence.</span>
                 </p>
             </div>
-
         </div>
     </main>
 
-    <!-- Footer -->
+    <!-- 页脚 -->
     <footer class="py-12 text-center text-gray-500 text-sm border-t dark:border-gray-800 mt-12">
         <p>© 2025 CHEN Yiming. Built with HTML & Tailwind.</p>
     </footer>
-
 </body>
 </html>
