@@ -5,6 +5,8 @@ async function loadComponent(id, file) {
             const response = await fetch(file);
             const html = await response.text();
             element.innerHTML = html;
+            // Initialize Alpine.js on the newly loaded content
+            Alpine.initTree(element);
         } catch (error) {
             console.error(`Error loading component ${file}:`, error);
             element.innerHTML = `<p class="text-red-500">Failed to load ${file}</p>`;

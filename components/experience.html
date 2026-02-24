@@ -1,7 +1,7 @@
 <section id="experience">
     <h2 class="text-2xl font-bold mb-10 flex items-center border-l-4 border-green-500 pl-4">
-        <span x-show="lang === 'zh'">研究经历与实习</span>
-        <span x-show="lang === 'en'">Research & Internship</span>
+        <span x-show="$store.lang === 'zh'">研究经历与实习</span>
+        <span x-show="$store.lang === 'en'">Research & Internship</span>
     </h2>
     <div class="timeline-container space-y-16">
         <div class="relative">
@@ -26,21 +26,21 @@
                         </a>
                     </h3>
                     <p class="text-green-600 dark:text-green-400 font-medium text-sm mb-4"
-                    x-text="lang === 'zh' ? '学生助手' : 'Student Assistant'"></p>
+                    x-text="$store.lang === 'zh' ? '学生助手' : 'Student Assistant'"></p>
 
                     <ul class="text-sm space-y-3 text-gray-600 dark:text-gray-400">
                         <li class="flex gap-2">
                             <span class="text-blue-500">•</span>
                             <span>
-                                <strong class="text-gray-800 dark:text-gray-100" x-text="lang === 'zh' ? '多模态大模型研讨：' : 'MLLM Research: '"></strong>
-                                <span x-text="lang === 'zh' ? '追踪前沿 MLLM 技术，协助导师进行大规模多模态数据集的清洗与对齐。' : 'Tracking SOTA MLLM technologies, assisting in cleaning and aligning large-scale multimodal datasets.'"></span>
+                                <strong class="text-gray-800 dark:text-gray-100" x-text="$store.lang === 'zh' ? '多模态大模型研讨：' : 'MLLM Research: '"></strong>
+                                <span x-text="$store.lang === 'zh' ? '追踪前沿 MLLM 技术，协助导师进行大规模多模态数据集的清洗与对齐。' : 'Tracking SOTA MLLM technologies, assisting in cleaning and aligning large-scale multimodal datasets.'"></span>
                             </span>
                         </li>
                         <li class="flex gap-2">
                             <span class="text-blue-500">•</span>
                             <span>
-                                <strong class="text-gray-800 dark:text-gray-100" x-text="lang === 'zh' ? 'AI 咖啡虚拟人：' : 'AI Coffee Virtual Human: '"></strong>
-                                <span x-text="lang === 'zh' ? '负责 LLM 优化，实现粤语与普通话的双语对话支持。' : 'Optimized LLM to support bilingual dialogues in Cantonese and Mandarin.'"></span>
+                                <strong class="text-gray-800 dark:text-gray-100" x-text="$store.lang === 'zh' ? 'AI 咖啡虚拟人：' : 'AI Coffee Virtual Human: '"></strong>
+                                <span x-text="$store.lang === 'zh' ? '负责 LLM 优化，实现粤语与普通话的双语对话支持。' : 'Optimized LLM to support bilingual dialogues in Cantonese and Mandarin.'"></span>
                             </span>
                         </li>
                     </ul>
