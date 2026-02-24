@@ -1,192 +1,180 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh" x-data="{ darkMode: false, lang: 'zh' }" :class="{ 'dark': darkMode }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Yiming (陈羿铭)</title>
+    <title>Yiming's Personal Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* 基础样式过渡 */
-        body { transition: background-color 0.3s, color 0.3s; font-family: 'Inter', -apple-system, sans-serif; }
-        .dark { background-color: #111827; color: #f3f4f6; }
-        
-        /* 时间轴样式 */
-        .timeline-container { border-left: 2px solid #e5e7eb; position: relative; }
-        .dark .timeline-container { border-left-color: #374151; }
-        .timeline-dot { 
-            position: absolute; left: -6px; top: 10px; 
-            width: 10px; height: 10px; border-radius: 50%; 
-            background: #0d9488; 
-        }
-        
-        /* 导航栏毛玻璃效果 */
-        nav { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-    </style>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
-        tailwind.config = { darkMode: 'class' }
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#1a1a1a',
+                        darkCard: '#2d2d2d'
+                    }
+                }
+            }
+        }
     </script>
+    <style>
+        /* 时间轴线条 */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+        }
+        .dark .timeline-line::before { background: #4b5563; }
+        
+        /* 平滑滚动 */
+        html { scroll-behavior: smooth; }
+        body { transition: background-color 0.3s, color 0.3s; }
+    </style>
 </head>
-<body class="bg-[#fafafa] text-gray-800">
+<body class="bg-gray-50 text-gray-800 dark:bg-darkBg dark:text-gray-200 antialiased">
 
-    <a href="https://github.com/your-username" class="github-corner" aria-label="View source on GitHub">
-        <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0; z-index: 50;" aria-hidden="true">
-            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.3 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.9 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
-        </svg>
+    <a href="https://github.com/你的用户名" class="fixed top-0 right-0 z-50 overflow-hidden w-24 h-24">
+        <div class="bg-gray-800 dark:bg-gray-700 text-white text-center py-1 absolute top-4 -right-8 w-32 transform rotate-45 text-xs font-bold shadow-lg">
+            Github
+        </div>
     </a>
 
-    <nav class="fixed top-0 w-full z-40 border-b border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="font-bold text-xl tracking-tighter">About Me</div>
-            <div class="flex items-center space-x-6 text-sm font-medium">
-                <a href="#blog" class="hover:text-teal-600 transition">Blog</a>
-                <a href="#project" class="hover:text-teal-600 transition">Project</a>
-                <a href="#learning" class="hover:text-teal-600 transition">Learning Notes</a>
-                <button id="theme-toggle" class="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                    <i class="fas fa-sun text-yellow-500 hidden dark:block"></i>
-                    <i class="fas fa-moon text-gray-600 dark:hidden"></i>
-                </button>
+    <nav class="sticky top-0 z-40 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b dark:border-gray-700">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="font-bold text-xl tracking-tighter">CHEN Yiming</div>
+            
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#about" class="hover:text-blue-500">About</a>
+                <a href="#education" class="hover:text-blue-500">Education</a>
+                <a href="#experience" class="hover:text-blue-500">Experience</a>
+                <a href="#projects" class="hover:text-blue-500">Projects</a>
+                <a href="#publications" class="hover:text-blue-500">Publications</a>
+                
+                <div class="flex items-center border-l pl-6 space-x-4 dark:border-gray-600">
+                    <button @click="lang = (lang === 'zh' ? 'en' : 'zh')" class="hover:text-blue-500">
+                        <span x-show="lang === 'zh'">EN</span>
+                        <span x-show="lang === 'en'">中</span>
+                    </button>
+                    <button @click="darkMode = !darkMode" class="text-lg">
+                        <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-5xl mx-auto px-6 pt-32 pb-20">
-        <header class="mb-16">
-            <h1 class="text-4xl font-bold mb-4">About Yiming (陈羿铭)</h1>
-            <div class="h-1 w-20 bg-teal-600 rounded"></div>
-            
-            <div class="flex space-x-5 mt-8 text-2xl">
-                <a href="https://github.com/your-id" target="_blank" class="hover:text-teal-600 transition" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://space.bilibili.com/your-id" target="_blank" class="hover:text-pink-500 transition" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a>
-                <a href="https://www.zhihu.com/people/your-id" target="_blank" class="hover:text-blue-600 transition" title="Zhihu"><i class="fab fa-zhihu"></i></a>
-                <a href="https://www.xiaohongshu.com/user/profile/your-id" target="_blank" class="hover:text-red-500 transition" title="Xiaohongshu"><i class="fa-solid fa-note-sticky"></i></a>
-                <a href="mailto:your-email@example.com" class="hover:text-teal-500 transition" title="Email"><i class="fas fa-envelope"></i></a>
-            </div>
-        </header>
-
-        <section class="mb-24 flex flex-col md:flex-row gap-12 items-start">
-            <div class="flex-1 order-2 md:order-1">
-                <h2 class="text-2xl font-bold mb-6 text-teal-700">Biography</h2>
-                <div class="prose prose-slate dark:prose-invert text-gray-600 dark:text-gray-400 leading-relaxed">
-                    <p>
-                        Hello! I am Yiming, currently exploring the field of [Your Field]. 
-                        My interest lies in [Your Interests], and I am passionate about 
-                        building tools that make an impact. (此处替换为你真实的英文自我介绍)
-                    </p>
+    <main class="max-w-4xl mx-auto px-6 py-12 space-y-24">
+        
+        <section id="about" class="flex flex-col md:flex-row items-center gap-10">
+            <img src="https://via.placeholder.com/150" alt="Avatar" class="w-40 h-40 rounded-full object-cover shadow-xl border-4 border-white dark:border-gray-700">
+            <div class="text-center md:text-left">
+                <h1 class="text-4xl font-bold mb-4" x-text="lang === 'zh' ? '陈羿铭 (Yiming)' : 'Yiming Chen'"></h1>
+                <p class="text-gray-600 dark:text-gray-400 max-w-lg mb-6 leading-relaxed">
+                    <span x-show="lang === 'zh'">这里是你的自我介绍内容。你可以描述你的研究方向、兴趣爱好以及目前的状态。</span>
+                    <span x-show="lang === 'en'">Here is your self-introduction. You can describe your research interests and current status.</span>
+                </p>
+                <div class="flex justify-center md:justify-start space-x-5 text-2xl text-gray-500">
+                    <a href="#" class="hover:text-black dark:hover:text-white"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="hover:text-blue-400"><i class="fa-brands fa-bilibili"></i></a>
+                    <a href="#" class="hover:text-blue-600"><i class="fa-brands fa-zhihu"></i></a>
+                    <a href="mailto:yourname@email.com" class="hover:text-red-500"><i class="fa-solid fa-envelope"></i></a>
                 </div>
-            </div>
-            <div class="w-full md:w-64 order-1 md:order-2">
-                <img src="https://via.placeholder.com/300x350" alt="Yiming's Portrait" class="rounded-2xl shadow-xl border-8 border-white dark:border-gray-800 object-cover w-full aspect-[3/4]">
             </div>
         </section>
 
-        <section class="mb-24">
-            <h2 class="text-2xl font-bold mb-10 text-teal-700">Education</h2>
-            <div class="space-y-12 ml-4 timeline-container">
-                <div class="relative pl-10">
-                    <div class="timeline-dot"></div>
-                    <div class="flex flex-col md:flex-row gap-6">
-                        <div class="w-32 text-sm text-gray-500 font-mono pt-1">2023 - 2025</div>
-                        <div class="flex-1 flex gap-6 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                            <img src="https://via.placeholder.com/80" class="w-20 h-20 rounded-lg object-contain bg-gray-50" alt="Univ Logo">
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-800 dark:text-gray-100">Master of Science</h3>
-                                <p class="text-teal-600 font-medium">Your University Name</p>
-                                <p class="text-sm text-gray-500 mt-1">Specialization: Artificial Intelligence</p>
-                            </div>
+        <section id="education">
+            <h2 class="text-2xl font-bold mb-10 flex items-center"><i class="fa-solid fa-graduation-cap mr-3"></i> Education</h2>
+            <div class="relative space-y-12 timeline-line">
+                <div class="relative pl-12 flex flex-col md:flex-row gap-6">
+                    <div class="absolute left-4 top-2 w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                    <div class="w-32 flex-shrink-0 text-sm font-mono text-gray-500 pt-1">2020 - 2024</div>
+                    <div class="flex flex-1 gap-6 bg-white dark:bg-darkCard p-4 rounded-xl shadow-sm border dark:border-gray-700">
+                        <img src="https://via.placeholder.com/60" class="w-16 h-16 rounded object-contain" alt="School Logo">
+                        <div>
+                            <h3 class="font-bold text-lg" x-text="lang === 'zh' ? 'XX大学' : 'XX University'"></h3>
+                            <p class="text-sm text-gray-500" x-text="lang === 'zh' ? '计算机科学与技术 - 本科' : 'B.S. in Computer Science'"></p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">描述你的课程、奖学金或荣誉。</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mb-24">
-            <h2 class="text-2xl font-bold mb-10 text-teal-700">Research & Intern Experience</h2>
-            <div class="space-y-12 ml-4 timeline-container">
-                <div class="relative pl-10">
-                    <div class="timeline-dot"></div>
-                    <div class="flex flex-col md:flex-row gap-6">
-                        <div class="w-32 text-sm text-gray-500 font-mono pt-1">2024.05 - Present</div>
-                        <div class="flex-1 flex gap-6 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                            <img src="https://via.placeholder.com/80" class="w-20 h-20 rounded-lg object-contain bg-gray-50" alt="Company Logo">
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-800 dark:text-gray-100">Software Engineer Intern</h3>
-                                <p class="text-teal-600 font-medium">Tech Corporation (China)</p>
-                                <p class="text-sm text-gray-500 mt-1">Focus on Backend Development and System Optimization.</p>
-                            </div>
+        <section id="experience">
+            <h2 class="text-2xl font-bold mb-10 flex items-center"><i class="fa-solid fa-briefcase mr-3"></i> Research & Internships</h2>
+            <div class="relative space-y-12 timeline-line">
+                <div class="relative pl-12 flex flex-col md:flex-row gap-6">
+                    <div class="absolute left-4 top-2 w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div class="w-32 flex-shrink-0 text-sm font-mono text-gray-500 pt-1">2023.06 - Now</div>
+                    <div class="flex flex-1 gap-6 bg-white dark:bg-darkCard p-4 rounded-xl shadow-sm border dark:border-gray-700">
+                        <img src="https://via.placeholder.com/60" class="w-16 h-16 rounded object-contain" alt="Company Logo">
+                        <div>
+                            <h3 class="font-bold text-lg" x-text="lang === 'zh' ? '某科技公司/实验室' : 'Tech Company / Lab'"></h3>
+                            <p class="text-sm text-blue-500">Research Intern</p>
+                            <ul class="mt-3 text-sm text-gray-600 dark:text-gray-400 list-disc ml-4 space-y-1">
+                                <li x-show="lang === 'zh'">负责多模态大模型的研发工作。</li>
+                                <li x-show="lang === 'en'">Responsible for research and development of multimodal LLMs.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="project" class="mb-24">
-            <h2 class="text-2xl font-bold mb-10 text-teal-700">Selected Projects</h2>
+        <section id="projects">
+            <h2 class="text-2xl font-bold mb-10">Projects</h2>
             <div class="grid grid-cols-1 gap-8">
-                <div class="flex flex-col md:flex-row gap-8 items-center bg-gray-50 dark:bg-gray-800/50 p-6 rounded-2xl hover:shadow-lg transition">
-                    <img src="https://via.placeholder.com/240x160" class="w-full md:w-64 h-40 object-cover rounded-xl shadow-md" alt="Project Cover">
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold mb-3">Project Title Here</h3>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
-                            Detailed description of what you built, which tech stacks were used (e.g., Python, Vue, Docker), and the core outcome of the project.
+                <div class="group flex flex-col md:flex-row overflow-hidden rounded-2xl bg-white dark:bg-darkCard border dark:border-gray-700 transition hover:shadow-xl">
+                    <div class="md:w-2/5 overflow-hidden">
+                        <img src="https://via.placeholder.com/400x250" class="w-full h-full object-cover transition transform group-hover:scale-105">
+                    </div>
+                    <div class="p-6 md:w-3/5">
+                        <h3 class="text-xl font-bold mb-2">Project Name / 项目名称</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                            这是一个关于XXX的开源项目，解决了XXX痛点，使用了XXX技术栈。
                         </p>
-                        <div class="flex gap-3">
-                            <span class="px-3 py-1 bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 text-xs rounded-full">React</span>
-                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-xs rounded-full">PyTorch</span>
+                        <div class="flex space-x-3">
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs">Python</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs">PyTorch</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mb-24">
-            <h2 class="text-2xl font-bold mb-10 text-teal-700">Publications</h2>
-            <div class="space-y-10">
-                <div class="flex flex-col md:flex-row gap-8">
-                    <img src="https://via.placeholder.com/180x240" class="w-40 h-52 object-cover rounded-md border shadow-sm" alt="Paper Thumbnail">
+        <section id="publications">
+            <h2 class="text-2xl font-bold mb-10">Publications</h2>
+            <div class="space-y-8">
+                <div class="flex flex-col md:flex-row gap-6 items-start">
+                    <img src="https://via.placeholder.com/200x120" class="w-full md:w-48 rounded shadow-md" alt="Paper Thumbnail">
                     <div class="flex-1">
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100">Towards Efficient Large Language Model Inference with Adaptive Quantization</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mt-2 font-medium">Yiming Chen, Zhang San, Li Si</p>
-                        <p class="text-sm text-gray-500 italic mt-1">Conference on Computer Vision and Pattern Recognition (CVPR), 2026</p>
-                        <div class="mt-4 flex space-x-4 text-sm">
-                            <a href="#" class="text-teal-600 hover:underline font-bold">[PDF]</a>
-                            <a href="#" class="text-teal-600 hover:underline font-bold">[Code]</a>
-                            <a href="#" class="text-teal-600 hover:underline font-bold">[BibTeX]</a>
+                        <h3 class="font-bold text-lg leading-tight mb-2">Towards a New Paradigm of Deep Learning: A Comprehensive Survey</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            <strong>Yiming Chen</strong>, Zhang San, Li Si.
+                        </p>
+                        <p class="text-xs italic text-blue-500 mb-3">CVPR 2024</p>
+                        <div class="flex space-x-4 text-sm font-medium">
+                            <a href="#" class="text-blue-500 hover:underline">[Paper]</a>
+                            <a href="#" class="text-blue-500 hover:underline">[Code]</a>
+                            <a href="#" class="text-blue-500 hover:underline">[Project Page]</a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-    </div>
+    </main>
 
-    <footer class="border-t border-gray-200 dark:border-gray-800 py-12 text-center text-gray-500 text-sm">
-        <p>© 2026 Yiming Chen. All Rights Reserved.</p>
-        <p class="mt-2">Built with HTML/Tailwind CSS, deployed on GitHub Pages.</p>
+    <footer class="py-12 text-center text-gray-500 text-sm border-t dark:border-gray-800">
+        <p>© 2024 CHEN Yiming. Built with HTML & Tailwind.</p>
     </footer>
 
-    <script>
-        const themeToggle = document.getElementById('theme-toggle');
-        const html = document.documentElement;
-
-        // Check for saved theme or system preference
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.add('dark');
-        } else {
-            html.classList.remove('dark');
-        }
-
-        themeToggle.addEventListener('click', () => {
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                html.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
-        });
-    </script>
 </body>
 </html>
