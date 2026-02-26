@@ -18,71 +18,36 @@
 
     <!-- 配置 -->
     <script>
-        // 加载语言包
-        let translations = {};
-
-        // 默认翻译（作为后备，防止语言包加载时显示 key）
-        const defaultTranslations = {
-            en: {
-                nav: { about: "About Me", blogs: "Blogs", projects: "Projects", publications: "Publications", back: "Back" },
-                lang: { switchTo: "中" },
-                blogs: { title: "Blog Posts", emptyTitle: "More Content Coming Soon", emptyTitleEn: "More Content Coming Soon", emptyDesc: "I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence.", emptyDescEn: "I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence." }
-            },
-            zh: {
-                nav: { about: "关于我", blogs: "博客", projects: "项目", publications: "论文", back: "返回" },
-                lang: { switchTo: "EN" },
-                blogs: { title: "博客文章", emptyTitle: "更多精彩内容即将上线", emptyTitleEn: "More Content Coming Soon", emptyDesc: "我正在努力撰写更多关于多模态大模型、计算机视觉和空间智能的技术文章。", emptyDescEn: "I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence." }
-            }
-        };
-
         // 从 localStorage 读取语言设置，默认为 'en'
         const savedLang = localStorage.getItem('lang') || 'en';
         const savedDarkMode = localStorage.getItem('darkMode') === 'true';
 
-        // 翻译函数
-        function t(path) {
-            const keys = path.split('.');
-            const lang = Alpine.store('app')?.lang || 'en';
-            const source = translations[lang] || defaultTranslations[lang];
-            let result = source;
-            for (const key of keys) {
-                result = result?.[key];
-            }
-            return result || defaultTranslations[lang][keys[0]]?.[keys[1]] || path;
-        }
+        // 资源路径配置
+        const assetPaths = {
+            images: '../assets/images',
+            icons: '../assets/icons',
+            polyuLogo: '../assets/Polyu.png',
+            headPortrait: '../assets/head portrait.png'
+        };
 
         document.addEventListener('alpine:init', () => {
             Alpine.store('app', Alpine.reactive({
                 lang: savedLang,
                 darkMode: savedDarkMode,
                 mobileMenuOpen: false,
-                t: t
+                assets: assetPaths
             }));
 
             // 监听语言变化，保存到 localStorage
             Alpine.effect(() => {
-                const lang = Alpine.store('app').lang;
-                localStorage.setItem('lang', lang);
+                localStorage.setItem('lang', Alpine.store('app').lang);
             });
 
             // 监听暗黑模式变化，保存到 localStorage
             Alpine.effect(() => {
-                const darkMode = Alpine.store('app').darkMode;
-                localStorage.setItem('darkMode', darkMode);
+                localStorage.setItem('darkMode', Alpine.store('app').darkMode);
             });
         });
-
-        // 加载语言包
-        async function loadTranslations() {
-            try {
-                const response = await fetch('../js/i18n.json');
-                translations = await response.json();
-                Alpine.store('app').lang = Alpine.store('app').lang;
-            } catch (error) {
-                console.error('Failed to load translations:', error);
-            }
-        }
-        loadTranslations();
 
         tailwind.config = {
             darkMode: 'class',
@@ -103,11 +68,15 @@
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
             <a href="../" class="font-bold text-xl tracking-tighter hover:text-blue-500 transition">
                 <i class="fa-solid fa-arrow-left mr-2"></i>
-                <span x-text="$store.app.t('nav.back')"></span>
+                <span x-show="$store.app.lang === 'zh'">返回</span>
+                <span x-show="$store.app.lang === 'en'">Back</span>
             </a>
 
             <div class="flex items-center space-x-4">
-                <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500" x-text="$store.app.t('lang.switchTo')"></button>
+                <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500">
+                    <span x-show="$store.app.lang === 'zh'">EN</span>
+                    <span x-show="$store.app.lang === 'en'">中</span>
+                </button>
                 <button @click="$store.app.darkMode = !$store.app.darkMode" class="text-lg">
                     <i class="fa-solid" :class="$store.app.darkMode ? 'fa-sun' : 'fa-moon'"></i>
                 </button>
@@ -117,7 +86,10 @@
 
     <!-- 主内容 -->
     <main class="max-w-4xl mx-auto px-6 py-12">
-        <h1 class="text-4xl font-extrabold mb-12 tracking-tight border-l-4 border-blue-500 pl-4" x-text="$store.app.t('blogs.title')"></h1>
+        <h1 class="text-4xl font-extrabold mb-12 tracking-tight border-l-4 border-blue-500 pl-4">
+            <span x-show="$store.app.lang === 'zh'">博客文章</span>
+            <span x-show="$store.app.lang === 'en'">Blog Posts</span>
+        </h1>
 
         <!-- 博客列表 -->
         <div class="space-y-8">
@@ -126,8 +98,14 @@
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 mb-4">
                     <i class="fa-solid fa-pen-nib text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2" x-text="$store.app.t('blogs.emptyTitle')"></h3>
-                <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto" x-text="$store.app.t('blogs.emptyDesc')"></p>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                    <span x-show="$store.app.lang === 'zh'">更多精彩内容即将上线</span>
+                    <span x-show="$store.app.lang === 'en'">More Content Coming Soon</span>
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+                    <span x-show="$store.app.lang === 'zh'">我正在努力撰写更多关于多模态大模型、计算机视觉和空间智能的技术文章。</span>
+                    <span x-show="$store.app.lang === 'en'">I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence.</span>
+                </p>
             </div>
         </div>
     </main>

@@ -22,17 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate JSON files
-        run: |
-          echo "Validating JSON files..."
-          for file in js/*.json; do
-            if [ -f "$file" ]; then
-              echo "Checking $file"
-              python3 -m json.tool "$file" > /dev/null || exit 1
-            fi
-          done
-          echo "All JSON files are valid!"
-
       - name: Check HTML syntax
         run: |
           echo "Checking HTML files..."

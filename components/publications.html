@@ -1,10 +1,19 @@
 <section id="publications">
-    <h2 class="text-2xl font-bold mb-10 flex items-center border-l-4 border-orange-500 pl-4" x-text="$store.app.t('publications.title')"></h2>
+    <h2 class="text-2xl font-bold mb-10 flex items-center border-l-4 border-orange-500 pl-4">
+        <span x-show="$store.app.lang === 'zh'">论文</span>
+        <span x-show="$store.app.lang === 'en'">Publications</span>
+    </h2>
     <div class="bg-gray-50 dark:bg-darkCard/50 p-8 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
         <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-500 mb-4">
             <i class="fa-solid fa-feather-pointed text-xl"></i>
         </div>
-        <p class="text-lg font-medium text-gray-700 dark:text-gray-300" x-text="$store.app.t('publications.empty')"></p>
-        <p class="text-sm text-gray-500 mt-2" x-text="$store.app.t('publications.focus')"></p>
+        <p class="text-lg font-medium text-gray-700 dark:text-gray-300">
+            <span x-show="$store.app.lang === 'zh'">正在努力产出中，敬请期待...</span>
+            <span x-show="$store.app.lang === 'en'">Publications are coming soon...</span>
+        </p>
+        <p class="text-sm text-gray-500 mt-2">
+            <span x-show="$store.app.lang === 'zh'">目前专注于多模态大模型相关的研究工作。</span>
+            <span x-show="$store.app.lang === 'en'">Currently focusing on research related to MLLMs.</span>
+        </p>
     </div>
 </section>

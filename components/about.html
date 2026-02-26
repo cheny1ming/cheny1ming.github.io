@@ -3,10 +3,19 @@
         <img src="./assets/head portrait.png" alt="Yiming Chen" class="w-full h-full rounded-full object-cover border-4 border-white dark:border-darkBg">
     </div>
     <div class="flex-1 text-center md:text-left">
-        <h1 class="text-4xl font-extrabold mb-4 tracking-tight" x-text="$store.app.lang === 'zh' ? $store.app.t('about.name') : $store.app.t('about.nameEn')"></h1>
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight">
+            <span x-show="$store.app.lang === 'zh'">陈羿铭 (Yiming Chen)</span>
+            <span x-show="$store.app.lang === 'en'">Yiming Chen</span>
+        </h1>
 
         <div class="text-lg leading-relaxed text-gray-700 dark:text-gray-300 space-y-4">
-            <p class="text-justify leading-8" x-html="$store.app.t('about.description')"></p>
+            <p x-show="$store.app.lang === 'zh'" class="text-justify leading-8">
+                <strong>AI 算法爱好者</strong>，大二在读。目前专注于<strong>多模态大模型 (MLLM)</strong>、<strong>计算机视觉 (CV)</strong> 和<strong>空间智能 (Spatial Intelligence)</strong> 的前沿研究。致力于通过先进的大模型技术解决现实世界中的复杂挑战，探索通用人工智能的边界。
+            </p>
+
+            <p x-show="$store.app.lang === 'en'" class="text-justify leading-8">
+                An <strong>AI algorithm enthusiast</strong> and a <strong>second-year student</strong> in PolyU. My current research interests lie in the pioneering fields of <strong>Multimodal Large Language Models (MLLMs)</strong>, <strong>Computer Vision (CV)</strong>, and <strong>Spatial Intelligence</strong>. I am dedicated to bridging the gap between advanced foundation models and complex real-world challenges, exploring the boundaries of AGI.
+            </p>
         </div>
 
         <div class="flex justify-center md:justify-start space-x-6 mt-8 text-2xl text-gray-400">
