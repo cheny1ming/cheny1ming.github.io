@@ -3,7 +3,17 @@
 <script>
 // Apply theme immediately before page render to prevent flash
 (function() {
-  const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  // 兼容旧的 darkMode 和新的 theme 键
+  let savedTheme = localStorage.getItem('theme');
+  if (!savedTheme) {
+    const oldDarkMode = localStorage.getItem('darkMode');
+    if (oldDarkMode === 'true') {
+      savedTheme = 'dark';
+    } else if (oldDarkMode === 'false') {
+      savedTheme = 'light';
+    }
+  }
+  savedTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   document.documentElement.setAttribute('data-theme', savedTheme);
   if (savedTheme === 'dark') document.documentElement.classList.add('dark');
 })();

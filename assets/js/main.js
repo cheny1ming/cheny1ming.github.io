@@ -28,7 +28,15 @@ function initThemeToggle() {
 
   if (toggleBtns.length === 0) return;
 
-  const savedTheme = localStorage.getItem('theme') || 'light';
+  // 兼容旧的 darkMode 和新的 theme 键
+  let savedTheme = localStorage.getItem('theme');
+  if (!savedTheme) {
+    const oldDarkMode = localStorage.getItem('darkMode');
+    if (oldDarkMode === 'true') savedTheme = 'dark';
+    else if (oldDarkMode === 'false') savedTheme = 'light';
+  }
+  savedTheme = savedTheme || 'light';
+
   htmlEl.setAttribute('data-theme', savedTheme);
   if (savedTheme === 'dark') htmlEl.classList.add('dark');
 
@@ -38,6 +46,8 @@ function initThemeToggle() {
       const newTheme = currentTheme === 'light' ? 'dark' : 'light';
       htmlEl.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
+      // 清除旧的 darkMode 键，避免混淆
+      localStorage.removeItem('darkMode');
       if (newTheme === 'dark') htmlEl.classList.add('dark');
       else htmlEl.classList.remove('dark');
     });

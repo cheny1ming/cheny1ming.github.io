@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" x-data :class="{ 'dark': $store.app.darkMode }">
+<html lang="en" x-data :class="{ 'dark': $store.app.darkMode }" :data-theme="$store.app.darkMode ? 'dark' : 'light'">
 <script>
 // 在页面渲染前立即应用暗黑模式，防止闪烁
+// 兼容旧的 darkMode 和新的 theme 键
 (function() {
-    const isDark = localStorage.getItem('darkMode') === 'true';
-    if (isDark) document.documentElement.classList.add('dark');
+    let isDark = localStorage.getItem('darkMode') === 'true';
+    if (!isDark) {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') isDark = true;
+        else if (theme === 'light') isDark = false;
+    }
+    if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
 })();
 </script>
 <head>
@@ -15,12 +24,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/custom.css">
 
     <!-- 配置 -->
     <script>
         // 从 localStorage 读取语言设置，默认为 'en'
         const savedLang = localStorage.getItem('lang') || 'en';
-        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+
+        // 读取主题设置，兼容旧的 darkMode 和新的 theme 键
+        let savedDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (!savedDarkMode) {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') savedDarkMode = true;
+            else if (theme === 'light') savedDarkMode = false;
+        }
 
         // 资源路径配置
         const assetPaths = {
@@ -43,9 +60,11 @@
                 localStorage.setItem('lang', Alpine.store('app').lang);
             });
 
-            // 监听暗黑模式变化，保存到 localStorage
+            // 监听暗黑模式变化，同时设置两个键（theme 和 darkMode）
             Alpine.effect(() => {
-                localStorage.setItem('darkMode', Alpine.store('app').darkMode);
+                const darkMode = Alpine.store('app').darkMode;
+                localStorage.setItem('darkMode', darkMode);
+                localStorage.setItem('theme', darkMode ? 'dark' : 'light');
             });
         });
 
@@ -77,8 +96,9 @@
                     <span x-show="$store.app.lang === 'zh'">EN</span>
                     <span x-show="$store.app.lang === 'en'">中</span>
                 </button>
-                <button @click="$store.app.darkMode = !$store.app.darkMode" class="text-lg">
-                    <i class="fa-solid" :class="$store.app.darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                <button @click="$store.app.darkMode = !$store.app.darkMode" class="theme-toggle text-lg" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                    <i class="fa-solid fa-moon moon-icon"></i>
                 </button>
             </div>
         </div>
