@@ -1,5 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ darkMode: $store.app.darkMode, lang: $store.app.lang }" :class="{ 'dark': darkMode }">
+<html lang="en" x-data :class="{ 'dark': $store.app.darkMode }">
+<script>
+// 在页面渲染前立即应用暗黑模式，防止闪烁
+(function() {
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    if (isDark) document.documentElement.classList.add('dark');
+})();
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,17 +16,88 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="./js/loader.js" defer></script>
-    
+
     <!-- 配置与样式 -->
     <script>
+        // 加载语言包
+        let translations = {};
+
+        // 从 localStorage 读取语言设置，默认为 'en'
+        const savedLang = localStorage.getItem('lang') || 'en';
+        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+
+        // 默认翻译（作为后备，防止语言包加载时显示 key）
+        const defaultTranslations = {
+            en: {
+                nav: { about: "About Me", blogs: "Blogs", projects: "Projects", publications: "Publications", back: "Back" },
+                lang: { switchTo: "中" },
+                about: { name: "Yiming Chen", nameEn: "Yiming Chen", description: "" },
+                education: { title: "Education", school: "The Hong Kong Polytechnic University", schoolEn: "The Hong Kong Polytechnic University", major: "Bachelor in Computer Science (", majorEn: "Bachelor in Computer Science (", majorEnLink: "Department of Computing", majorEnEnd: ")", scholarship: "PolyU Entry Scholarship (Full Duration)", scholarshipEn: "PolyU Entry Scholarship (Full Duration)" },
+                experience: { title: "Research & Internship", position: "Student Assistant", positionEn: "Student Assistant", mllmTitle: "MLLM Research: ", mllmTitleEn: "MLLM Research: ", mllmDesc: "", mllmDescEn: "", coffeeTitle: "AI Coffee Virtual Human: ", coffeeTitleEn: "AI Coffee Virtual Human: ", coffeeDesc: "", coffeeDescEn: "" },
+                projects: { title: "Projects", geo: { title: "", titleEn: "", description: "", descriptionEn: "", point1: "", point1En: "", point2: "", point2En: "", point3: "", point3En: "" }, safety: { title: "", titleEn: "", description: "", descriptionEn: "", point1: "", point1En: "", point2: "", point2En: "", point3: "", point3En: "" } },
+                publications: { title: "Publications", empty: "Publications are coming soon...", emptyEn: "Publications are coming soon...", focus: "Currently focusing on research related to MLLMs.", focusEn: "Currently focusing on research related to MLLMs." },
+                blogs: { title: "Blog Posts", emptyTitle: "More Content Coming Soon", emptyTitleEn: "More Content Coming Soon", emptyDesc: "", emptyDescEn: "" }
+            },
+            zh: {
+                nav: { about: "关于我", blogs: "博客", projects: "项目", publications: "论文", back: "返回" },
+                lang: { switchTo: "EN" },
+                about: { name: "陈羿铭 (Yiming Chen)", nameEn: "Yiming Chen", description: "" },
+                education: { title: "教育经历", school: "香港理工大学 (PolyU)", schoolEn: "The Hong Kong Polytechnic University", major: "计算机科学 - 本科", majorEn: "Bachelor in Computer Science (", majorEnLink: "Department of Computing", majorEnEnd: ")", scholarship: "香港理工大学入学奖学金", scholarshipEn: "PolyU Entry Scholarship (Full Duration)" },
+                experience: { title: "研究经历与实习", position: "学生助手", positionEn: "Student Assistant", mllmTitle: "多模态大模型研讨：", mllmTitleEn: "MLLM Research: ", mllmDesc: "", mllmDescEn: "", coffeeTitle: "AI 咖啡虚拟人：", coffeeTitleEn: "AI Coffee Virtual Human: ", coffeeDesc: "", coffeeDescEn: "" },
+                projects: { title: "项目经历", geo: { title: "", titleEn: "", description: "", descriptionEn: "", point1: "", point1En: "", point2: "", point2En: "", point3: "", point3En: "" }, safety: { title: "", titleEn: "", description: "", descriptionEn: "", point1: "", point1En: "", point2: "", point2En: "", point3: "", point3En: "" } },
+                publications: { title: "论文", empty: "正在努力产出中，敬请期待...", emptyEn: "Publications are coming soon...", focus: "目前专注于多模态大模型相关的研究工作。", focusEn: "Currently focusing on research related to MLLMs." },
+                blogs: { title: "博客文章", emptyTitle: "更多精彩内容即将上线", emptyTitleEn: "More Content Coming Soon", emptyDesc: "", emptyDescEn: "" }
+            }
+        };
+
+        // 翻译函数 - 支持嵌套路径如 'nav.about'
+        function t(path) {
+            const keys = path.split('.');
+            const lang = Alpine.store('app')?.lang || 'en';
+            // 优先从已加载的语言包获取，否则使用默认翻译
+            const source = translations[lang] || defaultTranslations[lang];
+            let result = source;
+            for (const key of keys) {
+                result = result?.[key];
+            }
+            return result || defaultTranslations[lang][keys[0]]?.[keys[1]] || path;
+        }
+
         // Alpine 全局状态
         document.addEventListener('alpine:init', () => {
             Alpine.store('app', Alpine.reactive({
-                lang: 'en',
-                darkMode: false,
-                mobileMenuOpen: false
+                lang: savedLang,
+                darkMode: savedDarkMode,
+                mobileMenuOpen: false,
+                // 翻译函数
+                t: t
             }));
+
+            // 监听语言变化，保存到 localStorage
+            Alpine.effect(() => {
+                const lang = Alpine.store('app').lang;
+                localStorage.setItem('lang', lang);
+            });
+
+            // 监听暗黑模式变化，保存到 localStorage
+            Alpine.effect(() => {
+                const darkMode = Alpine.store('app').darkMode;
+                localStorage.setItem('darkMode', darkMode);
+            });
         });
+
+        // 加载语言包
+        async function loadTranslations() {
+            try {
+                const response = await fetch('./js/i18n.json');
+                translations = await response.json();
+                // 触发重新渲染
+                Alpine.store('app').lang = Alpine.store('app').lang;
+            } catch (error) {
+                console.error('Failed to load translations:', error);
+            }
+        }
+        loadTranslations();
 
         // Tailwind 配置
         tailwind.config = {
@@ -86,45 +164,27 @@
     <!-- 导航栏 -->
     <nav class="sticky top-0 z-40 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b dark:border-gray-700">
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="font-bold text-xl tracking-tighter">
-                <span x-show="$store.app.lang === 'zh'">关于我</span>
-                <span x-show="$store.app.lang === 'en'">About Me</span>
-            </div>
+            <div class="font-bold text-xl tracking-tighter" x-text="$store.app.t('nav.about')"></div>
 
             <!-- 桌面端导航 -->
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
-                <a href="./Blogs/" class="hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">博客</span>
-                    <span x-show="$store.app.lang === 'en'">Blogs</span>
-                </a>
-                <a href="#projects" class="hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">项目</span>
-                    <span x-show="$store.app.lang === 'en'">Projects</span>
-                </a>
-                <a href="#publications" class="hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">论文</span>
-                    <span x-show="$store.app.lang === 'en'">Publications</span>
-                </a>
+                <a href="./Blogs/" class="hover:text-blue-500" x-text="$store.app.t('nav.blogs')"></a>
+                <a href="#projects" class="hover:text-blue-500" x-text="$store.app.t('nav.projects')"></a>
+                <a href="#publications" class="hover:text-blue-500" x-text="$store.app.t('nav.publications')"></a>
 
                 <div class="flex items-center border-l pl-6 space-x-4 dark:border-gray-600">
-                    <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500">
-                        <span x-show="$store.app.lang === 'zh'">EN</span>
-                        <span x-show="$store.app.lang === 'en'">中</span>
-                    </button>
-                    <button @click="darkMode = !darkMode" class="text-lg">
-                        <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                    <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500" x-text="$store.app.t('lang.switchTo')"></button>
+                    <button @click="$store.app.darkMode = !$store.app.darkMode" class="text-lg">
+                        <i class="fa-solid" :class="$store.app.darkMode ? 'fa-sun' : 'fa-moon'"></i>
                     </button>
                 </div>
             </div>
 
             <!-- 移动端右侧控件 -->
             <div class="flex md:hidden items-center space-x-4">
-                <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500 text-sm font-medium">
-                    <span x-show="$store.app.lang === 'zh'">EN</span>
-                    <span x-show="$store.app.lang === 'en'">中</span>
-                </button>
-                <button @click="darkMode = !darkMode" class="text-lg">
-                    <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500 text-sm font-medium" x-text="$store.app.t('lang.switchTo')"></button>
+                <button @click="$store.app.darkMode = !$store.app.darkMode" class="text-lg">
+                    <i class="fa-solid" :class="$store.app.darkMode ? 'fa-sun' : 'fa-moon'"></i>
                 </button>
                 <button @click="$store.app.mobileMenuOpen = !$store.app.mobileMenuOpen" class="text-xl p-1">
                     <i class="fa-solid" :class="$store.app.mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
@@ -135,18 +195,9 @@
         <!-- 移动端菜单 -->
         <div x-show="$store.app.mobileMenuOpen" x-transition class="md:hidden bg-white dark:bg-darkBg border-t dark:border-gray-700">
             <div class="px-6 py-4 space-y-4 text-sm font-medium">
-                <a href="./Blogs/" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">博客</span>
-                    <span x-show="$store.app.lang === 'en'">Blogs</span>
-                </a>
-                <a href="#projects" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">项目</span>
-                    <span x-show="$store.app.lang === 'en'">Projects</span>
-                </a>
-                <a href="#publications" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">论文</span>
-                    <span x-show="$store.app.lang === 'en'">Publications</span>
-                </a>
+                <a href="./Blogs/" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500" x-text="$store.app.t('nav.blogs')"></a>
+                <a href="#projects" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500" x-text="$store.app.t('nav.projects')"></a>
+                <a href="#publications" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500" x-text="$store.app.t('nav.publications')"></a>
             </div>
         </div>
     </nav>

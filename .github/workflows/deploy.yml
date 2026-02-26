@@ -1,0 +1,71 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # 检查代码
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        run: |
+          echo "Validating JSON files..."
+          for file in js/*.json; do
+            if [ -f "$file" ]; then
+              echo "Checking $file"
+              python3 -m json.tool "$file" > /dev/null || exit 1
+            fi
+          done
+          echo "All JSON files are valid!"
+
+      - name: Check HTML syntax
+        run: |
+          echo "Checking HTML files..."
+          # 检查是否有未闭合的标签
+          for file in **/*.html; do
+            if [ -f "$file" ]; then
+              echo "Checking $file"
+              # 简单的 HTML 结构检查
+              grep -q '<html' "$file" && grep -q '</html>' "$file" || { echo "Missing HTML tags in $file"; exit 1; }
+              grep -q '<body' "$file" && grep -q '</body>' "$file" || { echo "Missing BODY tags in $file"; exit 1; }
+            fi
+          done
+          echo "HTML structure check passed!"
+
+  # 构建和部署
+  deploy:
+    needs: lint
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

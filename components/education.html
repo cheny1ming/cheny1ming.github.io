@@ -1,8 +1,5 @@
 <section id="education">
-    <h2 class="text-2xl font-bold mb-10 flex items-center border-l-4 border-blue-500 pl-4">
-        <span x-show="$store.app.lang === 'zh'">教育经历</span>
-        <span x-show="$store.app.lang === 'en'">Education</span>
-    </h2>
+    <h2 class="text-2xl font-bold mb-10 flex items-center border-l-4 border-blue-500 pl-4" x-text="$store.app.t('education.title')"></h2>
     <div class="timeline-container space-y-16">
         <div class="relative">
             <div class="timeline-dot"></div>
@@ -17,29 +14,21 @@
                 </div>
 
                 <div class="flex-1 space-y-1">
-                    <h3 class="font-bold text-xl text-gray-900 dark:text-gray-100">
-                        <span x-show="$store.app.lang === 'zh'">香港理工大学 (PolyU)</span>
-                        <span x-show="$store.app.lang === 'en'">The Hong Kong Polytechnic University</span>
-                    </h3>
+                    <h3 class="font-bold text-xl text-gray-900 dark:text-gray-100" x-text="$store.app.lang === 'zh' ? $store.app.t('education.school') : $store.app.t('education.schoolEn')"></h3>
                     <p class="text-blue-600 dark:text-blue-400 font-medium">
-                        <span x-show="$store.app.lang === 'zh'">计算机科学 - 本科</span>
-                        <span x-show="$store.app.lang === 'en'">
-                            Bachelor in Computer Science (
-                            <a 
-                                href="https://www.polyu.edu.hk/comp/"
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                class="hover:text-blue-800 dark:hover:text-blue-300 underline-offset-2 hover:underline transition"
-                            >
-                                Department of Computing
-                            </a>
-                            )
-                        </span>
+                        <span x-text="$store.app.lang === 'zh' ? $store.app.t('education.major') : $store.app.t('education.majorEn')"></span>
+                        <a
+                            href="https://www.polyu.edu.hk/comp/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="hover:text-blue-800 dark:hover:text-blue-300 underline-offset-2 hover:underline transition"
+                            x-text="$store.app.t('education.majorEnLink')"
+                        ></a>
+                        <span x-text="$store.app.t('education.majorEnEnd')"></span>
                     </p>
                     <p class="text-sm text-gray-600 dark:text-gray-400">
                         <i class="fa-solid fa-medal mr-1 text-orange-400"></i>
-                        <span x-show="$store.app.lang === 'zh'">香港理工大学入学奖学金</span>
-                        <span x-show="$store.app.lang === 'en'">PolyU Entry Scholarship (Full Duration)</span>
+                        <span x-text="$store.app.lang === 'zh' ? $store.app.t('education.scholarship') : $store.app.t('education.scholarshipEn')"></span>
                     </p>
                 </div>
             </div>

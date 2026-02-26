@@ -1,0 +1,166 @@
+{
+  "zh": {
+    "nav": {
+      "about": "关于我",
+      "blogs": "博客",
+      "projects": "项目",
+      "publications": "论文",
+      "back": "返回"
+    },
+    "lang": {
+      "switchTo": "EN"
+    },
+    "about": {
+      "name": "陈羿铭 (Yiming Chen)",
+      "nameEn": "Yiming Chen",
+      "description": "<strong>AI 算法爱好者</strong>，大二在读。目前专注于<strong>多模态大模型 (MLLM)</strong>、<strong>计算机视觉 (CV)</strong> 和<strong>空间智能 (Spatial Intelligence)</strong> 的前沿研究。致力于通过先进的大模型技术解决现实世界中的复杂挑战，探索通用人工智能的边界。"
+    },
+    "education": {
+      "title": "教育经历",
+      "school": "香港理工大学 (PolyU)",
+      "schoolEn": "The Hong Kong Polytechnic University",
+      "major": "计算机科学 - 本科",
+      "majorEn": "Bachelor in Computer Science (",
+      "majorEnLink": "Department of Computing",
+      "majorEnEnd": ")",
+      "scholarship": "香港理工大学入学奖学金",
+      "scholarshipEn": "PolyU Entry Scholarship (Full Duration)"
+    },
+    "experience": {
+      "title": "研究经历与实习",
+      "position": "学生助手",
+      "positionEn": "Student Assistant",
+      "mllmTitle": "多模态大模型研讨：",
+      "mllmTitleEn": "MLLM Research: ",
+      "mllmDesc": "追踪前沿 MLLM 技术，协助导师进行大规模多模态数据集的清洗与对齐。",
+      "mllmDescEn": "Tracking SOTA MLLM technologies, assisting in cleaning and aligning large-scale multimodal datasets.",
+      "coffeeTitle": "AI 咖啡虚拟人：",
+      "coffeeTitleEn": "AI Coffee Virtual Human: ",
+      "coffeeDesc": "负责 LLM 优化，实现粤语与普通话的双语对话支持。",
+      "coffeeDescEn": "Optimized LLM to support bilingual dialogues in Cantonese and Mandarin."
+    },
+    "projects": {
+      "title": "项目经历",
+      "geo": {
+        "title": "基于 MLLM 的智能地理位置识别系统",
+        "titleEn": "Intelligent Geolocation Recognition System Based on MLLM",
+        "description": "针对即时零售场景下的识别痛点，基于 Qwen2.5-VL 实现地址自动提取与精准检索，显著提升配送效率。",
+        "descriptionEn": "Addressed pain points in instant retail scenarios by implementing automated address extraction and precision retrieval via Qwen2.5-VL, enhancing delivery efficiency.",
+        "point1": "• 采用 <strong>LoRA 与全参数微调 (DeepSpeed)</strong>，实现 OCR 准确率 99% 与分类准确率 98%。",
+        "point1En": "• Leveraged <strong>LoRA & Full-parameter Fine-tuning (DeepSpeed)</strong> to achieve 99% OCR accuracy and 98% classification accuracy.",
+        "point2": "• 融合 <strong>高德 API 与多语义搜索策略</strong>，将 Top-1 检索准确率从 91% 提升至 96%。",
+        "point2En": "• Integrated <strong>Amap API with multi-semantic search</strong>, boosting Top-1 retrieval accuracy from 91% to 96%.",
+        "point3": "• 手动构建 2% 噪声数据集，有效增强模型泛化能力并降低异常场景误判率。",
+        "point3En": "• Manually curated a 2% noise dataset, enhancing generalization and reducing misjudgment in edge cases."
+      },
+      "safety": {
+        "title": "基于 MLLM 的内容安全审核平台",
+        "titleEn": "Content Safety Moderation Platform Powered by MLLM",
+        "description": "利用多模态大模型替代传统人工模式，实现跨场景内容的自动化违规识别与归因，助力企业降本增效。",
+        "descriptionEn": "Substituted traditional manual audits with MLLMs for automated multi-scenario violation detection and reasoning, reducing operational costs.",
+        "point1": "• <strong>强化学习落地：</strong> 采用 <strong>GRPO 算法</strong> 构建混合奖励模型，将审核召回率从 70% 提升至 85%。",
+        "point1En": "• <strong>RL Implementation:</strong> Utilized the <strong>GRPO algorithm</strong> to build a hybrid reward model, increasing recall from 70% to 85%.",
+        "point2": "• <strong>冷启动与数据工程：</strong> 基于 GPT-4o 生成审核原因标签，构建 1.5W+ 均衡数据集，解决样本不平衡问题。",
+        "point2En": "• <strong>Cold Start & Data Engineering:</strong> Generated reasoning labels via GPT-4o and built a balanced 15k+ dataset to mitigate sample imbalance.",
+        "point3": "• <strong>性能优化：</strong> 针对业务需求调整 Token 预测概率，实现了 98% 的极高审核精确率。",
+        "point3En": "• <strong>Optimization:</strong> Adjusted token prediction probabilities to reach a 98% precision rate for mission-critical automation."
+      }
+    },
+    "publications": {
+      "title": "论文",
+      "empty": "正在努力产出中，敬请期待...",
+      "emptyEn": "Publications are coming soon...",
+      "focus": "目前专注于多模态大模型相关的研究工作。",
+      "focusEn": "Currently focusing on research related to MLLMs."
+    },
+    "blogs": {
+      "title": "博客文章",
+      "emptyTitle": "更多精彩内容即将上线",
+      "emptyTitleEn": "More Content Coming Soon",
+      "emptyDesc": "我正在努力撰写更多关于多模态大模型、计算机视觉和空间智能的技术文章。",
+      "emptyDescEn": "I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence."
+    }
+  },
+  "en": {
+    "nav": {
+      "about": "About Me",
+      "blogs": "Blogs",
+      "projects": "Projects",
+      "publications": "Publications",
+      "back": "Back"
+    },
+    "lang": {
+      "switchTo": "中"
+    },
+    "about": {
+      "name": "Yiming Chen",
+      "nameEn": "Yiming Chen",
+      "description": "An <strong>AI algorithm enthusiast</strong> and a <strong>second-year student</strong> in PolyU. My current research interests lie in the pioneering fields of <strong>Multimodal Large Language Models (MLLMs)</strong>, <strong>Computer Vision (CV)</strong>, and <strong>Spatial Intelligence</strong>. I am dedicated to bridging the gap between advanced foundation models and complex real-world challenges, exploring the boundaries of AGI."
+    },
+    "education": {
+      "title": "Education",
+      "school": "The Hong Kong Polytechnic University",
+      "schoolEn": "The Hong Kong Polytechnic University",
+      "major": "Bachelor in Computer Science (",
+      "majorEn": "Bachelor in Computer Science (",
+      "majorEnLink": "Department of Computing",
+      "majorEnEnd": ")",
+      "scholarship": "PolyU Entry Scholarship (Full Duration)",
+      "scholarshipEn": "PolyU Entry Scholarship (Full Duration)"
+    },
+    "experience": {
+      "title": "Research & Internship",
+      "position": "Student Assistant",
+      "positionEn": "Student Assistant",
+      "mllmTitle": "MLLM Research: ",
+      "mllmTitleEn": "MLLM Research: ",
+      "mllmDesc": "Tracking SOTA MLLM technologies, assisting in cleaning and aligning large-scale multimodal datasets.",
+      "mllmDescEn": "Tracking SOTA MLLM technologies, assisting in cleaning and aligning large-scale multimodal datasets.",
+      "coffeeTitle": "AI Coffee Virtual Human: ",
+      "coffeeTitleEn": "AI Coffee Virtual Human: ",
+      "coffeeDesc": "Optimized LLM to support bilingual dialogues in Cantonese and Mandarin.",
+      "coffeeDescEn": "Optimized LLM to support bilingual dialogues in Cantonese and Mandarin."
+    },
+    "projects": {
+      "title": "Projects",
+      "geo": {
+        "title": "Intelligent Geolocation Recognition System Based on MLLM",
+        "titleEn": "Intelligent Geolocation Recognition System Based on MLLM",
+        "description": "Addressed pain points in instant retail scenarios by implementing automated address extraction and precision retrieval via Qwen2.5-VL, enhancing delivery efficiency.",
+        "descriptionEn": "Addressed pain points in instant retail scenarios by implementing automated address extraction and precision retrieval via Qwen2.5-VL, enhancing delivery efficiency.",
+        "point1": "• Leveraged <strong>LoRA & Full-parameter Fine-tuning (DeepSpeed)</strong> to achieve 99% OCR accuracy and 98% classification accuracy.",
+        "point1En": "• Leveraged <strong>LoRA & Full-parameter Fine-tuning (DeepSpeed)</strong> to achieve 99% OCR accuracy and 98% classification accuracy.",
+        "point2": "• Integrated <strong>Amap API with multi-semantic search</strong>, boosting Top-1 retrieval accuracy from 91% to 96%.",
+        "point2En": "• Integrated <strong>Amap API with multi-semantic search</strong>, boosting Top-1 retrieval accuracy from 91% to 96%.",
+        "point3": "• Manually curated a 2% noise dataset, enhancing generalization and reducing misjudgment in edge cases.",
+        "point3En": "• Manually curated a 2% noise dataset, enhancing generalization and reducing misjudgment in edge cases."
+      },
+      "safety": {
+        "title": "Content Safety Moderation Platform Powered by MLLM",
+        "titleEn": "Content Safety Moderation Platform Powered by MLLM",
+        "description": "Substituted traditional manual audits with MLLMs for automated multi-scenario violation detection and reasoning, reducing operational costs.",
+        "descriptionEn": "Substituted traditional manual audits with MLLMs for automated multi-scenario violation detection and reasoning, reducing operational costs.",
+        "point1": "• <strong>RL Implementation:</strong> Utilized the <strong>GRPO algorithm</strong> to build a hybrid reward model, increasing recall from 70% to 85%.",
+        "point1En": "• <strong>RL Implementation:</strong> Utilized the <strong>GRPO algorithm</strong> to build a hybrid reward model, increasing recall from 70% to 85%.",
+        "point2": "• <strong>Cold Start & Data Engineering:</strong> Generated reasoning labels via GPT-4o and built a balanced 15k+ dataset to mitigate sample imbalance.",
+        "point2En": "• <strong>Cold Start & Data Engineering:</strong> Generated reasoning labels via GPT-4o and built a balanced 15k+ dataset to mitigate sample imbalance.",
+        "point3": "• <strong>Optimization:</strong> Adjusted token prediction probabilities to reach a 98% precision rate for mission-critical automation.",
+        "point3En": "• <strong>Optimization:</strong> Adjusted token prediction probabilities to reach a 98% precision rate for mission-critical automation."
+      }
+    },
+    "publications": {
+      "title": "Publications",
+      "empty": "Publications are coming soon...",
+      "emptyEn": "Publications are coming soon...",
+      "focus": "Currently focusing on research related to MLLMs.",
+      "focusEn": "Currently focusing on research related to MLLMs."
+    },
+    "blogs": {
+      "title": "Blog Posts",
+      "emptyTitle": "More Content Coming Soon",
+      "emptyTitleEn": "More Content Coming Soon",
+      "emptyDesc": "I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence.",
+      "emptyDescEn": "I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence."
+    }
+  }
+}
