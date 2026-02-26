@@ -36,8 +36,8 @@ jobs:
       - name: Check HTML syntax
         run: |
           echo "Checking HTML files..."
-          # 检查是否有未闭合的标签
-          for file in **/*.html; do
+          # 只检查完整的 HTML 文件，跳过组件片段
+          for file in index.html Blogs/index.html; do
             if [ -f "$file" ]; then
               echo "Checking $file"
               # 简单的 HTML 结构检查
