@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "about": "关于我",
+    "blogs": "博客",
+    "projects": "项目",
+    "publications": "论文"
+  },
+  "about": {
+    "name_full": "陈羿铭 (Yiming Chen)",
+    "name_short": "Yiming Chen",
+    "title": "AI 算法爱好者，大二在读。目前专注于多模态大模型 (MLLM)、计算机视觉 (CV) 和空间智能 (Spatial Intelligence) 的前沿研究。致力于通过先进的大模型技术解决现实世界中的复杂挑战，探索通用人工智能的边界。"
+  },
+  "education": {
+    "title": "教育经历",
+    "item1": {
+      "period": "2024.09 - 2028.06 (Expected)",
+      "school": "香港理工大学 (PolyU)",
+      "degree": "计算机科学 - 本科（",
+      "department": "电子计算学系",
+      "degreeEnd": ")",
+      "honor": "香港理工大学入学奖学金"
+    }
+  },
+  "experience": {
+    "title": "研究经历与实习",
+    "item1": {
+      "period": "2025.10 - Now",
+      "company": "PolySmart Group",
+      "position": "学生助手",
+      "tasks": [
+        {
+          "title": "多模态大模型研讨：",
+          "desc": "追踪前沿 MLLM 技术，协助导师进行大规模多模态数据集的清洗与对齐。"
+        },
+        {
+          "title": "AI 咖啡虚拟人：",
+          "desc": "负责 LLM 优化，实现粤语与普通话的双语对话支持。"
+        }
+      ]
+    }
+  },
+  "projects": {
+    "title": "项目经历",
+    "item1": {
+      "icon": "fa-solid fa-map-location-dot",
+      "tech": "MLLM + Geolocation",
+      "title": "基于 MLLM 的智能地理位置识别系统",
+      "description": "针对即时零售场景下的识别痛点，基于 Qwen2.5-VL 实现地址自动提取与精准检索，显著提升配送效率。",
+      "points": [
+        "• 采用 LoRA 与全参数微调 (DeepSpeed)，实现 OCR 准确率 99% 与分类准确率 98%。",
+        "• 融合 高德 API 与多语义搜索策略，将 Top-1 检索准确率从 91% 提升至 96%。",
+        "• 手动构建 2% 噪声数据集，有效增强模型泛化能力并降低异常场景误判率。"
+      ],
+      "tags": ["Qwen2.5-VL", "DeepSpeed", "A100 * 4"]
+    },
+    "item2": {
+      "icon": "fa-solid fa-shield-halved",
+      "tech": "MLLM + Safety Moderation",
+      "title": "基于 MLLM 的内容安全审核平台",
+      "description": "利用多模态大模型替代传统人工模式，实现跨场景内容的自动化违规识别与归因，助力企业降本增效。",
+      "points": [
+        "• 强化学习落地： 采用 GRPO 算法 构建混合奖励模型，将审核召回率从 70% 提升至 85%。",
+        "• 冷启动与数据工程： 基于 GPT-4o 生成审核原因标签，构建 1.5W+ 均衡数据集，解决样本不平衡问题。",
+        "• 性能优化： 针对业务需求调整 Token 预测概率，实现了 98% 的极高审核精确率。"
+      ],
+      "tags": ["GRPO RL", "InternVL / GLM-4v", "Data Engineering"]
+    }
+  },
+  "publications": {
+    "title": "论文",
+    "comingSoon": "正在努力产出中，敬请期待...",
+    "focus": "目前专注于多模态大模型相关的研究工作。"
+  },
+  "contact": {
+    "title": "联系方式",
+    "github": "GitHub",
+    "bilibili": "哔哩哔哩",
+    "zhihu": "知乎",
+    "email": "邮箱"
+  },
+  "footer": {
+    "copyright": "© 2025 CHEN Yiming. Built with HTML & Tailwind."
+  }
+}

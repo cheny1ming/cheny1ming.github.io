@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "about": "About Me",
+    "blogs": "Blogs",
+    "projects": "Projects",
+    "publications": "Publications"
+  },
+  "about": {
+    "name_full": "Yiming Chen",
+    "name_short": "Yiming Chen",
+    "title": "An AI algorithm enthusiast and a second-year student in PolyU. My current research interests lie in the pioneering fields of Multimodal Large Language Models (MLLMs), Computer Vision (CV), and Spatial Intelligence. I am dedicated to bridging the gap between advanced foundation models and complex real-world challenges, exploring the boundaries of AGI."
+  },
+  "education": {
+    "title": "Education",
+    "item1": {
+      "period": "2024.09 - 2028.06 (Expected)",
+      "school": "The Hong Kong Polytechnic University",
+      "degree": "Bachelor in Computer Science (",
+      "department": "Department of Computing",
+      "degreeEnd": ")",
+      "honor": "PolyU Entry Scholarship (Full Duration)"
+    }
+  },
+  "experience": {
+    "title": "Research & Internship",
+    "item1": {
+      "period": "2025.10 - Now",
+      "company": "PolySmart Group",
+      "position": "Student Assistant",
+      "tasks": [
+        {
+          "title": "MLLM Research: ",
+          "desc": "Tracking SOTA MLLM technologies, assisting in cleaning and aligning large-scale multimodal datasets."
+        },
+        {
+          "title": "AI Coffee Virtual Human: ",
+          "desc": "Optimized LLM to support bilingual dialogues in Cantonese and Mandarin."
+        }
+      ]
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "item1": {
+      "icon": "fa-solid fa-map-location-dot",
+      "tech": "MLLM + Geolocation",
+      "title": "Intelligent Geolocation Recognition System Based on MLLM",
+      "description": "Addressed pain points in instant retail scenarios by implementing automated address extraction and precision retrieval via Qwen2.5-VL, enhancing delivery efficiency.",
+      "points": [
+        "• Leveraged LoRA & Full-parameter Fine-tuning (DeepSpeed) to achieve 99% OCR accuracy and 98% classification accuracy.",
+        "• Integrated Amap API with multi-semantic search, boosting Top-1 retrieval accuracy from 91% to 96%.",
+        "• Manually curated a 2% noise dataset, enhancing generalization and reducing misjudgment in edge cases."
+      ],
+      "tags": ["Qwen2.5-VL", "DeepSpeed", "A100 * 4"]
+    },
+    "item2": {
+      "icon": "fa-solid fa-shield-halved",
+      "tech": "MLLM + Safety Moderation",
+      "title": "Content Safety Moderation Platform Powered by MLLM",
+      "description": "Substituted traditional manual audits with MLLMs for automated multi-scenario violation detection and reasoning, reducing operational costs.",
+      "points": [
+        "• RL Implementation: Utilized the GRPO algorithm to build a hybrid reward model, increasing recall from 70% to 85%.",
+        "• Cold Start & Data Engineering: Generated reasoning labels via GPT-4o and built a balanced 15k+ dataset to mitigate sample imbalance.",
+        "• Optimization: Adjusted token prediction probabilities to reach a 98% precision rate for mission-critical automation."
+      ],
+      "tags": ["GRPO RL", "InternVL / GLM-4v", "Data Engineering"]
+    }
+  },
+  "publications": {
+    "title": "Publications",
+    "comingSoon": "Publications are coming soon...",
+    "focus": "Currently focusing on research related to MLLMs."
+  },
+  "contact": {
+    "title": "Let's Connect",
+    "github": "GitHub",
+    "bilibili": "Bilibili",
+    "zhihu": "Zhihu",
+    "email": "Email"
+  },
+  "footer": {
+    "copyright": "© 2025 CHEN Yiming. Built with HTML & Tailwind."
+  }
+}

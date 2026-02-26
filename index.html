@@ -1,57 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" x-data :class="{ 'dark': $store.app.darkMode }">
+<html lang="en" data-theme="light">
 <script>
-// 在页面渲染前立即应用暗黑模式，防止闪烁
+// Apply theme immediately before page render to prevent flash
 (function() {
-    const isDark = localStorage.getItem('darkMode') === 'true';
-    if (isDark) document.documentElement.classList.add('dark');
+  const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  if (savedTheme === 'dark') document.documentElement.classList.add('dark');
 })();
 </script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yiming Chen (陈羿铭)</title>
-    <!-- 外部资源 -->
+    <!-- External resources -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="./js/loader.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- 配置与样式 -->
+    <!-- Custom assets -->
+    <link rel="stylesheet" href="./assets/css/custom.css">
+    <script src="./assets/js/i18n.js"></script>
+    <script src="./assets/js/main.js"></script>
+
+    <!-- Tailwind configuration -->
     <script>
-        // 从 localStorage 读取语言设置，默认为 'en'
-        const savedLang = localStorage.getItem('lang') || 'en';
-        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-
-        // 资源路径配置
-        const assetPaths = {
-            images: './assets/images',
-            icons: './assets/icons',
-            polyuLogo: './assets/Polyu.png',
-            headPortrait: './assets/head portrait.png'
-        };
-
-        // Alpine 全局状态
-        document.addEventListener('alpine:init', () => {
-            Alpine.store('app', Alpine.reactive({
-                lang: savedLang,
-                darkMode: savedDarkMode,
-                mobileMenuOpen: false,
-                assets: assetPaths
-            }));
-
-            // 监听语言变化，保存到 localStorage
-            Alpine.effect(() => {
-                localStorage.setItem('lang', Alpine.store('app').lang);
-            });
-
-            // 监听暗黑模式变化，保存到 localStorage
-            Alpine.effect(() => {
-                localStorage.setItem('darkMode', Alpine.store('app').darkMode);
-            });
-        });
-
-        // Tailwind 配置
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -64,47 +35,9 @@
             }
         }
     </script>
-
-    <style>
-        /* 时间线样式 */
-        .timeline-container { position: relative; padding-left: 40px; }
-        .timeline-container::before {
-            content: '';
-            position: absolute;
-            left: 7px;
-            top: 5px;
-            bottom: 0;
-            width: 2px;
-            background: #e5e7eb;
-        }
-        .dark .timeline-container::before { background: #4b5563; }
-        
-        .timeline-dot {
-            position: absolute;
-            left: -40px;
-            margin-left: -1px;
-            top: 4px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: white;
-            border: 3px solid #3b82f6;
-            z-index: 10;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-        .timeline-dot-green {
-            border-color: #22c55e;
-            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
-        }
-        .dark .timeline-dot { background: #1a1a1a; }
-        
-        /* 基础动画 */
-        html { scroll-behavior: smooth; }
-        body { transition: background-color 0.3s, color 0.3s; }
-    </style>
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-darkBg dark:text-gray-200 antialiased">
-    <!-- GitHub 角标 -->
+    <!-- GitHub corner -->
     <a href="https://github.com/cheny1ming" class="github-corner" aria-label="View source on GitHub">
         <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0; z-index: 50;" aria-hidden="true">
             <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -113,86 +46,84 @@
         </svg>
     </a>
 
-    <!-- 导航栏 -->
+    <!-- Navigation bar -->
     <nav class="sticky top-0 z-40 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b dark:border-gray-700">
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="font-bold text-xl tracking-tighter">
-                <span x-show="$store.app.lang === 'zh'">关于我</span>
-                <span x-show="$store.app.lang === 'en'">About Me</span>
+                <span data-i18n="nav.about">关于我</span>
             </div>
 
-            <!-- 桌面端导航 -->
+            <!-- Desktop navigation -->
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
                 <a href="./Blogs/" class="hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">博客</span>
-                    <span x-show="$store.app.lang === 'en'">Blogs</span>
+                    <span data-i18n="nav.blogs">博客</span>
                 </a>
                 <a href="#projects" class="hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">项目</span>
-                    <span x-show="$store.app.lang === 'en'">Projects</span>
+                    <span data-i18n="nav.projects">项目</span>
                 </a>
                 <a href="#publications" class="hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">论文</span>
-                    <span x-show="$store.app.lang === 'en'">Publications</span>
+                    <span data-i18n="nav.publications">论文</span>
                 </a>
 
                 <div class="flex items-center border-l pl-6 space-x-4 dark:border-gray-600">
-                    <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500">
-                        <span x-show="$store.app.lang === 'zh'">EN</span>
-                        <span x-show="$store.app.lang === 'en'">中</span>
-                    </button>
-                    <button @click="$store.app.darkMode = !$store.app.darkMode" class="text-lg">
-                        <i class="fa-solid" :class="$store.app.darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                    <button class="lang-toggle hover:text-blue-500" aria-label="Toggle Language">中</button>
+                    <button class="theme-toggle text-lg" aria-label="Toggle Theme">
+                        <i class="fa-solid fa-sun sun-icon"></i>
+                        <i class="fa-solid fa-moon moon-icon"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- 移动端右侧控件 -->
+            <!-- Mobile right controls -->
             <div class="flex md:hidden items-center space-x-4">
-                <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500 text-sm font-medium">
-                    <span x-show="$store.app.lang === 'zh'">EN</span>
-                    <span x-show="$store.app.lang === 'en'">中</span>
+                <button class="lang-toggle hover:text-blue-500 text-sm font-medium">中</button>
+                <button class="theme-toggle text-lg">
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                    <i class="fa-solid fa-moon moon-icon"></i>
                 </button>
-                <button @click="$store.app.darkMode = !$store.app.darkMode" class="text-lg">
-                    <i class="fa-solid" :class="$store.app.darkMode ? 'fa-sun' : 'fa-moon'"></i>
-                </button>
-                <button @click="$store.app.mobileMenuOpen = !$store.app.mobileMenuOpen" class="text-xl p-1">
-                    <i class="fa-solid" :class="$store.app.mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+                <button class="mobile-menu-toggle text-xl p-1">
+                    <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
 
-        <!-- 移动端菜单 -->
-        <div x-show="$store.app.mobileMenuOpen" x-transition class="md:hidden bg-white dark:bg-darkBg border-t dark:border-gray-700">
+        <!-- Mobile menu -->
+        <div class="mobile-menu hidden md:hidden bg-white dark:bg-darkBg border-t dark:border-gray-700">
             <div class="px-6 py-4 space-y-4 text-sm font-medium">
-                <a href="./Blogs/" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">博客</span>
-                    <span x-show="$store.app.lang === 'en'">Blogs</span>
+                <a href="./Blogs/" class="block hover:text-blue-500">
+                    <span data-i18n="nav.blogs">博客</span>
                 </a>
-                <a href="#projects" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">项目</span>
-                    <span x-show="$store.app.lang === 'en'">Projects</span>
+                <a href="#projects" class="block hover:text-blue-500">
+                    <span data-i18n="nav.projects">项目</span>
                 </a>
-                <a href="#publications" @click="$store.app.mobileMenuOpen = false" class="block hover:text-blue-500">
-                    <span x-show="$store.app.lang === 'zh'">论文</span>
-                    <span x-show="$store.app.lang === 'en'">Publications</span>
+                <a href="#publications" class="block hover:text-blue-500">
+                    <span data-i18n="nav.publications">论文</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- 主内容区 -->
+    <!-- Main content area -->
     <main class="max-w-4xl mx-auto px-6 py-12 space-y-24">
-        <div id="about-container"></div>
+        <!-- About section -->
+        <div id="about-container" class="flex flex-col md:flex-row items-center gap-12"></div>
+
+        <!-- Education section -->
         <div id="education-container"></div>
+
+        <!-- Experience section -->
         <div id="experience-container"></div>
+
+        <!-- Projects section -->
         <div id="projects-container"></div>
+
+        <!-- Publications section -->
         <div id="publications-container"></div>
     </main>
 
-    <!-- 页脚 -->
+    <!-- Footer -->
     <footer class="py-12 text-center text-gray-500 text-sm border-t dark:border-gray-800">
-        <p>© 2025 CHEN Yiming. Built with HTML & Tailwind.</p>
+        <p data-i18n="footer.copyright">© 2025 CHEN Yiming. Built with HTML & Tailwind.</p>
     </footer>
 </body>
 </html>
