@@ -22,7 +22,7 @@
                             target="_blank"
                             rel="noopener noreferrer"
                             class="hover:text-blue-800 dark:hover:text-blue-300 underline-offset-2 hover:underline transition"
-                            x-text="$store.app.t('education.majorEnLink')"
+                            x-text="$store.app.lang === 'zh' ? $store.app.t('education.majorZhLink') : $store.app.t('education.majorEnLink')"
                         ></a>
                         <span x-text="$store.app.t('education.majorEnEnd')"></span>
                     </p>
