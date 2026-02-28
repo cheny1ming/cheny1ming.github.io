@@ -14,11 +14,6 @@ window.addEventListener('i18nLoaded', () => {
   renderExperience();
   renderProjects();
   renderPublications();
-
-  // 更新所有语言切换按钮文本
-  document.querySelectorAll('.lang-toggle').forEach(btn => {
-    btn.textContent = window.i18n.currentLang() === 'en' ? '中' : 'EN';
-  });
 });
 
 // ================= 主题切换 =================
@@ -112,7 +107,7 @@ function renderAbout() {
 
   container.innerHTML = `
     <div class="w-44 h-44 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 p-1.5 shadow-2xl shrink-0">
-      <img src="./assets/images/head portrait.png" alt="Yiming Chen" class="w-full h-full rounded-full object-cover border-4 border-white dark:border-darkBg">
+      <img src="./assets/images/head_portrait.png" alt="Yiming Chen" class="w-full h-full rounded-full object-cover border-4 border-white dark:border-darkBg">
     </div>
     <div class="flex-1 text-center md:text-left">
       <h1 class="text-4xl font-extrabold mb-4 tracking-tight">${about.name_full}</h1>
@@ -224,8 +219,8 @@ function renderProjects() {
   `;
 
   const projectItems = [
-    { key: 'item1', icon: 'fa-map-location-dot', tech: 'MLLM + Geolocation', color: 'blue' },
-    { key: 'item2', icon: 'fa-shield-halved', tech: 'MLLM + Safety Moderation', color: 'red' }
+    { key: 'item1', icon: 'fa-map-location-dot', tech: 'MLLM + Geolocation', colorClass: 'text-blue-500', hoverClass: 'group-hover:text-blue-500' },
+    { key: 'item2', icon: 'fa-shield-halved', tech: 'MLLM + Safety Moderation', colorClass: 'text-red-500', hoverClass: 'group-hover:text-red-500' }
   ];
 
   projectItems.forEach(p => {
@@ -236,28 +231,28 @@ function renderProjects() {
       <div class="group flex flex-col md:flex-row rounded-3xl overflow-hidden border dark:border-gray-800 hover:shadow-2xl transition duration-300">
         <div class="md:w-1/3 bg-gray-100 dark:bg-gray-800 flex items-center justify-center p-4">
           <div class="text-center">
-            <i class="fa-solid ${p.icon} text-6xl text-${p.color}-500 mb-4"></i>
+            <i class="fa-solid ${p.icon} text-6xl ${p.colorClass} mb-4"></i>
             <p class="text-xs font-mono text-gray-400">${p.tech}</p>
           </div>
         </div>
         <div class="p-8 md:w-2/3 bg-white dark:bg-darkCard">
-          <h3 class="text-xl font-bold mb-3 group-hover:text-${p.color}-500 transition">${project.title}</h3>
+          <h3 class="text-xl font-bold mb-3 ${p.hoverClass} transition">${project.title}</h3>
           <p class="text-sm text-gray-500 mb-4 leading-relaxed">${project.description}</p>
           <ul class="text-xs space-y-2 text-gray-600 dark:text-gray-400 mb-6">
             ${project.points.map(point => `<li>${point}</li>`).join('')}
           </ul>
           <div class="flex flex-wrap gap-2">
             ${tags.map(tag => {
-              const tagColors = {
-                'Qwen2.5-VL': 'blue',
-                'DeepSpeed': 'purple',
-                'A100 * 4': 'green',
-                'GRPO RL': 'red',
-                'InternVL / GLM-4v': 'orange',
-                'Data Engineering': 'indigo'
+              const tagStyles = {
+                'Qwen2.5-VL': 'bg-blue-50 dark:bg-blue-900/20 text-blue-600',
+                'DeepSpeed': 'bg-purple-50 dark:bg-purple-900/20 text-purple-600',
+                'A100 * 4': 'bg-green-50 dark:bg-green-900/20 text-green-600',
+                'GRPO RL': 'bg-red-50 dark:bg-red-900/20 text-red-600',
+                'InternVL / GLM-4v': 'bg-orange-50 dark:bg-orange-900/20 text-orange-600',
+                'Data Engineering': 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600'
               };
-              const tc = tagColors[tag] || 'gray';
-              return `<span class="px-3 py-1 bg-${tc}-50 dark:bg-${tc}-900/20 text-${tc}-600 text-xs rounded-full">${tag}</span>`;
+              const style = tagStyles[tag] || 'bg-gray-50 dark:bg-gray-900/20 text-gray-600';
+              return `<span class="px-3 py-1 ${style} text-xs rounded-full">${tag}</span>`;
             }).join('')}
           </div>
         </div>

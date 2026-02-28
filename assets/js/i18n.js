@@ -5,7 +5,7 @@ let currentLang = localStorage.getItem('lang') || 'en';
 // 1. 暴露全局对象
 window.i18n = {
   get: (key) => {
-    if (!langData) return key;
+    if (Object.keys(langData).length === 0) return key;
     return key.split('.').reduce((obj, k) => obj?.[k], langData) || key;
   },
   changeLang: (lang) => {

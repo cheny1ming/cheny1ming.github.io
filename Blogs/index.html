@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" x-data :class="{ 'dark': $store.app.darkMode }" :data-theme="$store.app.darkMode ? 'dark' : 'light'">
 <script>
-// 在页面渲染前立即应用暗黑模式，防止闪烁
-// 兼容旧的 darkMode 和新的 theme 键
+// 在页面渲染前立即应用主题，防止闪烁
 (function() {
-    let isDark = localStorage.getItem('darkMode') === 'true';
-    if (!isDark) {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark') isDark = true;
-        else if (theme === 'light') isDark = false;
-    }
-    if (isDark) {
+    const theme = localStorage.getItem('theme') || 'light';
+    if (theme === 'dark') {
         document.documentElement.classList.add('dark');
         document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
     }
 })();
 </script>
@@ -31,20 +27,16 @@
         // 从 localStorage 读取语言设置，默认为 'en'
         const savedLang = localStorage.getItem('lang') || 'en';
 
-        // 读取主题设置，兼容旧的 darkMode 和新的 theme 键
-        let savedDarkMode = localStorage.getItem('darkMode') === 'true';
-        if (!savedDarkMode) {
-            const theme = localStorage.getItem('theme');
-            if (theme === 'dark') savedDarkMode = true;
-            else if (theme === 'light') savedDarkMode = false;
-        }
+        // 读取主题设置
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedDarkMode = savedTheme === 'dark';
 
         // 资源路径配置
         const assetPaths = {
             images: '../assets/images',
             icons: '../assets/icons',
             polyuLogo: '../assets/Polyu.png',
-            headPortrait: '../assets/head portrait.png'
+            headPortrait: '../assets/images/head_portrait.png'
         };
 
         document.addEventListener('alpine:init', () => {
@@ -60,11 +52,18 @@
                 localStorage.setItem('lang', Alpine.store('app').lang);
             });
 
-            // 监听暗黑模式变化，同时设置两个键（theme 和 darkMode）
+            // 监听主题变化，保存到 localStorage
             Alpine.effect(() => {
                 const darkMode = Alpine.store('app').darkMode;
-                localStorage.setItem('darkMode', darkMode);
-                localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+                const theme = darkMode ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+                // 更新 data-theme 属性以保持与主页一致
+                document.documentElement.setAttribute('data-theme', theme);
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
             });
         });
 
