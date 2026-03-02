@@ -18,8 +18,9 @@ const BLOG_DATA = {
                 zh: "哈喽哈喽～各位小伙伴！我是羿铭，终于终于，我的博客正式和大家见面啦🥳 这里记录了我在大模型学习路上的点点滴滴，欢迎来串门！"
             },
             date: "2026-03-02",
+            modifiedDate: "2026-03-02",
             category: "essay",
-            tags: [],
+            tags: ["journal"],
             mdFile: "posts/welcome-to-my-blog.md",
             author: "Yiming Chen"
         }
@@ -73,7 +74,8 @@ const BLOG_DATA = {
         { id: "LLM", name: { en: "LLM", zh: "大语言模型" }, color: "purple" },
         { id: "RLHF", name: { en: "RLHF", zh: "人类反馈强化学习" }, color: "red" },
         { id: "Training", name: { en: "Training/Inference", zh: "训练/推理框架" }, color: "orange" },
-        { id: "Spatial", name: { en: "Spatial Intelligence", zh: "空间智能" }, color: "indigo" }
+        { id: "Spatial", name: { en: "Spatial Intelligence", zh: "空间智能" }, color: "indigo" },
+        { id: "journal", name: { en: "Journal", zh: "随笔" }, color: "pink" }
     ],
 
     // ==================== 工具函数 ====================
@@ -135,5 +137,15 @@ const BLOG_DATA = {
         const date = new Date(dateStr);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return date.toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', options);
+    },
+
+    // 获取文章的显示日期（修改日期或发布日期）
+    getDisplayDate: function(post) {
+        return post.modifiedDate || post.date;
+    },
+
+    // 检查文章是否有修改日期
+    hasModifiedDate: function(post) {
+        return !!post.modifiedDate;
     }
 };

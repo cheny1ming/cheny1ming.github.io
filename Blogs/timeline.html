@@ -81,6 +81,43 @@
             </a>
 
             <div class="flex items-center space-x-4">
+                <!-- 搜索框 -->
+                <div class="relative hidden md:block" x-data="searchComponent()">
+                    <input type="text"
+                           :placeholder="$store.app.lang === 'zh' ? '搜索文章...' : 'Search articles...'"
+                           x-model="searchQuery"
+                           @focus="showResults = true"
+                           @blur="setTimeout(() => showResults = false, 200)"
+                           @input="searchPosts()"
+                           class="w-48 lg:w-64 px-3 py-1.5 pl-9 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+
+                    <!-- 搜索结果下拉 -->
+                    <div x-show="showResults && searchQuery.length > 0 && searchResults.length > 0"
+                         x-cloak
+                         class="absolute top-full right-0 mt-2 w-full bg-white dark:bg-darkCard border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl overflow-hidden z-50">
+                        <div class="max-h-80 overflow-y-auto">
+                            <template x-for="post in searchResults" :key="post.id">
+                                <a :href="`post.html?id=${post.id}`"
+                                   class="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition border-b dark:border-gray-700 last:border-0">
+                                    <p class="font-medium text-sm text-gray-900 dark:text-gray-100 mb-1" x-text="post.title[$store.app.lang]"></p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1" x-text="post.description[$store.app.lang]"></p>
+                                </a>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- 无结果提示 -->
+                    <div x-show="showResults && searchQuery.length > 0 && searchResults.length === 0"
+                         x-cloak
+                         class="absolute top-full right-0 mt-2 w-full bg-white dark:bg-darkCard border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl px-4 py-3 z-50">
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
+                            <span x-show="$store.app.lang === 'zh'">未找到相关文章</span>
+                            <span x-show="$store.app.lang === 'en'">No articles found</span>
+                        </p>
+                    </div>
+                </div>
+
                 <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500">
                     <span x-show="$store.app.lang === 'zh'">EN</span>
                     <span x-show="$store.app.lang === 'en'">中</span>
@@ -123,7 +160,7 @@
 
     <!-- 页脚 -->
     <footer class="py-12 text-center text-gray-500 text-sm border-t dark:border-gray-800 mt-12">
-        <p>© 2025 CHEN Yiming. Built with HTML & Tailwind.</p>
+        <p>© 2025 CHEN Yiming. All rights reserved.</p>
     </footer>
 
     <!-- Blogs 数据 -->
@@ -195,6 +232,30 @@
                 'essay': 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'
             };
             return colors[category] || colors['learning-notes'];
+        }
+
+        // 搜索组件函数
+        function searchComponent() {
+            return {
+                searchQuery: '',
+                showResults: false,
+                searchResults: [],
+                searchPosts() {
+                    const query = this.searchQuery.toLowerCase().trim();
+                    const lang = Alpine.store('app').lang;
+
+                    if (query.length === 0) {
+                        this.searchResults = [];
+                        return;
+                    }
+
+                    this.searchResults = BLOG_DATA.posts.filter(post => {
+                        const title = post.title[lang].toLowerCase();
+                        const desc = post.description[lang].toLowerCase();
+                        return title.includes(query) || desc.includes(query);
+                    }).slice(0, 5); // 最多显示5条结果
+                }
+            };
         }
 
         // 监听语言变化
