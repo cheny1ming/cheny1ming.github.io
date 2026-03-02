@@ -147,5 +147,11 @@ const BLOG_DATA = {
     // 检查文章是否有修改日期
     hasModifiedDate: function(post) {
         return !!post.modifiedDate;
+    },
+
+    // 获取标签的显示名称（支持多语言）
+    getTagName: function(tagId, lang = 'en') {
+        const tag = this.availableTags.find(t => t.id === tagId);
+        return tag ? tag.name[lang] || tag.name['en'] : tagId;
     }
 };

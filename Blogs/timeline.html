@@ -196,7 +196,7 @@
                                    class="block bg-white dark:bg-darkCard rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-300">
                                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                                         <div class="flex-1">
-                                            <div class="flex items-center gap-3 mb-2">
+                                            <div class="flex items-center gap-3 mb-2 flex-wrap">
                                                 <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
                                                     ${getCategoryColor(post.category)}">
                                                     <i class="${BLOG_DATA.categories[post.category].icon} mr-1"></i>
@@ -206,6 +206,12 @@
                                                     <i class="fa-regular fa-calendar mr-1"></i>
                                                     ${BLOG_DATA.formatDate(post.date, lang)}
                                                 </span>
+                                                ${post.tags && post.tags.length > 0 ? post.tags.map(tag => `
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+                                                        <i class="fa-solid fa-tag mr-1"></i>
+                                                        ${BLOG_DATA.getTagName(tag, lang)}
+                                                    </span>
+                                                `).join('') : ''}
                                             </div>
                                             <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 hover:text-blue-500 transition">
                                                 ${post.title[lang]}

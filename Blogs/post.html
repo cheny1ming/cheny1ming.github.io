@@ -318,14 +318,10 @@
                         <i :class="BLOG_DATA.categories[$store.app.currentPost?.category]?.icon" class="mr-1"></i>
                         <span x-text="BLOG_DATA.categories[$store.app.currentPost?.category]?.name[$store.app.lang]"></span>
                     </span>
-                </div>
-
-                <!-- 标签 -->
-                <div class="flex flex-wrap gap-2 mb-8" x-show="$store.app.currentPost?.tags?.length">
                     <template x-for="tag in $store.app.currentPost?.tags" :key="tag">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
-                            <i class="fa-solid fa-tag mr-1 text-xs"></i>
-                            <span x-text="tag"></span>
+                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+                            <i class="fa-solid fa-tag mr-1"></i>
+                            <span x-text="BLOG_DATA.getTagName(tag, $store.app.lang)"></span>
                         </span>
                     </template>
                 </div>
