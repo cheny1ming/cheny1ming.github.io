@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" x-data :class="{ 'dark': $store.app.darkMode }" :data-theme="$store.app.darkMode ? 'dark' : 'light'">
+<script>
+// 在页面渲染前立即应用主题，防止闪烁
+(function() {
+    const theme = localStorage.getItem('theme') || 'light';
+    if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+})();
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline - Yiming Chen</title>
+    <!-- 外部资源 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/custom.css">
+
+    <style>
+        /* Alpine.js x-cloak 样式 - 防止闪烁 */
+        [x-cloak] { display: none !important; }
+    </style>
+
+    <!-- 配置 -->
+    <script>
+        const savedLang = localStorage.getItem('lang') || 'en';
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedDarkMode = savedTheme === 'dark';
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('app', Alpine.reactive({
+                lang: savedLang,
+                darkMode: savedDarkMode,
+                mobileMenuOpen: false
+            }));
+
+            Alpine.effect(() => {
+                localStorage.setItem('lang', Alpine.store('app').lang);
+            });
+
+            Alpine.effect(() => {
+                const darkMode = Alpine.store('app').darkMode;
+                const theme = darkMode ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+                document.documentElement.setAttribute('data-theme', theme);
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+        });
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#1a1a1a',
+                        darkCard: '#2d2d2d'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-darkBg dark:text-gray-200 antialiased">
+    <!-- 导航 -->
+    <nav class="sticky top-0 z-40 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b dark:border-gray-700">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="./" class="font-bold text-xl tracking-tighter hover:text-blue-500 transition">
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                <span x-show="$store.app.lang === 'zh'">返回博客</span>
+                <span x-show="$store.app.lang === 'en'">Back to Blogs</span>
+            </a>
+
+            <div class="flex items-center space-x-4">
+                <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500">
+                    <span x-show="$store.app.lang === 'zh'">EN</span>
+                    <span x-show="$store.app.lang === 'en'">中</span>
+                </button>
+                <button @click="$store.app.darkMode = !$store.app.darkMode" class="theme-toggle text-lg" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                    <i class="fa-solid fa-moon moon-icon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        <h1 class="text-4xl font-extrabold mb-12 tracking-tight border-l-4 border-blue-500 pl-4">
+            <span x-show="$store.app.lang === 'zh'">时间线</span>
+            <span x-show="$store.app.lang === 'en'">Timeline</span>
+        </h1>
+
+        <!-- 时间线容器 -->
+        <div id="timeline-container" class="timeline-container space-y-10" x-cloak>
+            <!-- 时间线内容将通过 JS 动态加载 -->
+        </div>
+
+        <!-- 空状态 -->
+        <div x-data="{ showEmpty: BLOG_DATA.getAllPosts().length === 0 }" x-show="showEmpty" class="bg-gray-50 dark:bg-darkCard/50 p-12 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 mb-6">
+                <i class="fa-solid fa-calendar-xmark text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3">
+                <span x-show="$store.app.lang === 'zh'">暂无文章</span>
+                <span x-show="$store.app.lang === 'en'">No Posts Yet</span>
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+                <span x-show="$store.app.lang === 'zh'">还没有发布任何文章，敬请期待！</span>
+                <span x-show="$store.app.lang === 'en'">No articles published yet. Stay tuned!</span>
+            </p>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="py-12 text-center text-gray-500 text-sm border-t dark:border-gray-800 mt-12">
+        <p>© 2025 CHEN Yiming. Built with HTML & Tailwind.</p>
+    </footer>
+
+    <!-- Blogs 数据 -->
+    <script src="assets/js/blogs-data.js"></script>
+    <script>
+        // 加载时间线
+        function loadTimeline() {
+            const container = document.getElementById('timeline-container');
+            const years = BLOG_DATA.getYears();
+            const lang = Alpine.store('app').lang;
+
+            if (years.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = years.map(year => {
+                const posts = BLOG_DATA.getPostsByYear(year);
+                return `
+                    <div class="mb-12">
+                        <!-- 年份标签 -->
+                        <div class="mb-6">
+                            <span class="inline-flex items-center px-4 py-2 rounded-full bg-blue-500 text-white font-bold text-lg shadow-lg">
+                                <i class="fa-solid fa-calendar-days mr-2"></i>
+                                ${year}
+                            </span>
+                        </div>
+
+                        <!-- 该年份的文章列表 -->
+                        <div class="space-y-6">
+                            ${posts.map(post => `
+                                <a href="post.html?id=${post.id}"
+                                   class="block bg-white dark:bg-darkCard rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-300">
+                                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                        <div class="flex-1">
+                                            <div class="flex items-center gap-3 mb-2">
+                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                                                    ${getCategoryColor(post.category)}">
+                                                    <i class="${BLOG_DATA.categories[post.category].icon} mr-1"></i>
+                                                    ${BLOG_DATA.categories[post.category].name[lang]}
+                                                </span>
+                                                <span class="text-sm text-gray-500 dark:text-gray-500">
+                                                    <i class="fa-regular fa-calendar mr-1"></i>
+                                                    ${BLOG_DATA.formatDate(post.date, lang)}
+                                                </span>
+                                            </div>
+                                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 hover:text-blue-500 transition">
+                                                ${post.title[lang]}
+                                            </h3>
+                                            <p class="text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">
+                                                ${post.description[lang]}
+                                            </p>
+                                        </div>
+                                        <i class="fa-solid fa-chevron-right text-gray-400 dark:text-gray-600"></i>
+                                    </div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 获取分类颜色
+        function getCategoryColor(category) {
+            const colors = {
+                'learning-notes': 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
+                'project': 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
+                'essay': 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'
+            };
+            return colors[category] || colors['learning-notes'];
+        }
+
+        // 监听语言变化
+        document.addEventListener('alpine:init', () => {
+            loadTimeline();
+            Alpine.effect(() => {
+                Alpine.store('app').lang;
+                loadTimeline();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -22,6 +22,11 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="../assets/css/custom.css">
 
+    <style>
+        /* Alpine.js x-cloak 样式 - 防止闪烁 */
+        [x-cloak] { display: none !important; }
+    </style>
+
     <!-- 配置 -->
     <script>
         // 从 localStorage 读取语言设置，默认为 'en'
@@ -33,9 +38,6 @@
 
         // 资源路径配置
         const assetPaths = {
-            images: '../assets/images',
-            icons: '../assets/icons',
-            polyuLogo: '../assets/Polyu.png',
             headPortrait: '../assets/images/head_portrait.png'
         };
 
@@ -105,26 +107,127 @@
 
     <!-- 主内容 -->
     <main class="max-w-4xl mx-auto px-6 py-12">
-        <h1 class="text-4xl font-extrabold mb-12 tracking-tight border-l-4 border-blue-500 pl-4">
-            <span x-show="$store.app.lang === 'zh'">博客文章</span>
-            <span x-show="$store.app.lang === 'en'">Blog Posts</span>
-        </h1>
+        <!-- 头像和介绍 -->
+        <div class="text-center mb-16">
+            <div class="relative inline-block mb-6">
+                <img :src="$store.app.assets.headPortrait"
+                     alt="Yiming Chen"
+                     class="w-32 h-32 rounded-full border-4 border-white dark:border-gray-600 shadow-xl object-cover">
+            </div>
+            <h1 class="text-4xl font-extrabold mb-4 tracking-tight">
+                <span x-show="$store.app.lang === 'zh'">欢迎来到我的博客 👋</span>
+                <span x-show="$store.app.lang === 'en'">Welcome to My Blog 👋</span>
+            </h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                <span x-show="$store.app.lang === 'zh'">
+                    这里记录了我在多模态大模型、计算机视觉和空间智能领域的学习笔记、项目经历和思考随笔。
+                </span>
+                <span x-show="$store.app.lang === 'en'">
+                    A collection of my learning notes, project experiences, and thoughts on Multimodal LLMs, Computer Vision, and Spatial Intelligence.
+                </span>
+            </p>
+        </div>
 
-        <!-- 博客列表 -->
-        <div class="space-y-8">
-            <!-- 空状态 -->
-            <div class="bg-gray-50 dark:bg-darkCard/50 p-12 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 mb-4">
-                    <i class="fa-solid fa-pen-nib text-2xl"></i>
+        <!-- 导航按钮 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <!-- 时间线 -->
+            <a href="timeline.html"
+               class="group relative bg-white dark:bg-darkCard rounded-2xl p-8 border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-300">
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-calendar-days text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">
+                        <span x-show="$store.app.lang === 'zh'">时间线</span>
+                        <span x-show="$store.app.lang === 'en'">Timeline</span>
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        <span x-show="$store.app.lang === 'zh'">按时间浏览文章</span>
+                        <span x-show="$store.app.lang === 'en'">Browse by timeline</span>
+                    </p>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                    <span x-show="$store.app.lang === 'zh'">更多精彩内容即将上线</span>
-                    <span x-show="$store.app.lang === 'en'">More Content Coming Soon</span>
-                </h3>
-                <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
-                    <span x-show="$store.app.lang === 'zh'">我正在努力撰写更多关于多模态大模型、计算机视觉和空间智能的技术文章。</span>
-                    <span x-show="$store.app.lang === 'en'">I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence.</span>
-                </p>
+            </a>
+
+            <!-- 分类 -->
+            <a href="categories.html"
+               class="group relative bg-white dark:bg-darkCard rounded-2xl p-8 border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-lg transition-all duration-300">
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 text-green-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-folder-open text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">
+                        <span x-show="$store.app.lang === 'zh'">分类</span>
+                        <span x-show="$store.app.lang === 'en'">Categories</span>
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        <span x-show="$store.app.lang === 'zh'">按主题浏览文章</span>
+                        <span x-show="$store.app.lang === 'en'">Browse by topic</span>
+                    </p>
+                </div>
+            </a>
+
+            <!-- 标签 -->
+            <a href="tags.html"
+               class="group relative bg-white dark:bg-darkCard rounded-2xl p-8 border border-gray-200 dark:border-gray-700 hover:border-purple-500 dark:hover:border-purple-500 hover:shadow-lg transition-all duration-300">
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-tags text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">
+                        <span x-show="$store.app.lang === 'zh'">标签</span>
+                        <span x-show="$store.app.lang === 'en'">Tags</span>
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        <span x-show="$store.app.lang === 'zh'">按标签筛选文章</span>
+                        <span x-show="$store.app.lang === 'en'">Filter by tags</span>
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <!-- 最新文章 -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-8 flex items-center">
+                <i class="fa-solid fa-clock-rotate-left mr-3 text-blue-500"></i>
+                <span x-show="$store.app.lang === 'zh'">最新更新</span>
+                <span x-show="$store.app.lang === 'en'">Latest Updates</span>
+            </h2>
+        </div>
+
+        <!-- 文章列表容器 -->
+        <div id="latest-posts" class="space-y-6" x-cloak>
+            <!-- 文章将通过 JS 动态加载 -->
+        </div>
+
+        <!-- 空状态 -->
+        <div x-data="{ showEmpty: BLOG_DATA.getAllPosts().length === 0 }" x-show="showEmpty" class="bg-gray-50 dark:bg-darkCard/50 p-12 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 mb-6">
+                <i class="fa-solid fa-pen-nib text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3">
+                <span x-show="$store.app.lang === 'zh'">更多精彩内容即将上线</span>
+                <span x-show="$store.app.lang === 'en'">More Content Coming Soon</span>
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto mb-6">
+                <span x-show="$store.app.lang === 'zh'">我正在努力撰写更多关于多模态大模型、计算机视觉和空间智能的技术文章。</span>
+                <span x-show="$store.app.lang === 'en'">I'm working on more technical articles about Multimodal LLMs, Computer Vision, and Spatial Intelligence.</span>
+            </p>
+            <div class="flex justify-center gap-4 text-sm text-gray-500 dark:text-gray-500">
+                <span class="flex items-center">
+                    <i class="fa-solid fa-book-open mr-2"></i>
+                    <span x-show="$store.app.lang === 'zh'">学习笔记</span>
+                    <span x-show="$store.app.lang === 'en'">Learning Notes</span>
+                </span>
+                <span class="flex items-center">
+                    <i class="fa-solid fa-rocket mr-2"></i>
+                    <span x-show="$store.app.lang === 'zh'">项目记录</span>
+                    <span x-show="$store.app.lang === 'en'">Projects</span>
+                </span>
+                <span class="flex items-center">
+                    <i class="fa-solid fa-pen-fancy mr-2"></i>
+                    <span x-show="$store.app.lang === 'zh'">随笔</span>
+                    <span x-show="$store.app.lang === 'en'">Essays</span>
+                </span>
             </div>
         </div>
     </main>
@@ -133,5 +236,68 @@
     <footer class="py-12 text-center text-gray-500 text-sm border-t dark:border-gray-800 mt-12">
         <p>© 2025 CHEN Yiming. Built with HTML & Tailwind.</p>
     </footer>
+
+    <!-- Blogs 数据和逻辑 -->
+    <script src="assets/js/blogs-data.js"></script>
+    <script>
+        // 加载最新文章
+        function loadLatestPosts() {
+            const container = document.getElementById('latest-posts');
+            const posts = BLOG_DATA.getLatestPosts(10);
+            const lang = Alpine.store('app').lang;
+
+            if (posts.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = posts.map(post => `
+                <a href="post.html?id=${post.id}"
+                   class="block bg-white dark:bg-darkCard rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-300">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 hover:text-blue-500 transition">
+                                ${post.title[lang]}
+                            </h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                                ${post.description[lang]}
+                            </p>
+                            <div class="flex flex-wrap items-center gap-3 text-sm">
+                                <span class="inline-flex items-center text-gray-500 dark:text-gray-500">
+                                    <i class="fa-regular fa-calendar mr-1"></i>
+                                    ${BLOG_DATA.formatDate(post.date, lang)}
+                                </span>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                                    ${getCategoryColor(post.category)}">
+                                    <i class="${BLOG_DATA.categories[post.category].icon} mr-1"></i>
+                                    ${BLOG_DATA.categories[post.category].name[lang]}
+                                </span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-arrow-right text-gray-400 dark:text-gray-600 self-start sm:self-center"></i>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // 获取分类颜色
+        function getCategoryColor(category) {
+            const colors = {
+                'learning-notes': 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
+                'project': 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
+                'essay': 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'
+            };
+            return colors[category] || colors['learning-notes'];
+        }
+
+        // 监听语言变化，重新加载文章
+        document.addEventListener('alpine:init', () => {
+            loadLatestPosts();
+            Alpine.effect(() => {
+                Alpine.store('app').lang;
+                loadLatestPosts();
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" x-data="tagsApp()" :class="{ 'dark': $store.app.darkMode }" :data-theme="$store.app.darkMode ? 'dark' : 'light'">
+<script>
+// 在页面渲染前立即应用主题，防止闪烁
+(function() {
+    const theme = localStorage.getItem('theme') || 'light';
+    if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+})();
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tags - Yiming Chen</title>
+    <!-- 外部资源 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/custom.css">
+
+    <style>
+        /* Alpine.js x-cloak 样式 - 防止闪烁 */
+        [x-cloak] { display: none !important; }
+    </style>
+
+    <!-- 配置 -->
+    <script>
+        const savedLang = localStorage.getItem('lang') || 'en';
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedDarkMode = savedTheme === 'dark';
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('app', Alpine.reactive({
+                lang: savedLang,
+                darkMode: savedDarkMode,
+                mobileMenuOpen: false
+            }));
+
+            Alpine.effect(() => {
+                localStorage.setItem('lang', Alpine.store('app').lang);
+            });
+
+            Alpine.effect(() => {
+                const darkMode = Alpine.store('app').darkMode;
+                const theme = darkMode ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+                document.documentElement.setAttribute('data-theme', theme);
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+        });
+
+        // Tags 应用逻辑
+        function tagsApp() {
+            return {
+                selectedTag: null,
+
+                selectTag(tagId) {
+                    if (this.selectedTag === tagId) {
+                        this.selectedTag = null;
+                    } else {
+                        this.selectedTag = tagId;
+                    }
+                    // 滚动到文章列表
+                    if (this.selectedTag) {
+                        setTimeout(() => {
+                            document.getElementById('posts-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                    }
+                },
+
+                getFilteredPosts() {
+                    if (!this.selectedTag) return [];
+                    return BLOG_DATA.getPostsByTag(this.selectedTag);
+                },
+
+                getTagCount(tagId) {
+                    return BLOG_DATA.getPostsByTag(tagId).length;
+                },
+
+                isSelected(tagId) {
+                    return this.selectedTag === tagId;
+                },
+
+                clearFilter() {
+                    this.selectedTag = null;
+                },
+
+                getTagColor(tag) {
+                    return tag.color || 'gray';
+                }
+            }
+        }
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#1a1a1a',
+                        darkCard: '#2d2d2d'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-darkBg dark:text-gray-200 antialiased">
+    <!-- 导航 -->
+    <nav class="sticky top-0 z-40 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b dark:border-gray-700">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="./" class="font-bold text-xl tracking-tighter hover:text-blue-500 transition">
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                <span x-show="$store.app.lang === 'zh'">返回博客</span>
+                <span x-show="$store.app.lang === 'en'">Back to Blogs</span>
+            </a>
+
+            <div class="flex items-center space-x-4">
+                <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500">
+                    <span x-show="$store.app.lang === 'zh'">EN</span>
+                    <span x-show="$store.app.lang === 'en'">中</span>
+                </button>
+                <button @click="$store.app.darkMode = !$store.app.darkMode" class="theme-toggle text-lg" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                    <i class="fa-solid fa-moon moon-icon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        <h1 class="text-4xl font-extrabold mb-4 tracking-tight border-l-4 border-purple-500 pl-4">
+            <span x-show="$store.app.lang === 'zh'">标签</span>
+            <span x-show="$store.app.lang === 'en'">Tags</span>
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400 mb-12 ml-5">
+            <span x-show="$store.app.lang === 'zh'">点击标签筛选相关文章</span>
+            <span x-show="$store.app.lang === 'en'">Click tags to filter articles</span>
+        </p>
+
+        <!-- 标签云 -->
+        <div class="bg-white dark:bg-darkCard rounded-2xl p-8 border border-gray-200 dark:border-gray-700 mb-8" x-cloak>
+            <div class="flex flex-wrap gap-3">
+                <template x-for="tag in BLOG_DATA.availableTags" :key="tag.id">
+                    <button @click="selectTag(tag.id)"
+                            class="group relative inline-flex items-center px-4 py-2 rounded-full font-medium transition-all duration-300"
+                            :class="{
+                                'bg-blue-500 text-white shadow-lg scale-105': isSelected(tag.id),
+                                'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600': !isSelected(tag.id),
+                                'hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400': getTagColor(tag) === 'blue' && !isSelected(tag.id),
+                                'hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400': getTagColor(tag) === 'green' && !isSelected(tag.id),
+                                'hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-400': getTagColor(tag) === 'purple' && !isSelected(tag.id),
+                                'hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400': getTagColor(tag) === 'red' && !isSelected(tag.id),
+                                'hover:bg-orange-100 dark:hover:bg-orange-900/30 hover:text-orange-600 dark:hover:text-orange-400': getTagColor(tag) === 'orange' && !isSelected(tag.id),
+                                'hover:bg-indigo-100 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400': getTagColor(tag) === 'indigo' && !isSelected(tag.id)
+                            }">
+                        <span x-text="tag.name[$store.app.lang]"></span>
+                        <span class="ml-2 px-2 py-0.5 rounded-full text-xs"
+                              :class="{
+                                  'bg-white/20': isSelected(tag.id),
+                                  'bg-gray-200 dark:bg-gray-600': !isSelected(tag.id)
+                              }"
+                              x-text="getTagCount(tag.id)"></span>
+                    </button>
+                </template>
+            </div>
+        </div>
+
+        <!-- 筛选结果 -->
+        <div id="posts-section" x-show="selectedTag" x-transition class="mb-8" x-cloak>
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold flex items-center">
+                    <i class="fa-solid fa-filter mr-3 text-purple-500"></i>
+                    <span x-show="$store.app.lang === 'zh'">筛选结果</span>
+                    <span x-show="$store.app.lang === 'en'">Filtered Results</span>
+                    <span class="ml-3 text-lg font-normal text-gray-500 dark:text-gray-400">
+                        "<span x-text="BLOG_DATA.availableTags.find(t => t.id === selectedTag)?.name[$store.app.lang]"></span>"
+                    </span>
+                </h2>
+                <button @click="clearFilter()"
+                        class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                    <i class="fa-solid fa-xmark mr-2"></i>
+                    <span x-show="$store.app.lang === 'zh'">清除筛选</span>
+                    <span x-show="$store.app.lang === 'en'">Clear Filter</span>
+                </button>
+            </div>
+
+            <!-- 文章列表 -->
+            <div class="space-y-4">
+                <template x-if="getFilteredPosts().length > 0">
+                    <div>
+                        <template x-for="post in getFilteredPosts()" :key="post.id">
+                            <a :href="`post.html?id=${post.id}`"
+                               class="block bg-white dark:bg-darkCard rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-purple-500 dark:hover:border-purple-500 hover:shadow-lg transition-all duration-300">
+                                <div class="flex items-start justify-between gap-4">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium"
+                                                  :class="{
+                                                      'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300': post.category === 'learning-notes',
+                                                      'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300': post.category === 'project',
+                                                      'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300': post.category === 'essay'
+                                                  }">
+                                                <i :class="BLOG_DATA.categories[post.category].icon" class="mr-1"></i>
+                                                <span x-text="BLOG_DATA.categories[post.category].name[$store.app.lang]"></span>
+                                            </span>
+                                            <span class="text-sm text-gray-500 dark:text-gray-500">
+                                                <i class="fa-regular fa-calendar mr-1"></i>
+                                                <span x-text="BLOG_DATA.formatDate(post.date, $store.app.lang)"></span>
+                                            </span>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 hover:text-purple-500 transition mb-2"
+                                            x-text="post.title[$store.app.lang]"></h3>
+                                        <p class="text-gray-600 dark:text-gray-400 line-clamp-2"
+                                           x-text="post.description[$store.app.lang]"></p>
+                                    </div>
+                                    <i class="fa-solid fa-arrow-right text-gray-400 dark:text-gray-600 flex-shrink-0 mt-1"></i>
+                                </div>
+                            </a>
+                        </template>
+                    </div>
+                </template>
+
+                <template x-if="getFilteredPosts().length === 0">
+                    <div class="bg-gray-50 dark:bg-darkCard/50 p-12 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
+                        <i class="fa-solid fa-magnifying-glass text-4xl text-gray-400 dark:text-gray-600 mb-4"></i>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            <span x-show="$store.app.lang === 'zh'">该标签下暂无文章</span>
+                            <span x-show="$store.app.lang === 'en'">No posts with this tag</span>
+                        </p>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- 空状态（当没有任何文章时） -->
+        <div x-data="{ showEmpty: BLOG_DATA.getAllPosts().length === 0 }"
+             x-show="showEmpty && BLOG_DATA.availableTags.every(tag => getTagCount(tag.id) === 0)"
+             class="bg-gray-50 dark:bg-darkCard/50 p-12 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-500 mb-6">
+                <i class="fa-solid fa-tags text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3">
+                <span x-show="$store.app.lang === 'zh'">暂无标签</span>
+                <span x-show="$store.app.lang === 'en'">No Tags Yet</span>
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+                <span x-show="$store.app.lang === 'zh'">还没有发布任何文章，标签将在文章发布后显示。</span>
+                <span x-show="$store.app.lang === 'en'">No articles published yet. Tags will appear once you add posts.</span>
+            </p>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="py-12 text-center text-gray-500 text-sm border-t dark:border-gray-800 mt-12">
+        <p>© 2025 CHEN Yiming. Built with HTML & Tailwind.</p>
+    </footer>
+
+    <!-- Blogs 数据 -->
+    <script src="assets/js/blogs-data.js"></script>
+</body>
+</html>

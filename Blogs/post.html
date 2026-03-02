@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" x-data :class="{ 'dark': $store.app.darkMode }" :data-theme="$store.app.darkMode ? 'dark' : 'light'">
+<script>
+// 在页面渲染前立即应用主题，防止闪烁
+(function() {
+    const theme = localStorage.getItem('theme') || 'light';
+    if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+})();
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post - Yiming Chen</title>
+    <!-- 外部资源 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/custom.css">
+
+    <style>
+        /* Alpine.js x-cloak 样式 - 防止闪烁 */
+        [x-cloak] { display: none !important; }
+
+        /* Markdown 内容样式 */
+        .markdown-body {
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .markdown-body h1,
+        .markdown-body h2,
+        .markdown-body h3,
+        .markdown-body h4,
+        .markdown-body h5,
+        .markdown-body h6 {
+            font-weight: 700;
+            line-height: 1.3;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .markdown-body h1 { font-size: 2.25rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; margin-top: 0; }
+        /* 隐藏 Markdown 中的第一个 h1 标题，因为页面顶部已有标题 */
+        .markdown-body > h1:first-child { display: none; }
+        .markdown-body h2 { font-size: 1.875rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; }
+        .markdown-body h3 { font-size: 1.5rem; }
+        .markdown-body h4 { font-size: 1.25rem; }
+
+        .dark .markdown-body h1,
+        .dark .markdown-body h2 {
+            border-bottom-color: #374151;
+        }
+
+        .markdown-body p { margin-bottom: 1em; }
+
+        .markdown-body a {
+            color: #3b82f6;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .dark .markdown-body a { color: #60a5fa; }
+
+        .markdown-body strong { font-weight: 700; }
+        .markdown-body em { font-style: italic; }
+
+        .markdown-body ul, .markdown-body ol {
+            padding-left: 2em;
+            margin-bottom: 1em;
+        }
+
+        .markdown-body li { margin-bottom: 0.5em; }
+
+        .markdown-body ul { list-style-type: disc; }
+        .markdown-body ol { list-style-type: decimal; }
+
+        .markdown-body blockquote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 1em;
+            margin-left: 0;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .dark .markdown-body blockquote {
+            border-left-color: #60a5fa;
+            color: #9ca3af;
+        }
+
+        .markdown-body code {
+            background-color: #f3f4f6;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .dark .markdown-body code {
+            background-color: #374151;
+        }
+
+        .markdown-body pre {
+            background-color: #1f2937;
+            color: #e5e7eb;
+            padding: 1em;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1em;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .markdown-body img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1em 0;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1em;
+        }
+
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px solid #e5e7eb;
+            padding: 0.5em 1em;
+            text-align: left;
+        }
+
+        .dark .markdown-body th,
+        .dark .markdown-body td {
+            border-color: #374151;
+        }
+
+        .markdown-body th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+
+        .dark .markdown-body th {
+            background-color: #1f2937;
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 2em 0;
+        }
+
+        .dark .markdown-body hr {
+            border-top-color: #374151;
+        }
+    </style>
+
+    <!-- 配置 -->
+    <script>
+        const savedLang = localStorage.getItem('lang') || 'en';
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedDarkMode = savedTheme === 'dark';
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('app', Alpine.reactive({
+                lang: savedLang,
+                darkMode: savedDarkMode,
+                mobileMenuOpen: false,
+                currentPost: null,
+                prevPost: null,
+                nextPost: null
+            }));
+
+            Alpine.effect(() => {
+                localStorage.setItem('lang', Alpine.store('app').lang);
+            });
+
+            Alpine.effect(() => {
+                const darkMode = Alpine.store('app').darkMode;
+                const theme = darkMode ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+                document.documentElement.setAttribute('data-theme', theme);
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+        });
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#1a1a1a',
+                        darkCard: '#2d2d2d'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-darkBg dark:text-gray-200 antialiased">
+    <!-- 导航 -->
+    <nav class="sticky top-0 z-40 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b dark:border-gray-700">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="./" class="font-bold text-xl tracking-tighter hover:text-blue-500 transition">
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                <span x-show="$store.app.lang === 'zh'">返回博客</span>
+                <span x-show="$store.app.lang === 'en'">Back to Blogs</span>
+            </a>
+
+            <div class="flex items-center space-x-4">
+                <button @click="$store.app.lang = $store.app.lang === 'zh' ? 'en' : 'zh'" class="hover:text-blue-500">
+                    <span x-show="$store.app.lang === 'zh'">EN</span>
+                    <span x-show="$store.app.lang === 'en'">中</span>
+                </button>
+                <button @click="$store.app.darkMode = !$store.app.darkMode" class="theme-toggle text-lg" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                    <i class="fa-solid fa-moon moon-icon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        <!-- 文章未找到 -->
+        <div x-data="{ notFound: false }" x-show="notFound" class="text-center py-20">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 mb-6">
+                <i class="fa-solid fa-file-circle-xmark text-4xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+                <span x-show="$store.app.lang === 'zh'">文章未找到</span>
+                <span x-show="$store.app.lang === 'en'">Article Not Found</span>
+            </h2>
+            <a href="./" class="inline-flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                <span x-show="$store.app.lang === 'zh'">返回博客首页</span>
+                <span x-show="$store.app.lang === 'en'">Back to Blogs</span>
+            </a>
+        </div>
+
+        <!-- 文章内容 -->
+        <div x-data="{ showContent: false }" x-show="showContent && $store.app.currentPost" class="space-y-8" x-cloak>
+            <!-- 文章头部 -->
+            <article class="bg-white dark:bg-darkCard rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
+                <!-- 标题 -->
+                <h1 class="text-4xl font-extrabold mb-6 leading-tight" x-text="$store.app.currentPost?.title[$store.app.lang]"></h1>
+
+                <!-- 元信息 -->
+                <div class="flex flex-wrap items-center gap-4 pb-6 border-b dark:border-gray-700 mb-8">
+                    <span class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400">
+                        <i class="fa-solid fa-user mr-2"></i>
+                        <span x-text="$store.app.currentPost?.author || 'Yiming Chen'"></span>
+                    </span>
+                    <span class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400">
+                        <span x-show="$store.app.lang === 'zh'">修改于</span>
+                        <span x-show="$store.app.lang === 'en'">Modified</span>
+                        <i class="fa-solid fa-clock ml-2 mr-1"></i>
+                        <span x-text="BLOG_DATA.formatDate($store.app.currentPost?.date, $store.app.lang)"></span>
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
+                          :class="{
+                              'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300': $store.app.currentPost?.category === 'learning-notes',
+                              'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300': $store.app.currentPost?.category === 'project',
+                              'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300': $store.app.currentPost?.category === 'essay'
+                          }">
+                        <i :class="BLOG_DATA.categories[$store.app.currentPost?.category]?.icon" class="mr-1"></i>
+                        <span x-text="BLOG_DATA.categories[$store.app.currentPost?.category]?.name[$store.app.lang]"></span>
+                    </span>
+                </div>
+
+                <!-- 标签 -->
+                <div class="flex flex-wrap gap-2 mb-8" x-show="$store.app.currentPost?.tags?.length">
+                    <template x-for="tag in $store.app.currentPost?.tags" :key="tag">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                            <i class="fa-solid fa-tag mr-1 text-xs"></i>
+                            <span x-text="tag"></span>
+                        </span>
+                    </template>
+                </div>
+
+                <!-- Markdown 内容 -->
+                <div id="markdown-content" class="markdown-body text-gray-800 dark:text-gray-200">
+                    <!-- Markdown 内容将被渲染到这里 -->
+                </div>
+            </article>
+
+            <!-- 导航 -->
+            <div class="flex items-center justify-between bg-white dark:bg-darkCard rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+                <a x-show="$store.app.prevPost" :href="`post.html?id=${$store.app.prevPost?.id}`"
+                   class="flex-1 flex items-center text-left hover:text-blue-500 transition">
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-arrow-left mr-3 text-gray-400"></i>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-500">
+                                <span x-show="$store.app.lang === 'zh'">上一篇</span>
+                                <span x-show="$store.app.lang === 'en'">Previous</span>
+                            </p>
+                            <p class="font-medium truncate max-w-xs" x-text="$store.app.prevPost?.title[$store.app.lang]"></p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="./" class="px-6 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition text-center">
+                    <i class="fa-solid fa-list mr-2"></i>
+                    <span x-show="$store.app.lang === 'zh'">所有文章</span>
+                    <span x-show="$store.app.lang === 'en'">All Posts</span>
+                </a>
+
+                <a x-show="$store.app.nextPost" :href="`post.html?id=${$store.app.nextPost?.id}`"
+                   class="flex-1 flex items-center justify-end text-right hover:text-blue-500 transition">
+                    <div class="flex items-center">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-500">
+                                <span x-show="$store.app.lang === 'zh'">下一篇</span>
+                                <span x-show="$store.app.lang === 'en'">Next</span>
+                            </p>
+                            <p class="font-medium truncate max-w-xs" x-text="$store.app.nextPost?.title[$store.app.lang]"></p>
+                        </div>
+                        <i class="fa-solid fa-arrow-right ml-3 text-gray-400"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="py-12 text-center text-gray-500 text-sm border-t dark:border-gray-800 mt-12">
+        <p>© 2025 CHEN Yiming. Built with HTML & Tailwind.</p>
+    </footer>
+
+    <!-- Blogs 数据 -->
+    <script src="assets/js/blogs-data.js"></script>
+    <script>
+        // 获取 URL 参数中的文章 ID
+        function getPostIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        // 加载文章
+        async function loadPost() {
+            const postId = getPostIdFromUrl();
+            if (!postId) {
+                showNotFound();
+                return;
+            }
+
+            const post = BLOG_DATA.getPostById(postId);
+            if (!post) {
+                showNotFound();
+                return;
+            }
+
+            // 设置当前文章和导航
+            Alpine.store('app').currentPost = post;
+            Alpine.store('app').prevPost = BLOG_DATA.getPreviousPost(postId);
+            Alpine.store('app').nextPost = BLOG_DATA.getNextPost(postId);
+
+            // 更新页面标题
+            const lang = Alpine.store('app').lang;
+            document.title = `${post.title[lang]} - Yiming Chen`;
+
+            // 加载 Markdown 内容
+            try {
+                const response = await fetch(post.mdFile);
+                if (!response.ok) throw new Error('Failed to load markdown');
+                const markdown = await response.text();
+
+                // 渲染 Markdown
+                const htmlContent = marked.parse(markdown);
+                document.getElementById('markdown-content').innerHTML = htmlContent;
+
+                // 显示内容
+                document.querySelector('[x-data="{ showContent: false }')?.setAttribute('x-show', 'true');
+
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                showNotFound();
+            }
+        }
+
+        function showNotFound() {
+            document.querySelector('[x-data="{ notFound: false }')?.setAttribute('x-show', 'true');
+        }
+
+        // 页面加载时执行
+        document.addEventListener('alpine:init', () => {
+            loadPost();
+        });
+    </script>
+</body>
+</html>
