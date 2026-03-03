@@ -45,7 +45,7 @@ const BLOG_DATA = {
             color: "cyan",
             name: {
                 en: "Paper with Code",
-                zh: "论文精读复现"
+                zh: "论文精读➕复现"
             },
             description: {
                 en: "Paper reading and code reproduction",
