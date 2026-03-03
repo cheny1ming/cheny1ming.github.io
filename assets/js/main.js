@@ -113,6 +113,7 @@ function renderAbout() {
       <h1 class="text-4xl font-extrabold mb-4 tracking-tight">${about.name_full}</h1>
       <div class="text-lg leading-relaxed text-gray-700 dark:text-gray-300 space-y-4">
         <p class="text-justify leading-8">${about.title}</p>
+        <p class="text-justify leading-8">${about.welcome}</p>
       </div>
       <div class="flex justify-center md:justify-start space-x-6 mt-8 text-2xl text-gray-400">
         <a href="https://github.com/cheny1ming" class="hover:text-black dark:hover:text-white transition"><i class="fa-brands fa-github"></i></a>

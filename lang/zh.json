@@ -8,7 +8,8 @@
   "about": {
     "name_full": "陈羿铭 (Yiming Chen)",
     "name_short": "Yiming Chen",
-    "title": "AI 算法爱好者，大二在读。目前专注于多模态大模型 (MLLM)、计算机视觉 (CV) 和空间智能 (Spatial Intelligence) 的前沿研究。致力于通过先进的大模型技术解决现实世界中的复杂挑战，探索通用人工智能的边界。"
+    "title": "AI 算法爱好者，大二在读。目前专注于多模态大模型 (MLLM)、计算机视觉 (CV) 和空间智能 (Spatial Intelligence) 的前沿研究。致力于通过先进的大模型技术解决现实世界中的复杂挑战，探索通用人工智能的边界。",
+    "welcome": "欢迎来访问我的<a href='./Blogs/' class='font-bold hover:underline'>博客</a>，我会分享许多学习笔记和日常碎片。一些有价值的内容我会同步到<a href='https://www.zhihu.com/people/ren-sheng-bu-jiu-tu-ge-cheng-guo-yao' target='_blank' class='font-bold hover:underline'>知乎</a>，视频在<a href='https://space.bilibili.com/597870876?spm_id_from=333.1007.0.0' target='_blank' class='font-bold hover:underline'>bilibili</a>。也欢迎通过<a href='mailto:yimingchen28@163.com' class='font-bold hover:underline'>邮箱</a>来联系我！🎉"
   },
   "education": {
     "title": "教育经历",

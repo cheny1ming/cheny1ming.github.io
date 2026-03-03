@@ -8,7 +8,8 @@
   "about": {
     "name_full": "Yiming Chen",
     "name_short": "Yiming Chen",
-    "title": "An AI algorithm enthusiast and a second-year student in PolyU. My current research interests lie in the pioneering fields of Multimodal Large Language Models (MLLMs), Computer Vision (CV), and Spatial Intelligence. I am dedicated to bridging the gap between advanced foundation models and complex real-world challenges, exploring the boundaries of AGI."
+    "title": "An AI algorithm enthusiast and a second-year student in PolyU. My current research interests lie in the pioneering fields of Multimodal Large Language Models (MLLMs), Computer Vision (CV), and Spatial Intelligence. I am dedicated to bridging the gap between advanced foundation models and complex real-world challenges, exploring the boundaries of AGI.",
+    "welcome": "Welcome to visit my <a href='./Blogs/' class='font-bold hover:underline'>blog</a>, where I share many learning notes and daily thoughts. I also sync valuable content to <a href='https://www.zhihu.com/people/ren-sheng-bu-jiu-tu-ge-cheng-guo-yao' target='_blank' class='font-bold hover:underline'>Zhihu</a>, and videos on <a href='https://space.bilibili.com/597870876?spm_id_from=333.1007.0.0' target='_blank' class='font-bold hover:underline'>Bilibili</a>. Feel free to reach out via <a href='mailto:yimingchen28@163.com' class='font-bold hover:underline'>email</a>! 🎉"
   },
   "education": {
     "title": "Education",
