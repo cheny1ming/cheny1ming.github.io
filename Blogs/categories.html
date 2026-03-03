@@ -210,15 +210,10 @@
             <div class="flex flex-wrap gap-3">
                 <template x-for="[categoryId, category] in Object.entries(BLOG_DATA.categories)" :key="categoryId">
                     <button @click="selectCategory(categoryId)"
-                            class="group relative inline-flex items-center px-4 py-2 rounded-full font-medium transition-all duration-300"
+                            class="group relative inline-flex items-center px-4 py-2 rounded-full font-medium transition-all duration-300 border border-gray-200 dark:border-gray-600"
                             :class="{
-                                'bg-green-500 text-white shadow-lg scale-105': selectedCategory === categoryId,
-                                'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600': selectedCategory !== categoryId,
-                                'hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400': getCategoryColor(categoryId) === 'blue' && selectedCategory !== categoryId,
-                                'hover:bg-cyan-100 dark:hover:bg-cyan-900/30 hover:text-cyan-600 dark:hover:text-cyan-400': getCategoryColor(categoryId) === 'cyan' && selectedCategory !== categoryId,
-                                'hover:bg-amber-100 dark:hover:bg-amber-900/30 hover:text-amber-600 dark:hover:text-amber-400': getCategoryColor(categoryId) === 'amber' && selectedCategory !== categoryId,
-                                'hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400': getCategoryColor(categoryId) === 'green' && selectedCategory !== categoryId,
-                                'hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-400': getCategoryColor(categoryId) === 'purple' && selectedCategory !== categoryId
+                                'bg-green-500 text-white border-green-500 shadow-lg scale-105': selectedCategory === categoryId,
+                                'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:border-blue-500 hover:text-blue-500': selectedCategory !== categoryId
                             }">
                         <i :class="category.icon" class="mr-2"></i>
                         <span x-text="category.name[$store.app.lang]"></span>
