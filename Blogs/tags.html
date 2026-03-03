@@ -60,16 +60,19 @@
         // Tags 应用逻辑
         function tagsApp() {
             return {
-                selectedTag: null,
+                selectedTags: [],
 
                 selectTag(tagId) {
-                    if (this.selectedTag === tagId) {
-                        this.selectedTag = null;
+                    const index = this.selectedTags.indexOf(tagId);
+                    if (index > -1) {
+                        // 如果已选中，则取消选中
+                        this.selectedTags.splice(index, 1);
                     } else {
-                        this.selectedTag = tagId;
+                        // 如果未选中，则添加到选中列表
+                        this.selectedTags.push(tagId);
                     }
                     // 滚动到文章列表
-                    if (this.selectedTag) {
+                    if (this.selectedTags.length > 0) {
                         setTimeout(() => {
                             document.getElementById('posts-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }, 100);
@@ -77,8 +80,11 @@
                 },
 
                 getFilteredPosts() {
-                    if (!this.selectedTag) return [];
-                    return BLOG_DATA.getPostsByTag(this.selectedTag);
+                    if (this.selectedTags.length === 0) return [];
+                    // 返回包含任意一个选中标签的文章
+                    return BLOG_DATA.posts.filter(post =>
+                        post.tags && post.tags.some(tag => this.selectedTags.includes(tag))
+                    ).sort((a, b) => new Date(b.date) - new Date(a.date));
                 },
 
                 getTagCount(tagId) {
@@ -86,11 +92,11 @@
                 },
 
                 isSelected(tagId) {
-                    return this.selectedTag === tagId;
+                    return this.selectedTags.includes(tagId);
                 },
 
                 clearFilter() {
-                    this.selectedTag = null;
+                    this.selectedTags = [];
                 },
 
                 getTagColor(tag) {
@@ -212,14 +218,19 @@
         </div>
 
         <!-- 筛选结果 -->
-        <div id="posts-section" x-show="selectedTag" x-transition class="mb-8" x-cloak>
+        <div id="posts-section" x-show="selectedTags.length > 0" x-transition class="mb-8" x-cloak>
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold flex items-center">
                     <i class="fa-solid fa-filter mr-3 text-purple-500"></i>
                     <span x-show="$store.app.lang === 'zh'">筛选结果</span>
                     <span x-show="$store.app.lang === 'en'">Filtered Results</span>
                     <span class="ml-3 text-lg font-normal text-gray-500 dark:text-gray-400">
-                        "<span x-text="BLOG_DATA.availableTags.find(t => t.id === selectedTag)?.name[$store.app.lang]"></span>"
+                        <template x-for="(tagId, index) in selectedTags" :key="tagId">
+                            <span>
+                                "<span x-text="BLOG_DATA.availableTags.find(t => t.id === tagId)?.name[$store.app.lang]"></span>"
+                                <span x-show="index < selectedTags.length - 1" class="mx-1">+</span>
+                            </span>
+                        </template>
                     </span>
                 </h2>
                 <button @click="clearFilter()"
@@ -243,6 +254,8 @@
                                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium"
                                                   :class="{
                                                       'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300': post.category === 'learning-notes',
+                                                      'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300': post.category === 'paper-with-code',
+                                                      'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300': post.category === 'technical-report',
                                                       'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300': post.category === 'project',
                                                       'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300': post.category === 'essay'
                                                   }">

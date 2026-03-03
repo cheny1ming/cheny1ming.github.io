@@ -40,6 +40,30 @@ const BLOG_DATA = {
                 zh: "技术笔记与学习资料"
             }
         },
+        "paper-with-code": {
+            icon: "fa-solid fa-file-code",
+            color: "cyan",
+            name: {
+                en: "Paper with Code",
+                zh: "论文精读复现"
+            },
+            description: {
+                en: "Paper reading and code reproduction",
+                zh: "论文精读与代码复现"
+            }
+        },
+        "technical-report": {
+            icon: "fa-solid fa-file-lines",
+            color: "amber",
+            name: {
+                en: "Technical Report",
+                zh: "技术报告"
+            },
+            description: {
+                en: "Technical research and analysis reports",
+                zh: "技术研究与分析报告"
+            }
+        },
         "project": {
             icon: "fa-solid fa-rocket",
             color: "green",
