@@ -99,6 +99,7 @@ const BLOG_DATA = {
         { id: "RLHF", name: { en: "RLHF", zh: "人类反馈强化学习" }, color: "red" },
         { id: "Training", name: { en: "Training/Inference", zh: "训练/推理框架" }, color: "orange" },
         { id: "Spatial", name: { en: "Spatial Intelligence", zh: "空间智能" }, color: "indigo" },
+        { id: "Transformer", name: { en: "Transformer", zh: "Transformer" }, color: "teal" },
         { id: "journal", name: { en: "Journal", zh: "随笔" }, color: "pink" }
     ],
 
