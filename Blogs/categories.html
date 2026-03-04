@@ -62,6 +62,15 @@
             return {
                 selectedCategory: null,
 
+                init() {
+                    // 从URL获取category参数并自动选中
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const categoryParam = urlParams.get('category');
+                    if (categoryParam) {
+                        this.selectedCategory = categoryParam;
+                    }
+                },
+
                 selectCategory(categoryId) {
                     // 单选：如果点击已选中的分类，则取消选择；否则选中新分类
                     if (this.selectedCategory === categoryId) {
@@ -206,7 +215,7 @@
         </p>
 
         <!-- 分类云 -->
-        <div class="bg-white dark:bg-darkCard rounded-2xl p-8 border border-gray-200 dark:border-gray-700 mb-8" x-cloak>
+        <div class="bg-white dark:bg-darkCard rounded-2xl p-8 border border-gray-200 dark:border-gray-700 mb-8" x-cloak x-init="init()">
             <div class="flex flex-wrap gap-3">
                 <template x-for="[categoryId, category] in Object.entries(BLOG_DATA.categories)" :key="categoryId">
                     <button @click="selectCategory(categoryId)"

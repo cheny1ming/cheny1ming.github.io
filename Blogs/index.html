@@ -295,13 +295,15 @@
                                     <i class="fa-regular fa-calendar mr-1"></i>
                                     ${BLOG_DATA.formatDate(post.date, lang)}
                                 </span>
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                                    ${getCategoryColor(post.category)}">
+                                <span onclick="event.stopPropagation(); window.location.href='categories.html?category=${post.category}'"
+                                   class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium cursor-pointer
+                                    ${getCategoryColor(post.category)} hover:opacity-80 transition">
                                     <i class="${BLOG_DATA.categories[post.category].icon} mr-1"></i>
                                     ${BLOG_DATA.categories[post.category].name[lang]}
                                 </span>
                                 ${post.tags && post.tags.length > 0 ? post.tags.map(tag => `
-                                    <span class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+                                    <span onclick="event.stopPropagation(); window.location.href='tags.html?tag=${tag}'"
+                                       class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition cursor-pointer">
                                         <i class="fa-solid fa-tag mr-1"></i>
                                         ${BLOG_DATA.getTagName(tag, lang)}
                                     </span>

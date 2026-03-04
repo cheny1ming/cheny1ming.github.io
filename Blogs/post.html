@@ -254,7 +254,8 @@
                 prevPost: null,
                 nextPost: null,
                 showContent: false,
-                notFound: false
+                notFound: false,
+                readTime: null
             }));
 
             Alpine.effect(() => {
@@ -440,25 +441,35 @@
                         <span x-show="$store.app.lang === 'en' && BLOG_DATA.hasModifiedDate($store.app.currentPost)">Modified</span>
                         <span x-show="$store.app.lang === 'zh' && !BLOG_DATA.hasModifiedDate($store.app.currentPost)">发布于</span>
                         <span x-show="$store.app.lang === 'en' && !BLOG_DATA.hasModifiedDate($store.app.currentPost)">Published</span>
-                        <i class="fa-solid fa-clock ml-2 mr-1"></i>
+                        <i class="fa-regular fa-calendar ml-2 mr-1 text-gray-500 dark:text-gray-500"></i>
                         <span x-text="BLOG_DATA.formatDate(BLOG_DATA.getDisplayDate($store.app.currentPost), $store.app.lang)"></span>
                     </span>
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
-                          :class="{
-                              'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300': $store.app.currentPost?.category === 'learning-notes',
-                              'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300': $store.app.currentPost?.category === 'paper-with-code',
-                              'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300': $store.app.currentPost?.category === 'technical-report',
-                              'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300': $store.app.currentPost?.category === 'project',
-                              'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300': $store.app.currentPost?.category === 'essay'
-                          }">
+                    <span class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400" x-show="$store.app.readTime">
+                        <i class="fa-solid fa-stopwatch mr-1 text-gray-500 dark:text-gray-500"></i>
+                        <span x-show="$store.app.lang === 'zh'">大约</span>
+                        <span x-show="$store.app.lang === 'en'">About</span>
+                        <span x-text="$store.app.readTime"></span>
+                        <span x-show="$store.app.lang === 'zh'">分钟</span>
+                        <span x-show="$store.app.lang === 'en'">min</span>
+                    </span>
+                    <a :href="`categories.html?category=${$store.app.currentPost?.category}`"
+                       class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium hover:opacity-80 transition"
+                       :class="{
+                           'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300': $store.app.currentPost?.category === 'learning-notes',
+                           'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300': $store.app.currentPost?.category === 'paper-with-code',
+                           'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300': $store.app.currentPost?.category === 'technical-report',
+                           'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300': $store.app.currentPost?.category === 'project',
+                           'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300': $store.app.currentPost?.category === 'essay'
+                       }">
                         <i :class="BLOG_DATA.categories[$store.app.currentPost?.category]?.icon" class="mr-1"></i>
                         <span x-text="BLOG_DATA.categories[$store.app.currentPost?.category]?.name[$store.app.lang]"></span>
-                    </span>
+                    </a>
                     <template x-for="tag in $store.app.currentPost?.tags" :key="tag">
-                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+                        <a :href="`tags.html?tag=${tag}`"
+                           class="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
                             <i class="fa-solid fa-tag mr-1"></i>
                             <span x-text="BLOG_DATA.getTagName(tag, $store.app.lang)"></span>
-                        </span>
+                        </a>
                     </template>
                 </div>
 
@@ -621,6 +632,24 @@
                 const response = await fetch(post.mdFile);
                 if (!response.ok) throw new Error('Failed to load markdown');
                 const markdown = await response.text();
+
+                // 计算阅读时间（去除markdown语法后按400字/分钟计算）
+                const plainText = markdown
+                    .replace(/#{1,6}\s/g, '') // 移除标题标记
+                    .replace(/\*\*/g, '') // 移除粗体标记
+                    .replace(/\*/g, '') // 移除斜体标记
+                    .replace(/`/g, '') // 移除代码标记
+                    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // 移除链接，保留文本
+                    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '') // 移除图片
+                    .replace(/^>\s/gm, '') // 移除引用标记
+                    .replace(/^[-*+]\s/gm, '') // 移除列表标记
+                    .replace(/^\d+\.\s/gm, '') // 移除有序列表标记
+                    .replace(/---+/g, '') // 移除分割线
+                    .replace(/\n+/g, ' ') // 将换行转为空格
+                    .trim();
+                const charCount = plainText.length;
+                const readTimeMinutes = Math.max(1, Math.ceil(charCount / 500));
+                Alpine.store('app').readTime = readTimeMinutes;
 
                 // 渲染 Markdown
                 const htmlContent = marked.parse(markdown);
