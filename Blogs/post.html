@@ -162,6 +162,81 @@
         .dark .markdown-body hr {
             border-top-color: #374151;
         }
+
+        /* 目录样式 */
+        .toc-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .toc-item {
+            margin-bottom: 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.25rem 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.875rem;
+            line-height: 1.4;
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover {
+            color: #3b82f6;
+        }
+
+        .toc-link.active {
+            color: #3b82f6;
+            border-left-color: #3b82f6;
+            font-weight: 500;
+        }
+
+        .dark .toc-link {
+            color: #9ca3af;
+        }
+
+        .dark .toc-link:hover {
+            color: #60a5fa;
+        }
+
+        .dark .toc-link.active {
+            color: #60a5fa;
+            border-left-color: #60a5fa;
+        }
+
+        /* 目录层级缩进 */
+        .toc-level-2 {
+            padding-left: 0.5rem;
+        }
+
+        .toc-level-3 {
+            padding-left: 1rem;
+        }
+
+        .toc-level-4 {
+            padding-left: 1.5rem;
+        }
+
+        .toc-level-5 {
+            padding-left: 2rem;
+        }
+
+        .toc-level-6 {
+            padding-left: 2.5rem;
+        }
+
+        /* 为文章标题添加锚点样式 */
+        .markdown-body h2[id],
+        .markdown-body h3[id],
+        .markdown-body h4[id],
+        .markdown-body h5[id],
+        .markdown-body h6[id] {
+            scroll-margin-top: 100px;
+        }
     </style>
 
     <!-- 配置 -->
@@ -177,7 +252,9 @@
                 mobileMenuOpen: false,
                 currentPost: null,
                 prevPost: null,
-                nextPost: null
+                nextPost: null,
+                showContent: false,
+                notFound: false
             }));
 
             Alpine.effect(() => {
@@ -270,10 +347,10 @@
         </div>
     </nav>
 
-    <!-- 主内容 -->
-    <main class="max-w-4xl mx-auto px-6 py-12">
+    <!-- 主内容 - 三列布局 -->
+    <main class="max-w-7xl mx-auto px-4 py-12">
         <!-- 文章未找到 -->
-        <div x-data="{ notFound: false }" x-show="notFound" class="text-center py-20">
+        <div x-show="$store.app.notFound" class="text-center py-20">
             <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 mb-6">
                 <i class="fa-solid fa-file-circle-xmark text-4xl"></i>
             </div>
@@ -288,10 +365,67 @@
             </a>
         </div>
 
-        <!-- 文章内容 -->
-        <div x-data="{ showContent: false }" x-show="showContent && $store.app.currentPost" class="space-y-8" x-cloak>
-            <!-- 文章头部 -->
-            <article class="bg-white dark:bg-darkCard rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
+        <!-- 手机端目录菜单按钮（放在 grid 外部） -->
+        <div x-data="{ tocMenuOpen: false }" x-show="$store.app.showContent" x-cloak>
+            <div class="fixed top-20 left-4 z-50 md:hidden">
+                <button @click="tocMenuOpen = !tocMenuOpen"
+                        class="w-10 h-10 bg-white dark:bg-darkCard rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                    <i class="fa-solid fa-list text-gray-600 dark:text-gray-400"></i>
+                </button>
+
+                <!-- 手机端目录弹出层 -->
+                <div x-show="tocMenuOpen" x-cloak
+                     class="fixed inset-0 bg-black/50 z-40"
+                     @click="tocMenuOpen = false"></div>
+                <div x-show="tocMenuOpen" x-cloak
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 -translate-x-full"
+                     x-transition:enter-end="opacity-100 translate-x-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 translate-x-0"
+                     x-transition:leave-end="opacity-0 -translate-x-full"
+                     class="fixed top-0 left-0 h-full w-72 bg-white dark:bg-darkCard shadow-xl z-50 overflow-y-auto">
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-gray-900 dark:text-gray-100">
+                                <span x-show="$store.app.lang === 'zh'">目录</span>
+                                <span x-show="$store.app.lang === 'en'">Table of Contents</span>
+                            </h3>
+                            <button @click="tocMenuOpen = false" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition">
+                                <i class="fa-solid fa-xmark text-gray-600 dark:text-gray-400"></i>
+                            </button>
+                        </div>
+                        <div id="toc-mobile" class="space-y-2">
+                            <!-- 目录内容将通过 JS 生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 三列布局：左侧目录 | 中间正文 | 右侧文件夹 -->
+        <div x-show="$store.app.showContent && $store.app.currentPost" class="grid grid-cols-1 md:grid-cols-[180px_1fr_180px] gap-6" x-cloak>
+
+            <!-- 左侧目录 -->
+            <aside class="hidden md:block">
+                <div class="sticky top-24">
+                    <div class="bg-transparent">
+                        <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+                            <i class="fa-solid fa-list mr-2 text-blue-500"></i>
+                            <span x-show="$store.app.lang === 'zh'">目录</span>
+                            <span x-show="$store.app.lang === 'en'">Contents</span>
+                        </h3>
+                        <nav id="toc-desktop" class="space-y-1 text-sm">
+                            <!-- 目录内容将通过 JS 生成 -->
+                        </nav>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 中间文章内容 -->
+            <div class="space-y-8">
+                <!-- 文章头部 -->
+                <article class="bg-white dark:bg-darkCard rounded-2xl p-6 md:p-8 border border-gray-200 dark:border-gray-700">
                 <!-- 标题 -->
                 <h1 class="text-4xl font-extrabold mb-6 leading-tight" x-text="$store.app.currentPost?.title[$store.app.lang]"></h1>
 
@@ -371,6 +505,54 @@
                 </a>
             </div>
         </div>
+
+        <!-- 右侧文件夹模块 -->
+        <aside class="hidden md:block">
+            <div class="sticky top-24">
+                <div class="bg-transparent">
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+                        <i class="fa-solid fa-folder-open mr-2 text-green-500"></i>
+                        <span x-show="$store.app.lang === 'zh'">分类</span>
+                        <span x-show="$store.app.lang === 'en'">Categories</span>
+                    </h3>
+                    <div x-data="{ expandedCategories: {} }" x-init="expandedCategories[$store.app.currentPost?.category] = true" class="space-y-2">
+                        <template x-for="[catId, category] in Object.entries(BLOG_DATA.categories)" :key="catId">
+                            <div>
+                                <!-- 分类标题 -->
+                                <a @click.prevent="expandedCategories[catId] = !expandedCategories[catId]"
+                                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition group cursor-pointer">
+                                    <i :class="expandedCategories[catId] ? 'fa-solid fa-folder-open' : 'fa-solid fa-folder'"
+                                       class="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 text-sm"></i>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 flex-1" x-text="category.name[$store.app.lang]"></span>
+                                    <span class="text-xs text-gray-400 dark:text-gray-500" x-text="BLOG_DATA.getPostsByCategory(catId).length"></span>
+                                    <i :class="expandedCategories[catId] ? 'fa-solid fa-chevron-down' : 'fa-solid fa-chevron-right'"
+                                       class="text-xs text-gray-400 transition-transform duration-200"></i>
+                                </a>
+
+                                <!-- 展开的文章列表 -->
+                                <div x-show="expandedCategories[catId]"
+                                     x-transition:enter="transition ease-out duration-200"
+                                     x-transition:enter-start="opacity-0 -translate-y-2"
+                                     x-transition:enter-end="opacity-100 translate-y-0"
+                                     x-transition:leave="transition ease-in duration-150"
+                                     x-transition:leave-start="opacity-100 translate-y-0"
+                                     x-transition:leave-end="opacity-0 -translate-y-2"
+                                     class="ml-4 mt-1 space-y-1">
+                                    <template x-for="post in BLOG_DATA.getPostsByCategory(catId)" :key="post.id">
+                                        <a :href="`post.html?id=${post.id}`"
+                                           class="block px-2 py-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition">
+                                            <span x-text="post.title[$store.app.lang]"></span>
+                                        </a>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        </div>
     </main>
 
     <!-- 页脚 -->
@@ -444,8 +626,11 @@
                 const htmlContent = marked.parse(markdown);
                 document.getElementById('markdown-content').innerHTML = htmlContent;
 
+                // 生成目录
+                generateTableOfContents();
+
                 // 显示内容
-                document.querySelector('[x-data="{ showContent: false }')?.setAttribute('x-show', 'true');
+                Alpine.store('app').showContent = true;
 
             } catch (error) {
                 console.error('Error loading markdown:', error);
@@ -454,13 +639,146 @@
         }
 
         function showNotFound() {
-            document.querySelector('[x-data="{ notFound: false }')?.setAttribute('x-show', 'true');
+            Alpine.store('app').notFound = true;
         }
 
         // 页面加载时执行
         document.addEventListener('alpine:init', () => {
             loadPost();
         });
+
+        // 目录功能
+        function generateTableOfContents() {
+            const markdownContent = document.getElementById('markdown-content');
+            if (!markdownContent) return;
+
+            const headings = markdownContent.querySelectorAll('h2, h3, h4, h5, h6');
+            const tocDesktop = document.getElementById('toc-desktop');
+            const tocMobile = document.getElementById('toc-mobile');
+
+            if (headings.length === 0) {
+                tocDesktop?.closest('aside')?.remove();
+                return;
+            }
+
+            // 为每个标题添加 ID
+            headings.forEach((heading, index) => {
+                if (!heading.id) {
+                    const text = heading.textContent.trim();
+                    const baseId = text.toLowerCase()
+                        .replace(/[^\w\s-]/g, '')
+                        .replace(/\s+/g, '-')
+                        .substring(0, 50);
+                    heading.id = `${baseId}-${index}`;
+                }
+            });
+
+            // 生成目录 HTML
+            const generateTocHTML = () => {
+                let html = '<ul class="toc-list">';
+                headings.forEach(heading => {
+                    const level = parseInt(heading.tagName.charAt(1));
+                    const text = heading.textContent.trim();
+                    const id = heading.id;
+
+                    html += `
+                        <li class="toc-item">
+                            <a href="#${id}"
+                               class="toc-link toc-level-${level}"
+                               data-target="${id}"
+                               data-level="${level}">
+                                ${text}
+                            </a>
+                        </li>
+                    `;
+                });
+                html += '</ul>';
+                return html;
+            };
+
+            // 渲染目录
+            if (tocDesktop) tocDesktop.innerHTML = generateTocHTML();
+            if (tocMobile) tocMobile.innerHTML = generateTocHTML();
+
+            // 平滑滚动到锚点
+            document.querySelectorAll('.toc-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // 更新 URL 不触发页面跳转
+                        history.pushState(null, null, `#${targetId}`);
+                        // 高亮当前目录项
+                        updateActiveTocItem(targetId);
+                    }
+                });
+            });
+
+            // 监听滚动，更新高亮
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        updateActiveTocOnScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            // 初始化时更新一次
+            setTimeout(updateActiveTocOnScroll, 100);
+        }
+
+        // 更新激活的目录项
+        function updateActiveTocItem(targetId) {
+            document.querySelectorAll('.toc-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-target') === targetId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // 根据滚动位置更新激活的目录项
+        function updateActiveTocOnScroll() {
+            const markdownContent = document.getElementById('markdown-content');
+            if (!markdownContent) return;
+
+            const headings = markdownContent.querySelectorAll('h2, h3, h4, h5, h6');
+            const scrollPos = window.scrollY + 150;
+
+            let activeId = null;
+            let firstHeading = null;
+
+            headings.forEach(heading => {
+                if (!firstHeading) firstHeading = heading;
+                if (heading.offsetTop <= scrollPos) {
+                    activeId = heading.id;
+                }
+            });
+
+            // 如果还没滚动到第一个标题，不高亮任何项
+            if (!activeId && firstHeading && firstHeading.offsetTop > scrollPos) {
+                activeId = null;
+            }
+
+            // 如果已经滚动到页面底部，高亮最后一个标题
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                const lastHeading = headings[headings.length - 1];
+                if (lastHeading) activeId = lastHeading.id;
+            }
+
+            if (activeId) {
+                updateActiveTocItem(activeId);
+            } else {
+                document.querySelectorAll('.toc-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+            }
+        }
     </script>
 </body>
 </html>
