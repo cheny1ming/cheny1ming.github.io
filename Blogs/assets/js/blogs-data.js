@@ -18,7 +18,7 @@ const BLOG_DATA = {
                 zh: "哈喽哈喽～各位小伙伴！我是羿铭，终于终于，我的博客正式和大家见面啦🥳 这里记录了我在大模型学习路上的点点滴滴，欢迎来串门！"
             },
             date: "2026-03-02",
-            modifiedDate: "2026-03-02",
+            modifiedDate: "2026-03-04",
             category: "essay",
             tags: ["journal"],
             mdFile: "posts/welcome-to-my-blog.md",
