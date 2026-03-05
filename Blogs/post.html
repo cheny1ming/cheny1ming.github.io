@@ -853,6 +853,21 @@
                 link.classList.remove('active');
                 if (link.getAttribute('data-target') === targetId) {
                     link.classList.add('active');
+
+                    // 将激活项滚动到目录容器的中间位置
+                    const tocContainer = link.closest('nav');
+                    if (tocContainer) {
+                        const containerHeight = tocContainer.clientHeight;
+                        const linkOffsetTop = link.offsetTop;
+                        const linkHeight = link.clientHeight;
+
+                        // 计算滚动位置，使链接居中
+                        const scrollTop = linkOffsetTop - (containerHeight / 2) + (linkHeight / 2);
+                        tocContainer.scrollTo({
+                            top: scrollTop,
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             });
         }
