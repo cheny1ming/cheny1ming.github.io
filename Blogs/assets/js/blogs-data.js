@@ -18,6 +18,7 @@ const BLOG_DATA = {
                 zh: "系统梳理深度学习优化器的完整演进脉络，从BGD、SGD、Momentum、AdaGrad、RMSprop到Adam和AdamW，深入理解每一代优化器的设计思路与数学本质。"
             },
             date: "2026-03-05",
+            modifiedDate: "2026-03-05",
             category: "learning-notes",
             tags: ["LLM"],
             mdFile: "posts/优化器解析.md",
