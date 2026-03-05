@@ -19,7 +19,7 @@ const BLOG_DATA = {
             },
             date: "2026-03-05",
             category: "learning-notes",
-            tags: ["Training", "LLM"],
+            tags: ["LLM"],
             mdFile: "posts/优化器解析.md",
             author: "Yiming Chen"
         },
