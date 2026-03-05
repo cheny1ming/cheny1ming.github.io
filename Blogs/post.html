@@ -282,6 +282,42 @@
         .markdown-body h6[id] {
             scroll-margin-top: 100px;
         }
+
+        /* 自定义滚动条样式 */
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 3px;
+        }
+
+        .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+            background-color: #4b5563;
+        }
+
+        .scrollbar-thin:hover::-webkit-scrollbar-thumb {
+            background-color: #9ca3af;
+        }
+
+        .dark .scrollbar-thin:hover::-webkit-scrollbar-thumb {
+            background-color: #6b7280;
+        }
+
+        /* Firefox 滚动条样式 */
+        .scrollbar-thin {
+            scrollbar-width: thin;
+            scrollbar-color: #d1d5db transparent;
+        }
+
+        .dark .scrollbar-thin {
+            scrollbar-color: #4b5563 transparent;
+        }
     </style>
 
     <!-- 配置 -->
@@ -450,7 +486,7 @@
         </div>
 
         <!-- 三列布局：左侧目录 | 中间正文 | 右侧文件夹 -->
-        <div x-show="$store.app.showContent && $store.app.currentPost" class="grid grid-cols-1 md:grid-cols-[180px_1fr_180px] gap-6" x-cloak>
+        <div x-show="$store.app.showContent && $store.app.currentPost" class="grid grid-cols-1 md:grid-cols-[220px_1fr_180px] gap-6" x-cloak>
 
             <!-- 左侧目录 -->
             <aside class="hidden md:block">
@@ -461,7 +497,7 @@
                             <span x-show="$store.app.lang === 'zh'">目录</span>
                             <span x-show="$store.app.lang === 'en'">Contents</span>
                         </h3>
-                        <nav id="toc-desktop" class="space-y-1 text-sm">
+                        <nav id="toc-desktop" class="space-y-1 text-sm max-h-[calc(100vh-8rem)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent hover:scrollbar-thumb-gray-400 dark:hover:scrollbar-thumb-gray-500">
                             <!-- 目录内容将通过 JS 生成 -->
                         </nav>
                     </div>
@@ -571,7 +607,7 @@
                         <span x-show="$store.app.lang === 'zh'">分类</span>
                         <span x-show="$store.app.lang === 'en'">Categories</span>
                     </h3>
-                    <div x-data="{ expandedCategories: {} }" x-init="expandedCategories[$store.app.currentPost?.category] = true" class="space-y-2">
+                    <div x-data="{ expandedCategories: {} }" x-init="expandedCategories[$store.app.currentPost?.category] = true" class="space-y-2 max-h-[calc(100vh-8rem)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent hover:scrollbar-thumb-gray-400 dark:hover:scrollbar-thumb-gray-500">
                         <template x-for="[catId, category] in Object.entries(BLOG_DATA.categories)" :key="catId">
                             <div>
                                 <!-- 分类标题 -->
