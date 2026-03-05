@@ -26,8 +26,8 @@
     <script>
     MathJax = {
         tex: {
-            inlineMath: [['$', '$'], ['\(', '\)']],
-            displayMath: [['$$', '$$'], ['\[', '\]']],
+            inlineMath: [['$', '$'], ['\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
             processEscapes: true,
             processEnvironments: true
         },
@@ -39,13 +39,15 @@
         startup: {
             pageReady: () => {
                 return MathJax.startup.defaultPageReady().then(() => {
-                    console.log('MathJax initial rendering complete');
+                    // MathJax finished loading
                 });
             }
         }
     };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <link rel="stylesheet" href="../assets/css/custom.css">
 
     <style>
         /* Alpine.js x-cloak 样式 - 防止闪烁 */
@@ -148,6 +150,9 @@
             max-width: 100%;
             border-radius: 8px;
             margin: 1em 0;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* MathJax 公式居中 */
@@ -281,6 +286,42 @@
         .markdown-body h5[id],
         .markdown-body h6[id] {
             scroll-margin-top: 100px;
+        }
+        /* 自定义滚动条样式 */
+        .scrollbar-thin {
+            scrollbar-width: thin;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scrollbar-thumb-gray-300::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 3px;
+        }
+
+        .dark .scrollbar-thumb-gray-600::-webkit-scrollbar-thumb {
+            background-color: #4b5563;
+        }
+
+        .hover:scrollbar-thumb-gray-400:hover::-webkit-scrollbar-thumb {
+            background-color: #9ca3af;
+        }
+
+        .dark .hover:scrollbar-thumb-gray-500:hover::-webkit-scrollbar-thumb {
+            background-color: #6b7280;
+        }
+
+        /* 目录滚动容器样式 */
+        #toc-desktop {
+            /* 添加顶部渐变提示 */
+            mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
         }
     </style>
 
@@ -454,14 +495,14 @@
 
             <!-- 左侧目录 -->
             <aside class="hidden md:block">
-                <div class="sticky top-24">
-                    <div class="bg-transparent">
+                <div class="sticky top-24 h-[calc(100vh-8rem)]">
+                    <div class="bg-transparent h-full flex flex-col">
                         <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
                             <i class="fa-solid fa-list mr-2 text-blue-500"></i>
                             <span x-show="$store.app.lang === 'zh'">目录</span>
                             <span x-show="$store.app.lang === 'en'">Contents</span>
                         </h3>
-                        <nav id="toc-desktop" class="space-y-1 text-sm">
+                        <nav id="toc-desktop" class="space-y-1 text-sm overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent hover:scrollbar-thumb-gray-400 dark:hover:scrollbar-thumb-gray-500">
                             <!-- 目录内容将通过 JS 生成 -->
                         </nav>
                     </div>
@@ -812,31 +853,7 @@
         }
 
         // 更新激活的目录项
-        function updateActiveTocItem(targetId) {
-            document.querySelectorAll('.toc-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-target') === targetId) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        // 根据滚动位置更新激活的目录项
-        function updateActiveTocOnScroll() {
-            const markdownContent = document.getElementById('markdown-content');
-            if (!markdownContent) return;
-
-            const headings = markdownContent.querySelectorAll('h2, h3, h4, h5, h6');
-            const scrollPos = window.scrollY + 150;
-
-            let activeId = null;
-            let firstHeading = null;
-
-            headings.forEach(heading => {
-                if (!firstHeading) firstHeading = heading;
-                if (heading.offsetTop <= scrollPos) {
-                    activeId = heading.id;
-                }
+function updateActiveTocItem(targetId) {            document.querySelectorAll('.toc-link').forEach(link => {                link.classList.remove('active');                if (link.getAttribute('data-target') === targetId) {                    link.classList.add('active');                    /* 将激活的目录项滚动到可视区域中心 */                    const tocContainer = document.getElementById('toc-desktop');                    if (tocContainer) {                        const linkTop = link.offsetTop - tocContainer.offsetTop;                        const containerHeight = tocContainer.clientHeight;                        const scrollPosition = linkTop - (containerHeight / 2) + (link.clientHeight / 2);                        tocContainer.scrollTo({                            top: scrollPosition,                            behavior: 'smooth'                        });                    }                }            });        }
             });
 
             // 如果还没滚动到第一个标题，不高亮任何项

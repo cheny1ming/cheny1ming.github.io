@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node -c post.html)"
+      "Bash(node -c post.html)",
+      "Bash(sed 's/\\\\$\\\\$\\([tv]\\)_{t-1}\\\\$\\\\$$/$\\\\1_{t-1}$/g')",
+      "Bash(\"优化器解析_temp.md\")"
     ]
   }
 }
