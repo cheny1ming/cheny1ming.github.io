@@ -209,4 +209,4 @@ A: 使用 Live Server 或类似工具打开 `Blogs/index.html`。
 
 ## 📞 支持
 
-如有问题，请联系：yiming.chen@example.com
+如有问题，请联系：yimingchen28@163.com
