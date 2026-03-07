@@ -10,7 +10,7 @@ const BLOG_DATA = {
         {
             id: "optimizer-deep-dive",
             title: {
-                en: "Optimizer Deep Dive: From BGD to AdamW",
+                en: "Optimizer: From BGD to AdamW",
                 zh: "优化器全解析：从BGD到AdamW"
             },
             description: {
@@ -27,7 +27,7 @@ const BLOG_DATA = {
         {
             id: "vit-deep-dive",
             title: {
-                en: "Vision Transformer Deep Dive: From Architecture to Implementation",
+                en: "Vision Transformer: From Architecture to Implementation",
                 zh: "重温经典之ViT：从架构到实现的全面解析"
             },
             description: {
