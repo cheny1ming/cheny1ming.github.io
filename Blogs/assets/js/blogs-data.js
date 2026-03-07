@@ -8,7 +8,7 @@ const BLOG_DATA = {
     // ==================== 文章列表 ====================
     posts: [
         {
-            id: "optimizer-deep-dive",
+            id: "optimizer",
             title: {
                 en: "Optimizer: From BGD to AdamW",
                 zh: "优化器全解析：从BGD到AdamW"
@@ -17,7 +17,7 @@ const BLOG_DATA = {
                 en: "A comprehensive guide to deep learning optimizers, covering the evolution from Batch Gradient Descent through SGD, Momentum, AdaGrad, RMSprop, Adam, to AdamW. Understand the intuition and mathematics behind each optimizer.",
                 zh: "系统梳理深度学习优化器的完整演进脉络，从BGD、SGD、Momentum、AdaGrad、RMSprop到Adam和AdamW，深入理解每一代优化器的设计思路与数学本质。"
             },
-            date: "2026-03-05",
+            date: "2026-03-02",
             modifiedDate: "2026-03-06",
             category: "learning-notes",
             tags: ["LLM"],
@@ -25,7 +25,7 @@ const BLOG_DATA = {
             author: "Yiming Chen"
         },
         {
-            id: "vit-deep-dive",
+            id: "vit",
             title: {
                 en: "Vision Transformer: From Architecture to Implementation",
                 zh: "重温经典之ViT：从架构到实现的全面解析"
@@ -52,8 +52,8 @@ const BLOG_DATA = {
                 en: "Finally, my blog is officially launching! I'll be sharing learning notes, insights, and thoughts about LLMs here. Looking forward to growing together with everyone~",
                 zh: "哈喽哈喽～各位小伙伴！我是羿铭，终于终于，我的博客正式和大家见面啦🥳 这里记录了我在大模型学习路上的点点滴滴，欢迎来串门！"
             },
-            date: "2026-03-02",
-            modifiedDate: "2026-03-04",
+            date: "2026-02-20",
+            modifiedDate: "2026-02-24",
             category: "essay",
             tags: ["journal"],
             mdFile: "posts/welcome-to-my-blog.md",
