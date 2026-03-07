@@ -39,7 +39,8 @@ const BLOG_DATA = {
             category: "paper-with-code",
             tags: ["Transformer", "CV", "MLLMs"],
             mdFile: "posts/ViT.md",
-            author: "Yiming Chen"
+            author: "Yiming Chen",
+            paperUrl: "https://arxiv.org/abs/2010.11929"
         },
         {
             id: "welcome-to-my-blog",
