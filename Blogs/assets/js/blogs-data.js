@@ -41,6 +41,7 @@ const BLOG_DATA = {
             mdFile: "posts/ViT.md",
             author: "Yiming Chen",
             paperUrl: "https://arxiv.org/abs/2010.11929",
+            codeUrl: "https://github.com/cheny1ming/Paper-with-Code/tree/main/ViT",
             headerImage: "assets/images/ViT/VIT.png"
         },
         {
