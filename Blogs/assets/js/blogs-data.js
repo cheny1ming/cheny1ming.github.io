@@ -25,6 +25,23 @@ const BLOG_DATA = {
             author: "Yiming Chen"
         },
         {
+            id: "vit-deep-dive",
+            title: {
+                en: "Vision Transformer Deep Dive: From Architecture to Implementation",
+                zh: "重温经典之ViT：从架构到实现的全面解析"
+            },
+            description: {
+                en: "A comprehensive guide to Vision Transformer (ViT), covering its connection to BERT, image processing pipeline, positional encoding, complete workflow, and limitations. Understand how ViT revolutionized computer vision by applying Transformer to visual tasks.",
+                zh: "深入解析Vision Transformer的核心原理，从与BERT的架构联系、图像patch化处理、位置编码到完整工作流程，全方位拆解这一打破CNN主导地位的经典视觉模型。"
+            },
+            date: "2026-03-07",
+            modifiedDate: "2026-03-07",
+            category: "paper-with-code",
+            tags: ["Transformer", "CV", "MLLM"],
+            mdFile: "posts/ViT.md",
+            author: "Yiming Chen"
+        },
+        {
             id: "welcome-to-my-blog",
             title: {
                 en: "Hello, Welcome to Yiming's Blog",
