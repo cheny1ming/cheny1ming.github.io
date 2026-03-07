@@ -40,7 +40,8 @@ const BLOG_DATA = {
             tags: ["Transformer", "CV", "MLLMs"],
             mdFile: "posts/ViT.md",
             author: "Yiming Chen",
-            paperUrl: "https://arxiv.org/abs/2010.11929"
+            paperUrl: "https://arxiv.org/abs/2010.11929",
+            headerImage: "assets/images/ViT/VIT.png"
         },
         {
             id: "welcome-to-my-blog",

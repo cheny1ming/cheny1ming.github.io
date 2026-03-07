@@ -513,6 +513,13 @@
 
             <!-- 中间文章内容 -->
             <div class="space-y-8">
+                <!-- 文章顶部图片 -->
+                <div x-show="$store.app.currentPost?.headerImage" class="w-full">
+                    <img :src="$store.app.currentPost?.headerImage"
+                         :alt="$store.app.currentPost?.title[$store.app.lang]"
+                         class="w-full h-auto rounded-2xl object-cover">
+                </div>
+
                 <!-- 文章头部 -->
                 <article class="bg-white dark:bg-darkCard rounded-2xl p-6 md:p-8 border border-gray-200 dark:border-gray-700">
                 <!-- 标题 -->
