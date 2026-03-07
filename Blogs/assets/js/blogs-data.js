@@ -37,7 +37,7 @@ const BLOG_DATA = {
             date: "2026-03-07",
             modifiedDate: "2026-03-07",
             category: "paper-with-code",
-            tags: ["Transformer", "CV", "MLLM"],
+            tags: ["Transformer", "CV", "MLLMs"],
             mdFile: "posts/ViT.md",
             author: "Yiming Chen"
         },
