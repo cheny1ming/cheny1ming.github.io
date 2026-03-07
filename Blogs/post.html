@@ -52,6 +52,11 @@
         /* Alpine.js x-cloak 样式 - 防止闪烁 */
         [x-cloak] { display: none !important; }
 
+        /* 自定义最大宽度 */
+        .max-w-8xl {
+            max-width: 90rem; /* 1440px */
+        }
+
         /* Markdown 内容样式 */
         .markdown-body {
             line-height: 1.8;
@@ -70,16 +75,16 @@
             margin-bottom: 0.5em;
         }
 
-        .markdown-body h1 { font-size: 2.25rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; margin-top: 0; }
+        .markdown-body h1 { font-size: 2.25rem; border-bottom: none; padding-bottom: 0.3em; margin-top: 0; }
         /* 隐藏 Markdown 中的第一个 h1 标题，因为页面顶部已有标题 */
         .markdown-body > h1:first-child { display: none; }
-        .markdown-body h2 { font-size: 1.875rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; }
+        .markdown-body h2 { font-size: 1.875rem; border-bottom: none; padding-bottom: 0.3em; }
         .markdown-body h3 { font-size: 1.5rem; }
         .markdown-body h4 { font-size: 1.25rem; }
 
         .dark .markdown-body h1,
         .dark .markdown-body h2 {
-            border-bottom-color: #374151;
+            border-bottom: none;
         }
 
         .markdown-body p { margin-bottom: 1em; }
@@ -431,7 +436,7 @@
     </nav>
 
     <!-- 主内容 - 三列布局 -->
-    <main class="max-w-7xl mx-auto px-4 py-12">
+    <main class="max-w-8xl mx-auto px-4 py-12">
         <!-- 文章未找到 -->
         <div x-show="$store.app.notFound" class="text-center py-20">
             <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 mb-6">
