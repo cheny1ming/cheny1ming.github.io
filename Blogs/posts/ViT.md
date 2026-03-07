@@ -109,9 +109,8 @@ $$224 \times 224 \times 3 \ (H \times W \times C)$$
 
 我们都知道，在文本Transformer中，比如Bert，GPT，都要添加一个嵌入层，为了保留文字本身的位置信息。可想而知，ViT也是需要的。
 
-<p align="center">
-  <img src="assets/images/ViT/embedding.png" alt="Embedding">
-</p>
+![Embedding](assets/images/ViT/embedding.png)
+
 将图像转化为一维的 Image Token 序列后，这些 Token仅为像素的数值组合，不包含任何语义信息和空间位置信息。ViT通过**Embedding 层**为 Token 赋予语义和位置信息，这一步与 Bert的嵌入层设计思路一致，核心包含 Token Embedding 和 Position Embedding两部分，二者相加得到 ViT 的最终输入嵌入向量。
 
 ### 3.1 Token Embedding
