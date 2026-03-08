@@ -106,10 +106,10 @@ $$224 \times 224 \times 3 \ (H \times W \times C)$$
 
 此外，Patch 的大小是 ViT 的重要超参数，Patch越小，序列长度越长，能保留的细节信息越多，但计算量越大；Patch越大，序列长度越短，计算效率越高，但可能丢失精细的局部特征，需根据任务需求权衡选择。
 
-### 2.3 另一种方法：CNN
+### 2.3 CNN 处理
 说到特征图，你肯定会想到CNN。没错，论文作者也提出了这种解决办法——用CNN预处理图片。采用768个$16 \times 16 \times 3$尺寸的卷积核，stride=16，padding=0。这样我们就能得到$14 \times 14 \times 768$大小的特征图。特征图中每一个$1 \times 1 \times 768$大小的子特征图，都是由卷积核对第一块patch做处理而来，因此它就能表示第一块patch的token向量。所以你可以发现，CNN和上面的划分patch的原理也如出一辙，只不过我们直接用卷积核代替了手动划分的patch。原论文中也用Resnet50和ViT主题结合做了实验（5 hybrids: R50+ViT-B/32, B/16, L/32, L/16 pretrained for 7 epochs, plus R50+ViT-L/16 pre-trained for 14 epochs），效果也还不错，和纯种ViT不相上下：
 ![experiment_result](assets/images/ViT/experiment_result.png)
-论文中的实验结果：ViT在相同的计算资源下通常会比 ResNet 系列模型表现更出色。混合模型（CNN + ViT）在模型规模较小的情况下优于纯ViT，但对于较大的模型，这种差距会消失。
+论文中的实验结果：ViT在相同的计算资源下通常会比 ResNet 系列模型表现更出色。混合模型（CNN + ViT）在模型规模较小的情况下优于纯ViT，但对于较大的模型，这种差距会消失。我的复现论文在image encoder部分也使用了CNN作为patch embedding，具体实现可以参考我的复现代码。
 
 ---
 ## 3. Embedding层
