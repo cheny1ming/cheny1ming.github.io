@@ -1,6 +1,6 @@
 # CLIP解读：多模态的开山之作
 
-论文地址：https://arxiv.org/abs/2103.00020
+论文地址：[Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/abs/2103.00020)
 
 ## 0. 阅读收获
 > 读完本文，你将了解到：
