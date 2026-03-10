@@ -5,7 +5,7 @@
  代码复现: https://github.com/cheny1ming/Paper-with-Code/tree/main/ViT
 
 ## 0. 阅读收获
-> 读完本文，你将了解到：
+ 读完本文，你将了解到：
 > - Bert架构
 > - Bert → ViT, ViT和Bert之间的联系
 > - ViT如何处理图像

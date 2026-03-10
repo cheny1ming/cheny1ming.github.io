@@ -45,6 +45,25 @@ const BLOG_DATA = {
             headerImage: "assets/images/ViT/VIT.png"
         },
         {
+            id: "clip",
+            title: {
+                en: "CLIP: The Pioneer of Multimodal Learning",
+                zh: "CLIP解读：多模态的开山之作"
+            },
+            description: {
+                en: "An in-depth analysis of CLIP (Contrastive Language-Image Pre-training), OpenAI's groundbreaking multimodal model that bridges vision and language through contrastive learning. Explore its dual-encoder architecture, training methodology, zero-shot capabilities, and limitations.",
+                zh: "深入解析CLIP（对比语言-图像预训练）模型，通过对比学习实现视觉与语言的语义对齐。全面拆解其双塔架构、训练方法、零样本推理能力以及局限性。"
+            },
+            date: "2026-03-10",
+            modifiedDate: "2026-03-10",
+            category: "paper-with-code",
+            tags: ["MLLMs", "CV", "Transformer"],
+            mdFile: "posts/CLIP.md",
+            author: "Yiming Chen",
+            paperUrl: "https://arxiv.org/abs/2103.00020",
+            headerImage: "assets/images/CLIP/cover.png"
+        },
+        {
             id: "welcome-to-my-blog",
             title: {
                 en: "Hello, Welcome to Yiming's Blog",
