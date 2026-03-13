@@ -55,7 +55,7 @@ const BLOG_DATA = {
                 zh: "深入解析CLIP（对比语言-图像预训练）模型，通过对比学习实现视觉与语言的语义对齐。全面拆解其双塔架构、训练方法、零样本推理能力以及局限性。"
             },
             date: "2026-03-10",
-            modifiedDate: "2026-03-10",
+            modifiedDate: "2026-03-13",
             category: "paper-with-code",
             tags: ["MLLMs", "CV", "Transformer"],
             mdFile: "posts/CLIP.md",
