@@ -325,6 +325,31 @@
         .dark .scrollbar-thin {
             scrollbar-color: #4b5563 transparent;
         }
+
+        /* Giscus 评论框自定义样式 - 浅色模式 */
+        .giscus-frame {
+            color-scheme: light;
+        }
+
+        /* Giscus 评论框自定义样式 - 深色模式 */
+        .dark .giscus-frame {
+            color-scheme: dark;
+        }
+
+        /* 调整 Giscus 文字颜色以匹配页面主题 */
+        html[data-theme="light"] .giscus-frame {
+            --giscus-primary-text-color: #374151;
+            --giscus-secondary-text-color: #6b7280;
+            --giscus-bg-color: #ffffff;
+            --giscus-border-color: #e5e7eb;
+        }
+
+        html[data-theme="dark"] .giscus-frame {
+            --giscus-primary-text-color: #e5e7eb;
+            --giscus-secondary-text-color: #9ca3af;
+            --giscus-bg-color: #2d2d2d;
+            --giscus-border-color: #374151;
+        }
     </style>
 
     <!-- 配置 -->
@@ -658,6 +683,43 @@
             </div>
         </aside>
 
+        </div>
+
+        <!-- 评论区 - 使用与正文相同的布局 -->
+        <div x-show="$store.app.showContent && $store.app.currentPost" x-cloak class="grid grid-cols-1 md:grid-cols-[220px_1fr_180px] gap-6 mt-8">
+            <!-- 左侧占位，保持与正文对齐 -->
+            <aside class="hidden md:block"></aside>
+
+            <!-- 中间评论区 -->
+            <div class="space-y-8">
+                <div class="bg-white dark:bg-darkCard rounded-2xl p-6 md:p-8 border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-xl font-bold mb-6 flex items-center">
+                        <i class="fa-regular fa-comments mr-2 text-blue-500"></i>
+                        <span x-show="$store.app.lang === 'zh'">评论</span>
+                        <span x-show="$store.app.lang === 'en'">Comments</span>
+                    </h3>
+                    <!-- Giscus 评论组件 -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="cheny1ming/cheny1ming.github.io"
+                            data-repo-id="cheny1ming/cheny1ming.github.io"
+                            data-category="R_kgDORXfumQ"
+                            data-category-id="DIC_kwDORXfumc4C4YBZ"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="0"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="preferred_color_scheme"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                </div>
+            </div>
+
+            <!-- 右侧占位，保持与正文对齐 -->
+            <aside class="hidden md:block"></aside>
         </div>
     </main>
 
