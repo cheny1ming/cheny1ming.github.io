@@ -1,4 +1,4 @@
-**Kimi 新作 AttnRes 深度解析：让残差网络学会 "选择性记忆"**
+# Kimi 新作 AttnRes：让残差网络学会 "选择性记忆"
 
 论文地址：[Attention Resnet](https://arxiv.org/pdf/2603.15031)
 
@@ -12,7 +12,7 @@
 > - 实验结果
 
 ---
-最近Kimi的这篇作品大火，圈内很多大佬都给予了高度评价。Kimi团队这次从Transformer架构的底层入手，打破了维持了十几年的残差网络范式，是一次非常激进的尝试。当然，这篇文章的解读在网络上也随处可见了，如果你有一定的基础，那我推荐你去阅读一下这篇文章的作者苏神的创作回忆录（https://kexue.fm/archives/11664）。读大佬的文章是享受的，简短精炼，没有一句废话，让人醍醐灌顶，连公式都是赏心悦目，值得学习。本篇博客呢，旨在从一个简单的角度去解读注意力残差，重点是要简单。让我们开始，走进AttnRes。
+最近Kimi的这篇作品大火，圈内很多大佬都给予了高度评价。Kimi团队这次从Transformer架构的底层入手，打破了维持了十几年的残差网络范式，是一次非常激进的尝试。当然，这篇文章的解读在网络上也随处可见了，如果你有一定的基础，那我推荐你去阅读一下这篇文章的作者[苏神的创作回忆录](https://kexue.fm/archives/11664)。读大佬的文章是享受的，简短精炼，没有一句废话，让人醍醐灌顶，连公式都是赏心悦目，值得学习。本篇博客呢，旨在从一个简单的角度去解读注意力残差，重点是要简单。让我们开始，走进AttnRes。
 
 ---
 ## 1. 残差网络
@@ -44,7 +44,7 @@ Transformer中有好几个网络层，每一个网络层可能都有不同的侧
 
 更严重的是，这种无差别累积会导致隐藏状态的数值随着层数增长而无限放大（学术上称为 O(L) 增长，L 是层数）。为了在这种累积中保持自身影响力，深层网络不得不学习输出更大的数值，这会让训练变得不稳定，甚至出现梯度爆炸。
 
-[AttnRes_overview]("..\assets\images\AttnRes\AttnRes_overview.png")
+![AttnRes_overview](assets/images/AttnRes/AttnRes_overview.png)
 
 图(a)就是上面所说的沿用了十几年的ResNet，后面两张图是Kimi团队更新的AttnRes，我们一张一张来看。先来看Full Attention Residuals（图(b)）。
 
@@ -181,6 +181,8 @@ def forward(self, blocks: list[Tensor], hidden_states: Tensor) -> tuple[list[Ten
 ---
 ## 4. 实验结果：AttnRes 到底有多强？
 Kimi 团队在从几百万参数到 480 亿参数的模型上做了全面实验，结果证明 AttnRes 的提升是显著且稳定的。
+
+![Result](assets/images/AttnRes/Result.png)
 
 ### 4.1 核心指标
 - 计算效率：Block AttnRes 的效果相当于用 1.25 倍计算量训练的原始残差网络。也就是说，用相同的算力，AttnRes 能让模型达到更好的效果；

@@ -11,7 +11,7 @@ const BLOG_DATA = {
             id: "attnres",
             title: {
                 en: "AttnRes: Teaching Residual Networks 'Selective Memory'",
-                zh: "Kimi 新作 AttnRes 深度解析：让残差网络学会 '选择性记忆'"
+                zh: "Kimi 新作 AttnRes：让残差网络学会 \"选择性记忆\""
             },
             description: {
                 en: "An in-depth analysis of Kimi's groundbreaking AttnRes paper, which revolutionizes residual networks by introducing attention mechanisms to the residual path. Explore Full Attention and Block Attention variants, their mathematical foundations, and significant performance improvements in large language models.",
@@ -19,10 +19,11 @@ const BLOG_DATA = {
             },
             date: "2026-03-22",
             category: "paper-with-code",
-            tags: ["LLM", "Transformer"],
+            tags: ["Transformer", "LLM"],
             mdFile: "posts/AttnRes.md",
             author: "Yiming Chen",
-            paperUrl: "https://arxiv.org/pdf/2603.15031"
+            paperUrl: "https://arxiv.org/pdf/2603.15031",
+            headerImage: "assets/images/AttnRes/Attn_overview.png"
         },
         {
             id: "optimizer",
