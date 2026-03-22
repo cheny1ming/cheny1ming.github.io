@@ -23,30 +23,36 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="../assets/css/custom.css">
 
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+
     <!-- MathJax for rendering LaTeX formulas -->
     <script>
-    MathJax = {
+    console.log('[MathJax] Configuration loading...');
+    window.MathJax = {
         tex: {
             inlineMath: [['$', '$'], ['\(', '\)']],
             displayMath: [['$$', '$$'], ['\[', '\]']],
             processEscapes: true,
-            processEnvironments: true
-        },
-        options: {
-            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            ignoreHtmlClass: 'tex2jax_ignore',
-            processHtmlClass: 'tex2jax_process'
+            processEnvironments: true,
+            tags: 'ams'
         },
         startup: {
-            pageReady: () => {
-                return MathJax.startup.defaultPageReady().then(() => {
-                    console.log('MathJax initial rendering complete');
-                });
+            typeset: false,
+            ready() {
+                console.log('[MathJax] Ready callback triggered');
+                MathJax.startup.defaultReady();
+                console.log('[MathJax] Initialization complete');
             }
         }
     };
+    console.log('[MathJax] Configuration set');
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+            onload="console.log('[MathJax] Script loaded')"
+            onerror="console.error('[MathJax] Script failed to load')"></script>
 
     <style>
         /* Alpine.js x-cloak 样式 - 防止闪烁 */
@@ -128,26 +134,155 @@
             padding: 0.2em 0.4em;
             border-radius: 4px;
             font-size: 0.9em;
-            font-family: 'Courier New', monospace;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
         }
 
         .dark .markdown-body code {
             background-color: #374151;
         }
 
+        /* 代码块样式 - 与 highlight.js 配合 */
         .markdown-body pre {
-            background-color: #1f2937;
-            color: #e5e7eb;
-            padding: 1em;
+            background-color: #282c34;
+            padding: 1.2em;
             border-radius: 8px;
             overflow-x: auto;
-            margin-bottom: 1em;
+            margin-bottom: 1.5em;
+            border: 1px solid #3e4451;
+            position: relative;
+        }
+
+        .markdown-body pre::before {
+            content: attr(data-language);
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.3em 0.8em;
+            font-size: 0.75em;
+            font-weight: 600;
+            color: #abb2bf;
+            background-color: #21252b;
+            border-bottom-left-radius: 8px;
+            border-top-right-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .markdown-body pre code {
             background-color: transparent;
             padding: 0;
-            color: inherit;
+            color: #abb2bf;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        /* Highlight.js 代码高亮颜色 - One Dark Pro 主题 */
+        .markdown-body pre .hljs {
+            background: transparent;
+            padding: 0;
+            color: #abb2bf;
+        }
+
+        .markdown-body pre .hljs-comment,
+        .markdown-body pre .hljs-quote {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .markdown-body pre .hljs-keyword,
+        .markdown-body pre .hljs-selector-tag,
+        .markdown-body pre .hljs-subst {
+            color: #c678dd;
+        }
+
+        .markdown-body pre .hljs-number,
+        .markdown-body pre .hljs-literal {
+            color: #d19a66;
+        }
+
+        .markdown-body pre .hljs-string,
+        .markdown-body pre .hljs-doctag {
+            color: #98c379;
+        }
+
+        .markdown-body pre .hljs-title,
+        .markdown-body pre .hljs-section,
+        .markdown-body pre .hljs-selector-id {
+            color: #61afef;
+            font-weight: bold;
+        }
+
+        .markdown-body pre .hljs-type,
+        .markdown-body pre .hljs-class .hljs-title {
+            color: #e5c07b;
+        }
+
+        .markdown-body pre .hljs-built_in,
+        .markdown-body pre .hljs-builtin-name {
+            color: #e6c07b;
+        }
+
+        .markdown-body pre .hljs-function {
+            color: #61afef;
+        }
+
+        .markdown-body pre .hljs-params,
+        .markdown-body pre .hljs-variable {
+            color: #abb2bf;
+        }
+
+        .markdown-body pre .hljs-property,
+        .markdown-body pre .hljs-attr {
+            color: #d19a66;
+        }
+
+        .markdown-body pre .hljs-regexp,
+        .markdown-body pre .hljs-link {
+            color: #98c379;
+        }
+
+        .markdown-body pre .hljs-symbol,
+        .markdown-body pre .hljs-bullet {
+            color: #d19a66;
+        }
+
+        .markdown-body pre .hljs-meta,
+        .markdown-body pre .hljs-selector-attr,
+        .markdown-body pre .hljs-selector-pseudo {
+            color: #5c6370;
+        }
+
+        .markdown-body pre .hljs-deletion {
+            background-color: #ff7b72;
+            color: #ffd7d5;
+        }
+
+        .markdown-body pre .hljs-addition {
+            background-color: #56d364;
+            color: #aff5b4;
+        }
+
+        .markdown-body pre .hljs-emphasis {
+            font-style: italic;
+        }
+
+        .markdown-body pre .hljs-strong {
+            font-weight: bold;
+        }
+
+        /* 确保操作符和高亮函数可见 */
+        .markdown-body pre .hljs-operator,
+        .markdown-body pre .hljs-punctuation {
+            color: #abb2bf;
+        }
+
+        .markdown-body pre .hljs-tag {
+            color: #e06c75;
+        }
+
+        .markdown-body pre .hljs-name {
+            color: #e06c75;
         }
 
         .markdown-body img {
@@ -811,9 +946,45 @@
                 const htmlContent = marked.parse(markdown);
                 document.getElementById('markdown-content').innerHTML = htmlContent;
 
+                // 应用代码高亮
+                document.querySelectorAll('#markdown-content pre code').forEach((block) => {
+                    // 获取语言标识（如果有的话）
+                    const languageClass = Array.from(block.classList).find(cls => cls.startsWith('language-'));
+                    const language = languageClass ? languageClass.replace('language-', '') : '';
+
+                    // 应用 highlight.js 高亮
+                    hljs.highlightElement(block);
+
+                    // 为 pre 标签添加语言标识
+                    if (language) {
+                        block.parentElement.setAttribute('data-language', language);
+                    }
+                });
+
                 // 重新渲染 MathJax 公式
+                console.log('[MathJax] About to render, window.MathJax =', window.MathJax ? 'exists' : 'NOT FOUND');
                 if (window.MathJax && window.MathJax.typesetPromise) {
-                    await window.MathJax.typesetPromise(['#markdown-content']);
+                    try {
+                        console.log('[MathJax] Starting typesetPromise...');
+                        await window.MathJax.typesetPromise(['#markdown-content']);
+                        console.log('[MathJax] Rendering completed successfully');
+
+                        // 检查渲染结果
+                        const mathElements = document.querySelectorAll('#markdown-content mjx-container');
+                        console.log(`[MathJax] Found ${mathElements.length} rendered math elements`);
+
+                        // 列出所有数学公式的内容
+                        if (mathElements.length > 0) {
+                            console.log('[MathJax] Sample formulas:');
+                            for (let i = 0; i < Math.min(3, mathElements.length); i++) {
+                                console.log(`  Formula ${i + 1}:`, mathElements[i].textContent.substring(0, 50));
+                            }
+                        }
+                    } catch (error) {
+                        console.error('[MathJax] Rendering error:', error);
+                    }
+                } else {
+                    console.warn('[MathJax] MathJax.typesetPromise not available. MathJax object:', window.MathJax);
                 }
 
                 // 生成目录

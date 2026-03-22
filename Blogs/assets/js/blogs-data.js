@@ -18,12 +18,13 @@ const BLOG_DATA = {
                 zh: "深入解析 Kimi 团队的突破性 AttnRes 论文，通过在残差路径引入注意力机制，革新了沿用十几年的残差网络范式。全面剖析 Full Attention 和 Block Attention 两种变体、数学原理以及在大语言模型中的显著性能提升。"
             },
             date: "2026-03-22",
+            modifiedDate: "2026-03-22",
             category: "paper-with-code",
             tags: ["Transformer", "LLM"],
             mdFile: "posts/AttnRes.md",
             author: "Yiming Chen",
             paperUrl: "https://arxiv.org/pdf/2603.15031",
-            headerImage: "assets/images/AttnRes/Attn_overview.png"
+            headerImage: "assets/images/AttnRes/AttnRes_overview.png"
         },
         {
             id: "optimizer",
