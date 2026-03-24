@@ -20,7 +20,7 @@ const BLOG_DATA = {
             date: "2026-03-24",
             modifiedDate: "2026-03-24",
             category: "paper-with-code",
-            tags: ["MLLMs", "CV"],
+            tags: ["Diffusion", "ImageGen", "CV"],
             mdFile: "posts/VAE.md",
             author: "Yiming Chen",
             paperUrl: "https://arxiv.org/abs/1312.6114",
@@ -195,6 +195,8 @@ const BLOG_DATA = {
         { id: "Training", name: { en: "Training/Inference", zh: "训练/推理框架" }, color: "orange" },
         { id: "Spatial", name: { en: "Spatial Intelligence", zh: "空间智能" }, color: "indigo" },
         { id: "Transformer", name: { en: "Transformer", zh: "Transformer" }, color: "teal" },
+        { id: "Diffusion", name: { en: "Diffusion", zh: "扩散模型" }, color: "rose" },
+        { id: "ImageGen", name: { en: "Image/Video Generation", zh: "图像/视频生成" }, color: "cyan" },
         { id: "journal", name: { en: "Journal", zh: "随笔" }, color: "pink" }
     ],
 
