@@ -8,6 +8,25 @@ const BLOG_DATA = {
     // ==================== 文章列表 ====================
     posts: [
         {
+            id: "vae",
+            title: {
+                en: "VAE: Variational Auto-Encoder",
+                zh: "VAE 变分自编码器"
+            },
+            description: {
+                en: "A comprehensive guide to Variational Auto-Encoders (VAE), covering the evolution from Auto-Encoder, VAE architecture, reparameterization trick, ELBO loss function, and complete training workflow. Understand how VAE enables generative modeling through probabilistic latent spaces.",
+                zh: "深入解析变分自编码器（VAE），从自编码器的基础讲到VAE的改进，全面剖析VAE架构、重参数技巧、ELBO损失函数以及完整的训练流程。理解VAE如何通过概率化隐空间实现生成式建模。"
+            },
+            date: "2026-03-24",
+            modifiedDate: "2026-03-24",
+            category: "paper-with-code",
+            tags: ["MLLMs", "CV"],
+            mdFile: "posts/VAE.md",
+            author: "Yiming Chen",
+            paperUrl: "https://arxiv.org/abs/1312.6114",
+            headerImage: "assets/images/VAE/VAE.png"
+        },
+        {
             id: "attnres",
             title: {
                 en: "AttnRes: Teaching Residual Networks 'Selective Memory'",
