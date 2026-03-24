@@ -37,7 +37,13 @@
             displayMath: [['$$', '$$'], ['\[', '\]']],
             processEscapes: true,
             processEnvironments: true,
-            tags: 'ams'
+            tags: 'ams',
+            packages: {'[+]': ['noerrors', 'noundefined', 'textmacros']}
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            ignoreHtmlClass: 'tex2jax_ignore',
+            processHtmlClass: 'tex2jax_process'
         },
         startup: {
             typeset: false,
@@ -311,6 +317,16 @@
         .markdown-body p mjx-container:not([display="true"]) {
             display: inline !important;
             margin: 0 !important;
+        }
+
+        /* 确保 MathJax 使用正确的字体 */
+        mjx-container {
+            font-family: 'MJXc-TeX-math-I', 'MJXc-TeX-main-R', serif !important;
+        }
+
+        /* 修复中文显示问题 */
+        mjx-container [data-mml-node="mtext"] {
+            font-family: sans-serif !important;
         }
 
         .markdown-body table {
@@ -941,6 +957,14 @@
                 const charCount = plainText.length;
                 const readTimeMinutes = Math.max(1, Math.ceil(charCount / 500));
                 Alpine.store('app').readTime = readTimeMinutes;
+
+                // 配置 marked.js 以正确处理数学公式
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    // 防止 marked 破坏数学公式
+                    sanitize: false
+                });
 
                 // 渲染 Markdown
                 const htmlContent = marked.parse(markdown);
