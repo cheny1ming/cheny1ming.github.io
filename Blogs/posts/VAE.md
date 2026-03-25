@@ -158,7 +158,7 @@ $$
 p(x) = \int_{z} p(x|z)p(z) \, dz
 $$
 
-这个积分无法直接计算，我们可以推导得出：$\log p(x) \geq \text{ELBO}$——ELBO 是 $\log p(x)$ 的下界（关于这一部分的推导，网上有很多参考，这里放一个链接可供参考：[ELBO](https://zhuanlan.zhihu.com/p/685814830)。
+这个积分无法直接计算，我们可以推导得出：$\log p(x) \geq \text{ELBO}$——ELBO 是 $\log p(x)$ 的下界（关于这一部分的推导，网上有很多参考，这里放一个链接可供参考：[ELBO](https://zhuanlan.zhihu.com/p/685814830))。
 我们无法直接最大化 $\log p(x)$，但可通过最大化 ELBO，间接逼近真实数据分布。
 
 ### 6.2 ELBO 的公式拆解
