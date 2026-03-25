@@ -1,6 +1,7 @@
 # VAE 变分自编码器
 
 论文地址: [Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114)
+复现代码：[手写数字 - VAE](https://github.com/cheny1ming/Paper-with-Code/tree/main/VAE)
 
 ## 0. 阅读收获
 > 读完本文，你将了解到：
@@ -256,7 +257,7 @@ $$
 
 ---
 ## 9. 生成
-我在代码中用VAE实现了一个特定的任务：手写数字识别。让我们通过这个任务来看VAE的生成。先来看看重建的效果：
+我在代码中用VAE实现了一个特定的任务：[手写数字的生成](https://github.com/cheny1ming/Paper-with-Code/tree/main/VAE)。让我们通过这个任务来看VAE的生成。先来看看重建的效果：
 
 ![reconstruct](assets/images/VAE/reconstruct.png)
 

@@ -24,6 +24,7 @@ const BLOG_DATA = {
             mdFile: "posts/VAE.md",
             author: "Yiming Chen",
             paperUrl: "https://arxiv.org/abs/1312.6114",
+            codeUrl: "https://github.com/cheny1ming/Paper-with-Code/tree/main/VAE",
             headerImage: "assets/images/VAE/VAE.png"
         },
         {
