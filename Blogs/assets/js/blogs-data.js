@@ -18,7 +18,7 @@ const BLOG_DATA = {
                 zh: "深入解析变分自编码器（VAE），从自编码器的基础讲到VAE的改进，全面剖析VAE架构、重参数技巧、ELBO损失函数以及完整的训练流程。理解VAE如何通过概率化隐空间实现生成式建模。"
             },
             date: "2026-03-24",
-            modifiedDate: "2026-03-24",
+            modifiedDate: "2026-03-25",
             category: "paper-with-code",
             tags: ["Diffusion", "ImageGen", "CV"],
             mdFile: "posts/VAE.md",
