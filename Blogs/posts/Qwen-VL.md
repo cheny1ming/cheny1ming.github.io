@@ -46,7 +46,7 @@ Qwen-VL 直接使用 Qwen-7B 的预训练权重进行初始化。上面处理好
 
 Qwen原始的LLM模型如下图所示（引用自知乎），Qwen-VL只不过在文本Embedding时，同时也将vision embedding信息也拼接在一起了。
 
-![LLM](assets/images/Qwen-VL/LLM.png)
+<img src="assets/images/Qwen-VL/LLM.png" alt="LLM" height="70%" width="70%">
 
 3个组件的参数量如下：
 
