@@ -17,7 +17,7 @@ Qwen系列的多模态大模型为我们理解多模态大模型提供了很好�
 
 Qwen-VL使用了一个非常经典的多模态大模型架构。
 
-![model](../assets/images/Qwen-VL/model.png)
+![model](assets/images/Qwen-VL/model.png)
 
 如图所示，模型架构非常简单，主要由三个部分构成：
 
@@ -46,15 +46,15 @@ Qwen-VL 直接使用 Qwen-7B 的预训练权重进行初始化。上面处理好
 
 Qwen原始的LLM模型如下图所示（引用自知乎），Qwen-VL只不过在文本Embedding时，同时也将vision embedding信息也拼接在一起了。
 
-![LLM](../assets/images/Qwen-VL/LLM.png)
+![LLM](assets/images/Qwen-VL/LLM.png)
 
 3个组件的参数量如下：
 
-![parameter](../assets/images/Qwen-VL/parameter.png)
+![parameter](assets/images/Qwen-VL/parameter.png)
 
 ---
 ## 2. 训练
-![train](../assets/images/Qwen-VL/train.png)
+![train](assets/images/Qwen-VL/train.png)
 
 蓝色（冻结）表示不参与参数更新，红色（燃烧）则参与参数更新。
 
@@ -81,8 +81,13 @@ Qwen-VL模型在第二个预训练阶段同时进行了以下七个任务的训�
 通过指令微调的方式，提升模型对话能力。多模态指令微调数据来源于caption数据和LLM产生的对话数据。同时将多模态数据和纯文本对话数据进行混合，确保模型有通用对话能力，训练数据350K。模型训练阶段Freeze vision encoder，仅训练语言模型和adapter。这样做的目的是确保模型可以有效地将这些能力传递到更广泛的语言和问题类型中，从而提升了模型在交互和对话方面的性能。
 
 微调模板：
-![sft](../assets/images/Qwen-VL/sft.png)
+![sft](assets/images/Qwen-VL/sft.png)
 
 ---
 ## 3. 小结
 Qwen-VL其实很简单，它主要利用大语言模型强大的处理信息能力，通过一个视觉适配器将图像处理后和文本一起喂给大语言模型进行处理。通过三个训练阶段让Qwen-VL具备对于不同任务的解决问题能力，为后续的Qwen系列视觉-语言模型的改进奠定了良好的基础。
+
+---
+**作者**: 陈羿铭
+
+**发布于**: 2026.3.30

@@ -8,6 +8,24 @@ const BLOG_DATA = {
     // ==================== 文章列表 ====================
     posts: [
         {
+            id: "qwen-vl",
+            title: {
+                en: "Qwen-VL: Technical Report Analysis",
+                zh: "Qwen系列之——Qwen-VL"
+            },
+            description: {
+                en: "A comprehensive analysis of Qwen-VL first-generation multimodal large language model. Explore its classic architecture combining Vision Encoder, Position-aware Vision-Language Adapter, and LLM, along with its three-stage training pipeline.",
+                zh: "深入解析Qwen系列第一代多模态大模型Qwen-VL，全面剖析其经典的视觉编码器+位置感知视觉-语言适配器+大语言模型的三层架构，以及预训练、多任务预训练、监督微调的三阶段训练流程。"
+            },
+            date: "2026-03-30",
+            category: "technical-report",
+            tags: ["MLLMs", "CV", "Transformer"],
+            mdFile: "posts/Qwen-VL.md",
+            author: "Yiming Chen",
+            paperUrl: "https://arxiv.org/pdf/2308.12966v2",
+            headerImage: "assets/images/Qwen-VL/result.png"
+        },
+        {
             id: "vae",
             title: {
                 en: "VAE: Variational Auto-Encoder",
@@ -119,24 +137,6 @@ const BLOG_DATA = {
             tags: ["journal"],
             mdFile: "posts/welcome-to-my-blog.md",
             author: "Yiming Chen"
-        },
-        {
-            id: "qwen-vl",
-            title: {
-                en: "Qwen-VL: Technical Report Analysis",
-                zh: "Qwen系列之——Qwen-VL"
-            },
-            description: {
-                en: "A comprehensive analysis of Qwen-VL, Alibaba's first-generation multimodal large language model. Explore its classic architecture combining Vision Encoder, Position-aware Vision-Language Adapter, and LLM, along with its three-stage training pipeline.",
-                zh: "深入解析阿里Qwen系列第一代多模态大模型Qwen-VL，全面剖析其经典的视觉编码器+位置感知视觉-语言适配器+大语言模型的三层架构，以及预训练、多任务预训练、监督微调的三阶段训练流程。"
-            },
-            date: "2026-03-30",
-            category: "technical-report",
-            tags: ["MLLMs", "CV", "Transformer"],
-            mdFile: "posts/Qwen-VL.md",
-            author: "Yiming Chen",
-            paperUrl: "https://arxiv.org/pdf/2308.12966v2",
-            headerImage: "assets/images/Qwen-VL/model.png"
         }
     ],
 
