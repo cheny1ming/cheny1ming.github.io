@@ -18,12 +18,13 @@ const BLOG_DATA = {
                 zh: "深入解析Qwen系列第一代多模态大模型Qwen-VL，全面剖析其经典的视觉编码器+位置感知视觉-语言适配器+大语言模型的三层架构，以及预训练、多任务预训练、监督微调的三阶段训练流程。"
             },
             date: "2026-03-30",
+            modifiedDate: "2026-04-02",
             category: "technical-report",
             tags: ["MLLMs", "CV", "Transformer"],
             mdFile: "posts/Qwen-VL.md",
             author: "Yiming Chen",
             paperUrl: "https://arxiv.org/pdf/2308.12966v2",
-            headerImage: "assets/images/Qwen-VL/result.png"
+            headerImage: "assets/images/Qwen-VL/header.png"
         },
         {
             id: "vae",
