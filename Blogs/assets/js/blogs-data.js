@@ -8,6 +8,24 @@ const BLOG_DATA = {
     // ==================== 文章列表 ====================
     posts: [
         {
+            id: "ddpm",
+            title: {
+                en: "DDPM: The Starting Point of Diffusion Models",
+                zh: "DDPM：扩散模型的起点"
+            },
+            description: {
+                en: "A beginner-friendly yet systematic explanation of DDPM, covering the forward diffusion process, reverse denoising process, noise prediction objective, sampling formula, and the key intuition behind modern diffusion models.",
+                zh: "系统解析 DDPM 的核心思想，从前向加噪、反向去噪、噪声预测训练目标到采样公式，理解现代扩散模型如何从纯噪声一步步生成图像。"
+            },
+            date: "2026-05-20",
+            modifiedDate: "2026-05-20",
+            category: "learning-notes",
+            tags: ["Diffusion", "ImageGen", "CV"],
+            mdFile: "posts/DDPM.md",
+            author: "Yiming Chen",
+            paperUrl: "https://arxiv.org/abs/2006.11239"
+        },
+        {
             id: "qwen-vl",
             title: {
                 en: "Qwen-VL: Technical Report Analysis",
